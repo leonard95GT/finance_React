@@ -1,0 +1,165 @@
+import React, { Component } from 'react'
+import {Button, Modal, Input} from 'react-bootstrap'
+import '../assets/css/style.css'
+ 
+export default class Modalzin extends Component {
+    constructor(props, context) {
+        super(props, context);
+    
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleChange_Renda_Ano = this.handleChange_Renda_Ano.bind(this)
+        this.handleChange_Tipo_Crescimento = this.handleChange_Tipo_Crescimento.bind(this)
+        this.handleChange_Valor_Crescimento = this.handleChange_Valor_Crescimento.bind(this)
+        this.handleChange_Porcento_Crescimento = this.handleChange_Porcento_Crescimento.bind(this)
+        this.handleChange_Valor_Meta_Ebitda = this.handleChange_Valor_Meta_Ebitda.bind(this)
+        this.handleChange_Porcento_Ebitda = this.handleChange_Porcento_Ebitda.bind(this)
+        this.handleChange_Meta_Ebitda = this.handleChange_Meta_Ebitda.bind(this)
+
+        this.saveInDB = this.saveInDB.bind(this);
+    
+        this.state = {
+          show: true,
+          renda_ano_passado:0,
+          tipo_crescimento: 0,
+          valor_crescimento: 0,
+          porcento_crescimento: 0,
+          meta_ebitda: 0,
+          valor_meta_ebitda: 0,
+          porcento_ebitda: 0
+        };
+      }
+    
+      handleClose() {
+        this.setState({ show: false });
+      }
+    
+      handleShow() {
+        this.setState({ show: true });
+      }
+
+      saveInDB() {
+
+        
+      
+      }
+
+
+      handleChange_Renda_Ano(event) {
+        this.setState({
+          renda_ano_passado: event.target.value
+        });
+      }
+      handleChange_Tipo_Crescimento(event) {
+        this.setState({tipo_crescimento: event.target.value});
+      }
+      handleChange_Valor_Crescimento(event) {
+        this.setState({valor_crescimento: event.target.value});
+      }
+      handleChange_Porcento_Crescimento(event) {
+        this.setState({porcento_crescimento: event.target.value});
+      }
+      handleChange_Meta_Ebitda(event) {
+        this.setState({meta_ebitda: event.target.value});
+      }
+      handleChange_Valor_Meta_Ebitda(event) {
+        this.setState({valor_meta_ebitda: event.target.value});
+      }
+      handleChange_Porcento_Ebitda(event) {
+        this.setState({porcento_ebitda: event.target.value});
+      }
+
+
+    render() {
+        return (
+            <div>
+            <Modal show={this.state.show} onHide={this.handleClose}>
+              <Modal.Body>
+                <h4 class="font-weight-bold">Base zero</h4>
+                <p class="subTitle">Para iniciar as projeçoes precisamos preencher algumas informações básicas</p>
+
+                <div class="container text-muted " id="container-central">
+
+            <div class="row mb-4">
+
+              <div class="col-4">
+
+                <span  class="titulo-caixa">Renda bruta ano anterior:</span>
+                <input value={this.state.renda_ano_passado} onChange={this.handleChange_Renda_Ano} type="text" placeholder="R$100.000,00" class="caixa texto-cinza" />
+
+              </div>
+              <div class="col-4"></div>
+              <div class="col-4"></div>
+
+            </div>
+            <div class="row mb-4 ">
+              
+              <div class="col-4">
+
+                
+                <div class="dropdown">
+                  <span class="titulo-caixa">Tipo de<br/>crescimento</span>
+                  <button class="btn dropdown-azul dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Valor bruto
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Valor 1</a>
+                    <a class="dropdown-item" href="#">Valor 2</a>
+                    <a class="dropdown-item" href="#">Valor 3</a>
+                  </div>
+                </div>
+
+              </div>
+              <div className="col-4">
+                <span class="titulo-caixa">Valor de<br/>crescimento:</span>
+                <input type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+              </div>
+
+              <div class="col-4">
+                
+                <span class="titulo-caixa">% de<br/>crescimento:</span>
+                <input type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+
+              </div>
+
+            </div>
+            <div class="row mb-4">
+              
+              <div class="col-4">
+
+                <div class="dropdown">
+                  <span class="titulo-caixa pt-2">Meta EBITDA:</span>
+                  <button class="btn dropdown-azul dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Meta em %
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Meta 1</a>
+                    <a class="dropdown-item" href="#">Meta 2</a>
+                    <a class="dropdown-item" href="#">Meta 3</a>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-4">
+                
+                <span class="titulo-caixa">Meta do<br/>EBITDA:</span>
+                <input type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+
+              </div>
+              <div class="col-4">
+                
+                <span class="titulo-caixa">% do<br/>EBITDA:</span>
+                <input type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+
+              </div>
+
+              <a id="saveBtn" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" onClick={this.saveInDB} role="button" >Salvar</a>
+
+            </div>
+          </div>
+              </Modal.Body>
+            </Modal>
+          </div>
+        )
+    }
+}
