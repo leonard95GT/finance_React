@@ -3,6 +3,7 @@ import Modal from './components/Modalzin'
 import Modal2 from './components/ModalCanal'
 import Modal3 from './components/ModalImposto'
 import './assets/css/style.css'
+import axios from 'axios'
 
 export default class App extends Component {
   constructor(props, context) {
@@ -17,25 +18,12 @@ export default class App extends Component {
   }
 
     tableData(){
-
-      return(
-        <tr>
-        <td>(*) Receita Bruta</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>120.000</td>
-      </tr>
-      )
+      axios.get('http://localhost:3011/projection').
+        then(function(response){
+          console.log(response.data); // ex.: { user: 'Your User'}
+          console.log(response.status); // ex.: 200
+        });  
+     
     }
 
   render() {
@@ -184,7 +172,22 @@ export default class App extends Component {
                 </tr>
               </thead>
               <tbody class="body_table_base_zero">
-              {this.tableData}
+              <tr>
+        <td>(*) Receita Bruta</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>120.000</td>
+      </tr>
               </tbody>
             </table>
           </div>

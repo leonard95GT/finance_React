@@ -33,7 +33,7 @@ export default class Modalzin extends Component {
 
         }
         axios.post('',projection)
-        alert('Salvo!')
+        //alert('Salvo!')
         this.setState({ show: false });
       }
 
@@ -65,7 +65,7 @@ export default class Modalzin extends Component {
         return (
             <div>
                   <button type="button" class="btn btn-primary" onClick={this.handleShow}>
-                    Abrir modal 2
+                    (+) Adicionar Canal
                   </button>
 
             <Modal show={this.state.show} onHide={this.handleClose}>

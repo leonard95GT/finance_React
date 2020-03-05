@@ -21,7 +21,7 @@ export default class Modalzin extends Component {
     
         this.state = {
           show: true,
-          renda_ano_passado:0,
+          renda_ano_passado:'',
           tipo_crescimento: 1,
           valor_crescimento: 0,
           porcento_crescimento: 0,
@@ -50,15 +50,18 @@ export default class Modalzin extends Component {
           porcento_ebitda: this.state.porcento_ebitda
 
         }
-        axios.post('',projection)
-        alert('Salvo!')
+        axios.get('http://localhost:3011/projection').
+        then(function(response){
+          console.log(response.data); 
+          console.log(response.status);
+        });  
         this.setState({ show: false });
       }
 
 
       handleChange_Renda_Ano(event) {
         if(event.target.value == ""){
-
+          alert('Insira sua renda para que possamos dar continuidade!')
         }else{
           this.setState({renda_ano_passado: event.target.value});
           var v1 = this.state.renda_ano_passado;
