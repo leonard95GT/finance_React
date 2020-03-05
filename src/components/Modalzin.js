@@ -22,12 +22,13 @@ export default class Modalzin extends Component {
         this.state = {
           show: true,
           renda_ano_passado:'',
-          tipo_crescimento: 1,
-          valor_crescimento: 0,
-          porcento_crescimento: 0,
-          meta_ebitda: 0,
-          valor_meta_ebitda: 0,
-          porcento_ebitda: 0
+          tipo_crescimento: '',
+          valor_crescimento: '',
+          porcento_crescimento: '',
+          meta_ebitda: '',
+          valor_meta_ebitda: '',
+          porcento_ebitda: '',
+          item:''
         };
       }
     
@@ -50,22 +51,7 @@ export default class Modalzin extends Component {
           porcento_crescimento_ebitda: this.state.porcento_ebitda
 
         }
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        // axios.get(proxyurl + 'http://34.70.109.4/projection', {
-        //   headers: {
-        //     'Access-Control-Allow-Origin': '*',
-        //     'Access-Control-Allow-Headers': '*'
-        //   },
-        //   proxy: {
-        //     host: '104.236.174.88',
-        //     port: 3128
-        //   }
-        //   }).then(function (response) {
-        //     console.log('response is : ' + response.data);
-        //   }).catch(function (err){
-        //     console.log(err)
-        //   })
-
+        const proxyurl = "https://cors-anywhere.herokuapp.com/";  
         axios.post(proxyurl + 'http://34.70.109.4/projection', {
           renda_ano_passado: this.state.renda_ano_passado,
           porcento_ano: this.state.porcento_crescimento,
@@ -103,11 +89,14 @@ export default class Modalzin extends Component {
       handleChange_Tipo_Crescimento(event) {
         if(this.state.renda_ano_passado ==""){
           alert('Insira os dados da Renda do Ano Passado')
+        }else{
+          this.setState({
+            valor_crescimento: 0,
+            porcento_crescimento: 0,
+            tipo_crescimento: event.target.value       
+          });
+  
         }
-        this.setState({
-          valor_crescimento: 0,
-          porcento_crescimento: 0        
-        });
       }
 
 
@@ -151,11 +140,14 @@ export default class Modalzin extends Component {
       handleChange_Meta_Ebitda(event) {
         if(this.state.renda_ano_passado ==""){
           alert('Insira os dados da Renda do Ano Passado')
+        }else{
+          this.setState({
+            valor_meta_ebitda: 0,
+            porcento_ebitda: 0  , 
+            meta_ebitda: event.target.value            
+          });
+  
         }
-        this.setState({
-          valor_meta_ebitda: 0,
-          porcento_ebitda: 0        
-        });
       
 
       }
@@ -194,7 +186,7 @@ export default class Modalzin extends Component {
           var porcent = (((v1 / 100) * v2) + v1);
           var resultado = parseInt(porcent) + parseInt(v1)
           this.setState({
-            valor_crescimento: resultado
+            crescimento_ebitda: resultado
           })  
 
         }
@@ -216,7 +208,11 @@ export default class Modalzin extends Component {
               <div class="col-4">
 
                 <span  class="titulo-caixa">Renda bruta ano anterior:</span>
-                <input value={this.state.renda_ano_passado} onChangeCapture={this.handleChange_Renda_Ano} placeholder="R$100.000,00" class="caixa texto-cinza" />
+                <input value={this.state.renda_ano_passado}  
+                       onChangeCapture={this.handleChange_Renda_Ano} 
+                       placeholder="R$" 
+                       class="caixa texto-cinza" 
+                       disabled = {(this.state.item)? "disabled" : ""}/>
 
               </div>
               <div class="col-4"></div>
@@ -238,13 +234,19 @@ export default class Modalzin extends Component {
               </div>
               <div className="col-4">
                 <span class="titulo-caixa">Valor de<br/>crescimento:</span>
-                <input value={this.state.valor_crescimento} onChangeCapture={this.handleChange_Valor_Crescimento} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.valor_crescimento} 
+                       onChangeCapture={this.handleChange_Valor_Crescimento} 
+                       type="text" placeholder="R$" 
+                       class="caixa texto-cinza"/>
               </div>
 
               <div class="col-4">
                 
                 <span class="titulo-caixa">% de<br/>crescimento:</span>
-                <input value={this.state.porcento_crescimento} onChangeCapture={this.handleChange_Porcento_Crescimento} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.porcento_crescimento} 
+                       onChangeCapture={this.handleChange_Porcento_Crescimento} 
+                       type="text" placeholder="R$" 
+                       class="caixa texto-cinza"/>
 
               </div>
 
@@ -265,13 +267,21 @@ export default class Modalzin extends Component {
               <div class="col-4">
                 
                 <span class="titulo-caixa">Meta do<br/>EBITDA:</span>
-                <input value={this.state.valor_meta_ebitda} onChange={this.handleChange_Valor_Meta_Ebitda} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.valor_meta_ebitda} 
+                       onChange={this.handleChange_Valor_Meta_Ebitda} 
+                       type="text" 
+                       placeholder="R$" 
+                       class="caixa texto-cinza"/>
 
               </div>
               <div class="col-4">
                 
                 <span class="titulo-caixa">% do<br/>EBITDA:</span>
-                <input value={this.state.porcento_ebitda} onChange={this.handleChange_Porcento_Ebitda} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.porcento_ebitda} 
+                       onChange={this.handleChange_Porcento_Ebitda} 
+                       type="text" 
+                       placeholder="R$" 
+                       class="caixa texto-cinza"/>
 
               </div>
 

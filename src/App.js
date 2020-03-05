@@ -18,12 +18,41 @@ export default class App extends Component {
   }
 
     tableData(){
-      axios.get('http://localhost:3011/projection').
-        then(function(response){
-          console.log(response.data); // ex.: { user: 'Your User'}
-          console.log(response.status); // ex.: 200
-        });  
-     
+      const proxyurl = "https://cors-anywhere.herokuapp.com/";
+      axios.get(proxyurl + 'http://34.70.109.4/projection', {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': '*'
+        },
+        proxy: {
+          host: '34.70.109.4',
+          port: 8080
+        }
+        }).then(function (response) {
+          
+        }).catch(function (err){
+          console.log(err)
+        })
+        
+        const tarefas = ["Acordar", "Tomar café", "Escovar os dentes", "Ir trabalhar"];
+	      return (              
+        <tr>
+          <td>(*) Receita Bruta</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>10.000</td>
+          <td>120.000</td>
+        </tr>
+);
     }
 
   render() {
@@ -131,7 +160,7 @@ export default class App extends Component {
         <div class="container-fluid">
           <div class="col-6">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-              <h1 class="h3 mb-0 text-gray-800">Detalhando os dados da receita bruta</h1>
+              <h1 onClick={this.tableData}class="h3 mb-0 text-gray-800">Detalhando os dados da receita bruta</h1>
             </div>  
           </div>
           <div class="col-6">
@@ -156,7 +185,7 @@ export default class App extends Component {
               <thead class="head_table_base_zero">
                 <tr>
                   <th></th>
-                  <th>JAN</th>
+                  <th >JAN</th>
                   <th>FEV</th>
                   <th>MAR</th>
                   <th>ABR</th>
@@ -172,26 +201,11 @@ export default class App extends Component {
                 </tr>
               </thead>
               <tbody class="body_table_base_zero">
-              <tr>
-        <td>(*) Receita Bruta</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>10.000</td>
-        <td>120.000</td>
-      </tr>
+                {this.tableData}
               </tbody>
             </table>
           </div>
-
+ 
           <Modal3 />
 
 
