@@ -66,7 +66,15 @@ export default class Modalzin extends Component {
         //     console.log(err)
         //   })
 
-        axios.post(proxyurl + 'http://34.70.109.4/projection', {projection}, {
+        axios.post(proxyurl + 'http://34.70.109.4/projection', {
+          renda_ano_passado: this.state.renda_ano_passado,
+          porcento_ano: this.state.porcento_crescimento,
+          crescimento_ano: this.state.valor_crescimento,
+          tipo_crescimento_ano: this.state.tipo_crescimento,
+          meta_ebitda: this.state.meta_ebitda,
+          crescimento_ebitda: this.state.valor_meta_ebitda,
+          porcento_crescimento_ebitda: this.state.porcento_ebitda
+        }, {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*'
