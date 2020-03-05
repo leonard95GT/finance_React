@@ -56,10 +56,7 @@ export default class Modalzin extends Component {
 
 
       handleChange_Renda_Ano(event) {
-        this.setState({
-          renda_ano_passado: event.target.value
-        });
-        
+        this.setState({renda_ano_passado: event.target.value});
       }
       handleChange_Tipo_Crescimento(event) {
         this.setState({tipo_crescimento: event.target.value});
@@ -107,29 +104,24 @@ export default class Modalzin extends Component {
               
               <div class="col-4">
 
-                
                 <div class="dropdown">
-                  <span class="titulo-caixa">Tipo de<br/>crescimento</span>
-                  <button class="btn dropdown-azul dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Valor bruto
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Valor 1</a>
-                    <a class="dropdown-item" href="#">Valor 2</a>
-                    <a class="dropdown-item" href="#">Valor 3</a>
-                  </div>
+                <span class="titulo-caixa">Tipo de<br/>crescimento</span>
+                  <select value={this.state.tipo_crescimento} onChange={this.handleChange_Tipo_Crescimento}>
+                    <option value="1" class="titulo-caixa">Valor Bruto</option>
+                    <option value="0" class="titulo-caixa" >% de Crescimento</option>
+                  </select>
                 </div>
 
               </div>
               <div className="col-4">
                 <span class="titulo-caixa">Valor de<br/>crescimento:</span>
-                <input type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.valor_crescimento} onChange={this.handleChange_Valor_Crescimento} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
               </div>
 
               <div class="col-4">
                 
                 <span class="titulo-caixa">% de<br/>crescimento:</span>
-                <input type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.porcento_crescimento} onChange={this.handleChange_Porcento_Crescimento} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
 
               </div>
 
@@ -138,29 +130,25 @@ export default class Modalzin extends Component {
               
               <div class="col-4">
 
-                <div class="dropdown">
-                  <span class="titulo-caixa pt-2">Meta EBITDA:</span>
-                  <button class="btn dropdown-azul dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Meta em %
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Meta 1</a>
-                    <a class="dropdown-item" href="#">Meta 2</a>
-                    <a class="dropdown-item" href="#">Meta 3</a>
-                  </div>
+              <div class="dropdown">
+                <span class="titulo-caixa">Tipo de<br/>crescimento</span>
+                  <select value={this.state.meta_ebitda} onChange={this.handleChange_Meta_Ebitda}>
+                    <option value="1" class="titulo-caixa">Meta do EBITDA</option>
+                    <option value="0" class="titulo-caixa" >% de EBITDA</option>
+                  </select>
                 </div>
 
               </div>
               <div class="col-4">
                 
                 <span class="titulo-caixa">Meta do<br/>EBITDA:</span>
-                <input type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.meta_ebitda} onChange={this.handleChange_Meta_Ebitda} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
 
               </div>
               <div class="col-4">
                 
                 <span class="titulo-caixa">% do<br/>EBITDA:</span>
-                <input type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.porcento_ebitda} onChange={this.handleChange_Porcento_Ebitda} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
 
               </div>
 
