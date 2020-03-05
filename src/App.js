@@ -1,8 +1,43 @@
 import React, { Component } from 'react'
 import Modal from './components/Modalzin'
+import Modal2 from './components/ModalCanal'
+import Modal3 from './components/ModalImposto'
 import './assets/css/style.css'
+
 export default class App extends Component {
-  
+  constructor(props, context) {
+    super(props, context);
+
+    this.tableData = this.tableData.bind(this);
+
+    this.state = {
+      renda: 12
+    }
+
+  }
+
+    tableData(){
+
+      return(
+        <tr>
+        <td>(*) Receita Bruta</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>10.000</td>
+        <td>120.000</td>
+      </tr>
+      )
+    }
+
   render() {
     return (
       <div id="content-wrapper" class="d-flex flex-column">
@@ -112,9 +147,11 @@ export default class App extends Component {
             </div>  
           </div>
           <div class="col-6">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-              Adicionar canal
-            </button>
+
+
+          <Modal2 />
+
+            
           </div>
 
           <div>
@@ -147,25 +184,12 @@ export default class App extends Component {
                 </tr>
               </thead>
               <tbody class="body_table_base_zero">
-                <tr>
-                  <td>(*) Receita Bruta</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>10.000</td>
-                  <td>120.000</td>
-                </tr>
+              {this.tableData}
               </tbody>
             </table>
           </div>
+
+          <Modal3 />
 
 
 

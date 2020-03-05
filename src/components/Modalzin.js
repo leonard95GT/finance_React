@@ -52,6 +52,7 @@ export default class Modalzin extends Component {
         }
         axios.post('',projection)
         alert('Salvo!')
+        this.setState({ show: false });
       }
 
 

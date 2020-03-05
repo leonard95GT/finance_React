@@ -9816,6 +9816,10 @@
     color: #f8f9fc !important;
   }
   
+  #save{
+    font-size: 12px; background: #6a6af8; border-radius: 20px
+  }
+
   .text-gray-200 {
     color: #eaecf4 !important;
   }
