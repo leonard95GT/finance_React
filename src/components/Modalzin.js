@@ -95,148 +95,109 @@ export default class Modalzin extends Component {
 
 
       handleChange_Renda_Ano(event) {
-        if(event.target.value == ""){
-          alert('Insira sua renda para que possamos dar continuidade!')
-        }else{
           this.setState({renda_ano_passado: event.target.value});
+          //console.log(this.state.renda_ano_passado)
+      }
+
+
+      handleChange_Tipo_Crescimento(event) {
+        if(this.state.renda_ano_passado ==""){
+          alert('Insira os dados da Renda do Ano Passado')
+        }
+        this.setState({
+          valor_crescimento: 0,
+          porcento_crescimento: 0        
+        });
+      }
+
+
+      handleChange_Valor_Crescimento(event) {
+        if(this.state.renda_ano_passado ==""){
+          alert('Insira os dados da Renda do Ano Passado')
+        }else{
+          this.setState({valor_crescimento: event.target.value});
+
+          var v1 = this.state.renda_ano_passado;
+          var v2 = this.state.valor_crescimento;
+            
+          var calc = (v2 - v1);
+          calc = (calc / v1);
+          calc = (calc * 100);
+  
+          this.setState({
+            porcento_crescimento: calc
+          })  
+        }
+      }
+
+
+      handleChange_Porcento_Crescimento(event) {
+        if(this.state.renda_ano_passado ==""){
+          alert('Insira os dados da Renda do Ano Passado')
+        }else{
+          this.setState({porcento_crescimento: event.target.value});
           var v1 = this.state.renda_ano_passado;
           var v2 = this.state.porcento_crescimento;
   
-          var opt = this.state.tipo_crescimento;
-  
-          if (opt == 0){
-            var porcent = ((v1 / 100) * v2);
-  
-            this.setState({
-              valor_crescimento: porcent
-            })
-          }else{
-              
-            var calc = (v2 - v1);
-            calc = (calc / v1);
-            calc = (calc * 100);
-  
-            this.setState({
-              porcento_crescimento: calc
-            })
-          }
-  
-        }
-
-
-      }
-      handleChange_Tipo_Crescimento(event) {
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.valor_crescimento;
-
-
-        if(event.target.value==""){
-
-        }else{
+          var porcent = ((v1 / 100) * v2);
+          var resultado = parseInt(porcent) + parseInt(v1)
           this.setState({
-            tipo_crescimento: event.target.value,
-            porcento_crescimento: 0,
-            valor_crescimento: 0
-
-          });
-          var opt = this.state.tipo_crescimento
-
-
-  
-          if (opt == 0){
-            var porcent = ((v1 / 100) * v2);
-  
-            this.setState({
-              valor_crescimento: porcent
-            })
-          }else{
-              
-            let calc = (v2 - v1);
-            calc = (calc / v1);
-            calc = (calc * 100);
-  
-            this.setState({
-              porcento_crescimento: calc
-            })
-          }
-  
-  
-        }
+            valor_crescimento: resultado
+          })  
+        }  
       }
-      handleChange_Valor_Crescimento(event) {
-        this.setState({valor_crescimento: event.target.value});
 
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.valor_crescimento;
-          
-        var calc = (v2 - v1);
-        calc = (calc / v1);
-        calc = (calc * 100);
 
-        this.setState({
-          porcento_crescimento: calc
-        })
-        
-      }
-      handleChange_Porcento_Crescimento(event) {
-        this.setState({porcento_crescimento: event.target.value});
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.porcento_crescimento;
-
-        var porcent = ((v1 / 100) * v2);
-
-        this.setState({
-          valor_crescimento: porcent
-        })
-
-      }
       handleChange_Meta_Ebitda(event) {
-        
-        this.setState({meta_ebitda: event.target.value});
-        if(event.target.value==""){
+        if(this.state.renda_ano_passado ==""){
+          alert('Insira os dados da Renda do Ano Passado')
+        }
+        this.setState({
+          valor_meta_ebitda: 0,
+          porcento_ebitda: 0        
+        });
+      
 
+      }
+
+      handleChange_Valor_Meta_Ebitda(event) {
+        if(this.state.renda_ano_passado ==""){
+          alert('Insira os dados da Renda do Ano Passado')
         }else{
+          this.setState({valor_meta_ebitda: event.target.value});
+
+          var v1 = this.state.renda_ano_passado;
+          var v2 = this.state.valor_meta_ebitda
+            
+          var calc = (v2 - v1);
+          calc = (calc / v1);
+          calc = (calc * 100);
+  
           this.setState({
-            tipo_crescimento: event.target.value,
-            valor_meta_ebitda: 0,
-            porcento_ebitda: 0
-
-          });
-          var opt = this.state.meta_ebitda
-
-
-  
-          if (opt == 0){
-            var v1 = this.state.renda_ano_passado;
-            var v2 = this.state.valor_meta_ebitda;
-
-            var porcent = ((v1 / 100) * v2);
-  
-            this.setState({
-              valor_crescimento: porcent
-            })
-          }else{
-            var v1 = this.state.renda_ano_passado;
-            var v2 = this.state.porcento_ebitda;
-              
-            let calc = (v2 - v1);
-            calc = (calc / v1);
-            calc = (calc * 100);
-  
-            this.setState({
-              porcento_crescimento: calc
-            })
-          }
-  
-  
+            porcento_ebitda: calc
+          })  
         }
 
+
       }
-      handleChange_Valor_Meta_Ebitda(event) {
-        this.setState({valor_meta_ebitda: event.target.value});
-      }
+
+
       handleChange_Porcento_Ebitda(event) {
-        this.setState({porcento_ebitda: event.target.value});
+        if(this.state.renda_ano_passado ==""){
+          alert('Insira os dados da Renda do Ano Passado')
+        }else{
+          this.setState({porcento_ebitda: event.target.value});
+
+          var v1 = this.state.renda_ano_passado;
+          var v2 = this.state.porcento_ebitda;
+  
+          var porcent = (((v1 / 100) * v2) + v1);
+          var resultado = parseInt(porcent) + parseInt(v1)
+          this.setState({
+            valor_crescimento: resultado
+          })  
+
+        }
       }
 
 
@@ -255,7 +216,7 @@ export default class Modalzin extends Component {
               <div class="col-4">
 
                 <span  class="titulo-caixa">Renda bruta ano anterior:</span>
-                <input value={this.state.renda_ano_passado} onChange={this.handleChange_Renda_Ano} type="text" placeholder="R$100.000,00" class="caixa texto-cinza" />
+                <input value={this.state.renda_ano_passado} onChangeCapture={this.handleChange_Renda_Ano} placeholder="R$100.000,00" class="caixa texto-cinza" />
 
               </div>
               <div class="col-4"></div>
@@ -268,7 +229,7 @@ export default class Modalzin extends Component {
 
                 <div class="dropdown">
                 <span class="titulo-caixa">Tipo de<br/>crescimento</span>
-                  <select value={this.state.tipo_crescimento} onChange={this.handleChange_Tipo_Crescimento}>
+                  <select value={this.state.tipo_crescimento} onChangeCapture={this.handleChange_Tipo_Crescimento}>
                     <option value="1" class="titulo-caixa">Valor Bruto</option>
                     <option value="0" class="titulo-caixa" >% de Crescimento</option>
                   </select>
@@ -277,13 +238,13 @@ export default class Modalzin extends Component {
               </div>
               <div className="col-4">
                 <span class="titulo-caixa">Valor de<br/>crescimento:</span>
-                <input value={this.state.valor_crescimento} onChange={this.handleChange_Valor_Crescimento} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.valor_crescimento} onChangeCapture={this.handleChange_Valor_Crescimento} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
               </div>
 
               <div class="col-4">
                 
                 <span class="titulo-caixa">% de<br/>crescimento:</span>
-                <input value={this.state.porcento_crescimento} onChange={this.handleChange_Porcento_Crescimento} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.porcento_crescimento} onChangeCapture={this.handleChange_Porcento_Crescimento} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
 
               </div>
 
@@ -304,7 +265,7 @@ export default class Modalzin extends Component {
               <div class="col-4">
                 
                 <span class="titulo-caixa">Meta do<br/>EBITDA:</span>
-                <input value={this.state.meta_ebitda} onChange={this.handleChange_Meta_Ebitda} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
+                <input value={this.state.valor_meta_ebitda} onChange={this.handleChange_Valor_Meta_Ebitda} type="text" placeholder="R$100.000,00" class="caixa texto-cinza"/>
 
               </div>
               <div class="col-4">
