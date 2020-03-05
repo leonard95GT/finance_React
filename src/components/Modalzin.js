@@ -22,7 +22,7 @@ export default class Modalzin extends Component {
         this.state = {
           show: true,
           renda_ano_passado:0,
-          tipo_crescimento: 0,
+          tipo_crescimento: 1,
           valor_crescimento: 0,
           porcento_crescimento: 0,
           meta_ebitda: 0,
@@ -57,19 +57,142 @@ export default class Modalzin extends Component {
 
 
       handleChange_Renda_Ano(event) {
-        this.setState({renda_ano_passado: event.target.value});
+        if(event.target.value == ""){
+
+        }else{
+          this.setState({renda_ano_passado: event.target.value});
+          var v1 = this.state.renda_ano_passado;
+          var v2 = this.state.porcento_crescimento;
+  
+          var opt = this.state.tipo_crescimento;
+  
+          if (opt == 0){
+            var porcent = ((v1 / 100) * v2);
+  
+            this.setState({
+              valor_crescimento: porcent
+            })
+          }else{
+              
+            var calc = (v2 - v1);
+            calc = (calc / v1);
+            calc = (calc * 100);
+  
+            this.setState({
+              porcento_crescimento: calc
+            })
+          }
+  
+        }
+
+
       }
       handleChange_Tipo_Crescimento(event) {
-        this.setState({tipo_crescimento: event.target.value});
+        var v1 = this.state.renda_ano_passado;
+        var v2 = this.state.valor_crescimento;
+
+
+        if(event.target.value==""){
+
+        }else{
+          this.setState({
+            tipo_crescimento: event.target.value,
+            porcento_crescimento: 0,
+            valor_crescimento: 0
+
+          });
+          var opt = this.state.tipo_crescimento
+
+
+  
+          if (opt == 0){
+            var porcent = ((v1 / 100) * v2);
+  
+            this.setState({
+              valor_crescimento: porcent
+            })
+          }else{
+              
+            let calc = (v2 - v1);
+            calc = (calc / v1);
+            calc = (calc * 100);
+  
+            this.setState({
+              porcento_crescimento: calc
+            })
+          }
+  
+  
+        }
       }
       handleChange_Valor_Crescimento(event) {
         this.setState({valor_crescimento: event.target.value});
+
+        var v1 = this.state.renda_ano_passado;
+        var v2 = this.state.valor_crescimento;
+          
+        var calc = (v2 - v1);
+        calc = (calc / v1);
+        calc = (calc * 100);
+
+        this.setState({
+          porcento_crescimento: calc
+        })
+        
       }
       handleChange_Porcento_Crescimento(event) {
         this.setState({porcento_crescimento: event.target.value});
+        var v1 = this.state.renda_ano_passado;
+        var v2 = this.state.porcento_crescimento;
+
+        var porcent = ((v1 / 100) * v2);
+
+        this.setState({
+          valor_crescimento: porcent
+        })
+
       }
       handleChange_Meta_Ebitda(event) {
+        
         this.setState({meta_ebitda: event.target.value});
+        if(event.target.value==""){
+
+        }else{
+          this.setState({
+            tipo_crescimento: event.target.value,
+            valor_meta_ebitda: 0,
+            porcento_ebitda: 0
+
+          });
+          var opt = this.state.meta_ebitda
+
+
+  
+          if (opt == 0){
+            var v1 = this.state.renda_ano_passado;
+            var v2 = this.state.valor_meta_ebitda;
+
+            var porcent = ((v1 / 100) * v2);
+  
+            this.setState({
+              valor_crescimento: porcent
+            })
+          }else{
+            var v1 = this.state.renda_ano_passado;
+            var v2 = this.state.porcento_ebitda;
+              
+            let calc = (v2 - v1);
+            calc = (calc / v1);
+            calc = (calc * 100);
+  
+            this.setState({
+              porcento_crescimento: calc
+            })
+          }
+  
+  
+        }
+
       }
       handleChange_Valor_Meta_Ebitda(event) {
         this.setState({valor_meta_ebitda: event.target.value});
