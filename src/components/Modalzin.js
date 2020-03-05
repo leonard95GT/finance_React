@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Button, Modal, Input} from 'react-bootstrap'
 import '../assets/css/style.css'
+import axios from 'axios'
  
 export default class Modalzin extends Component {
     constructor(props, context) {
@@ -39,9 +40,18 @@ export default class Modalzin extends Component {
       }
 
       saveInDB() {
+        const projection = {
+          renda_ano_passado:this.state.renda_ano_passado,
+          tipo_crescimento: this.state.tipo_crescimento,
+          valor_crescimento: this.state.valor_crescimento,
+          porcento_crescimento: this.state.porcento_crescimento,
+          meta_ebitda: this.state.meta_ebitda,
+          valor_meta_ebitda: this.state.valor_meta_ebitda,
+          porcento_ebitda: this.state.porcento_ebitda
 
-        
-      
+        }
+        axios.post('',projection)
+        alert('Salvo!')
       }
 
 
@@ -49,6 +59,7 @@ export default class Modalzin extends Component {
         this.setState({
           renda_ano_passado: event.target.value
         });
+        
       }
       handleChange_Tipo_Crescimento(event) {
         this.setState({tipo_crescimento: event.target.value});
