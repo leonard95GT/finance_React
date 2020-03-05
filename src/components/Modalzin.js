@@ -42,19 +42,46 @@ export default class Modalzin extends Component {
       saveInDB() {
         const projection = {
           renda_ano_passado:this.state.renda_ano_passado,
-          tipo_crescimento: this.state.tipo_crescimento,
-          valor_crescimento: this.state.valor_crescimento,
-          porcento_crescimento: this.state.porcento_crescimento,
+          tipo_crescimento_ano: this.state.tipo_crescimento,
+          crescimento_ano: this.state.valor_crescimento,
+          porcento_ano: this.state.porcento_crescimento,
           meta_ebitda: this.state.meta_ebitda,
-          valor_meta_ebitda: this.state.valor_meta_ebitda,
-          porcento_ebitda: this.state.porcento_ebitda
+          crescimento_ebitda: this.state.valor_meta_ebitda,
+          porcento_crescimento_ebitda: this.state.porcento_ebitda
 
         }
-        axios.get('http://localhost:3011/projection').
-        then(function(response){
-          console.log(response.data); 
-          console.log(response.status);
-        });  
+        const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        // axios.get(proxyurl + 'http://34.70.109.4/projection', {
+        //   headers: {
+        //     'Access-Control-Allow-Origin': '*',
+        //     'Access-Control-Allow-Headers': '*'
+        //   },
+        //   proxy: {
+        //     host: '104.236.174.88',
+        //     port: 3128
+        //   }
+        //   }).then(function (response) {
+        //     console.log('response is : ' + response.data);
+        //   }).catch(function (err){
+        //     console.log(err)
+        //   })
+
+        axios.post(proxyurl + 'http://34.70.109.4/projection', {projection}, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*'
+          },
+          proxy: {
+            host: '34.70.109.4',
+            port: 8080
+          }
+          }).then(function (response) {
+            console.log('response is : ' + response.data);
+          }).catch(function (err){
+            console.log(err)
+          })
+
+
         this.setState({ show: false });
       }
 
