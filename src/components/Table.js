@@ -43,24 +43,6 @@ export default class Table extends Component {
 
 
       render() {
-        return (
-            <tr class="body_table_base_zero">
-                  <td>(*) Receita Bruta</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection / 12}</td>
-                  <td>{this.state.projection}</td>
-
-                </tr>
-            );
+        return null
       }
 }

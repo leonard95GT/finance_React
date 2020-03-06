@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Modal } from 'react-bootstrap'
 import '../assets/css/style.css'
 import axios from 'axios'
  
@@ -28,11 +27,7 @@ export default class Modalzin extends Component {
       }
 
       saveInDB() {
-        const projection = {
-          renda_ano_passado:this.state.renda_ano_passado,
-
-        }
-        axios.post('',projection)
+        
         //alert('Salvo!')
         this.setState({ show: false });
       }
@@ -62,39 +57,6 @@ export default class Modalzin extends Component {
 
 
     render() {
-        return (
-            <div>
-                  <button type="button" class="btn btn-primary" onClick={this.handleShow}>
-                    (+) Adicionar Canal
-                  </button>
-
-            <Modal show={this.state.show} onHide={this.handleClose}>
-              <Modal.Body>
-              <div class="text-center text-muted">
-                <h4 class="font-weight-bold" >Adicionar canal de distribuição</h4>
-              </div>
-
-              <div class="container" id="container-central">
-
-<div class="row mb-4">
-
-  <div class="col-12 text-center">
-
-    <span class="texto-cinza mr-2">Canal de distribuição:</span>
-    <input class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do canal" type="text" name=""/>
-
-  </div>
-
-  <a id="save" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" role="button" onClick={this.saveInDB}>Salvar</a>
-  
-
-</div>
-
-</div>
-
-              </Modal.Body>
-            </Modal>
-          </div>
-        )
+        return null
     }
 }

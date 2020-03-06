@@ -89,12 +89,11 @@ export default class Modalzin extends Component {
   <div class="col-12 text-center">
 
     <span class="texto-cinza mr-2">Imposto médio:</span>
-    <input class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do canal" type="text" name=""/>
+    <input class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite a porcentagem" type="text" name=""/>
 
   </div>
 
   <a id="save" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" href="#" role="button" >Salvar</a>
-  
 
 </div>
 
