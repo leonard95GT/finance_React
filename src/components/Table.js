@@ -20,43 +20,8 @@ export default class Table extends Component {
         }
       }
     
-      componentDidMount() {
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        axios.get(proxyurl + 'http://34.70.109.4/projection', {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': '*'
-          },
-          proxy: {
-            host: '34.70.109.4',
-            port: 8080
-          }
-          }).then(res =>{
-              var projection = res.data;
-              const tam = projection.length;
-
-                const verere = this.state.dta;
-                verere+=[
-                    ["", "JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", 'SET', "OUT", "NOV", 'DEZ', 'YZD'],
-                ];
-
-                console.log(verere);
-
-                this.hotTableComponent.current.hotInstance.loadData(verere);
-                
-              this.setState({
-                  projection: projection[tam-1].grow_up_value,
-                  
-              });
-              //console.log(this.state)
-              let dados = (this.state.projection / 12)
-              console.log(dados)
-
-            
+    //  
     
-            })  
-            
-        }
 
 
        
