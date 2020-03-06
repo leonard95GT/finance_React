@@ -4,6 +4,7 @@ import Modal2 from './components/ModalCanal'
 import Modal3 from './components/ModalImposto'
 import './assets/css/style.css'
 import axios from 'axios'
+import Tabela from './components/Table'
 
 export default class App extends Component {
   constructor(props, context) {
@@ -34,25 +35,6 @@ export default class App extends Component {
           console.log(err)
         })
         
-        const tarefas = ["Acordar", "Tomar café", "Escovar os dentes", "Ir trabalhar"];
-	      return (              
-        <tr>
-          <td>(*) Receita Bruta</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>10.000</td>
-          <td>120.000</td>
-        </tr>
-);
     }
 
   render() {
@@ -181,7 +163,7 @@ export default class App extends Component {
 
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            {/* <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead class="head_table_base_zero">
                 <tr>
                   <th></th>
@@ -203,7 +185,10 @@ export default class App extends Component {
               <tbody class="body_table_base_zero">
                 {this.tableData}
               </tbody>
-            </table>
+            </table> */}
+
+
+            <Tabela/>
           </div>
  
           <Modal3 />
