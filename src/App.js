@@ -40,6 +40,7 @@ export default class App extends Component {
     this.state = {
       renda: 12,
       imposto: 0,
+      parcelaImposto: 0,
       tamanho: 0,
       tamanho2:0,
       show2:false,
@@ -68,12 +69,23 @@ export default class App extends Component {
   }
 
   saveImposto(event){
-    this.setState({ imposto: event.target.value });
-    console.log(this.state.imposto)
+    this.setState({ imposto:event.target.value });
+    const calculo = this.state.imposto;
+    console.log('Imposto' + calculo)
+
+    const imposto = this.state.imposto;
+    const renda = this.state.valor_crescimento;
+
+    const parcela = (parseInt(renda) / 100);
+    const parcelImposto = (parcela * imposto);
+    console.log(parcelImposto)
+
+    this.setState({parcelaImposto: parcelImposto})
+
   }
 
   handleClose2() {
-    this.setState({ show3: false, tamanho2:1 , imposto: 24000});
+    this.setState({ show3: false, tamanho2:1});
 
     //this.props.history.push('/Dash')
     
@@ -88,6 +100,7 @@ export default class App extends Component {
 
   handleShow2() {
     this.setState({ show2: true });
+
   }
 
   handleShow3() {
@@ -293,7 +306,7 @@ export default class App extends Component {
 
     componentDidUpdate(){
       console.log(this.state)
-
+      
     }
 
   render() {
@@ -537,7 +550,6 @@ export default class App extends Component {
 
     <span class="texto-cinza mr-2">Canal de distribuição:</span>
     <input class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do canal" type="text" name=""/>
-
   </div>
 
   <a id="save" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" role="button" onClick={this.saveInDBI}>Salvar</a>
@@ -603,8 +615,8 @@ export default class App extends Component {
               </tbody>
               <tbody className="teste">
               <Bla sim={this.state.tamanho} valor={this.state.gastos.valorGeral}/>
-              <Bla2 sim={this.state.tamanho2} valor={this.state.imposto}/>
-              <Bla3 sim={this.state.tamanho2} valor={this.state.imposto}/>
+              <Bla2 sim={this.state.tamanho2} valor={this.state.parcelaImposto} valorBase={this.state.valor_crescimento}/>
+              <Bla3 sim={this.state.tamanho2} valor={parseInt(this.state.valor_crescimento) - parseInt(this.state.parcelaImposto) }/>
               
 
 
@@ -636,7 +648,7 @@ export default class App extends Component {
   <div class="col-12 text-center">
 
     <span class="texto-cinza mr-2">Imposto médio:</span>
-    <input onChange={this.handleImposto} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite a porcentagem" type="text" name=""/>
+    <input onChange={this.saveImposto} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite a porcentagem" type="text" name=""/>
 
   </div>
 

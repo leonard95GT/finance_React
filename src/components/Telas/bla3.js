@@ -11,19 +11,19 @@ export default class bla3 extends Component {
             return (
                 <tr>
                     <td>(-) Receita</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>8000</td>  
-                    <td>96.000</td>          
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor / 12}</td>  
+                    <td>{this.props.valor}</td>  
                 </tr>
             
             )
