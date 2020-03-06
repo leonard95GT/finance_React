@@ -28,7 +28,11 @@ export default class Modalzin extends Component {
           meta_ebitda: '',
           valor_meta_ebitda: '',
           porcento_ebitda: '',
-          item:''
+          item1:'',
+          item2:'disabled',
+          item3:'',
+          item4:'disabled',
+
         };
       }
     
@@ -95,7 +99,15 @@ export default class Modalzin extends Component {
             porcento_crescimento: 0,
             tipo_crescimento: event.target.value       
           });
-  
+          if(this.state.tipo_crescimento === 1){
+            this.setState({item1:''})
+            this.setState({item2:'disabled'})
+          }else{
+            //0 é %
+            this.setState({item2:''})
+            this.setState({item1:'disabled'})
+
+          }
         }
       }
 
@@ -188,6 +200,16 @@ export default class Modalzin extends Component {
           this.setState({
             crescimento_ebitda: resultado
           })  
+          if(this.state.meta_ebitda === 1){
+            this.setState({item3:''})
+            this.setState({item4:'disabled'})
+          }else{
+            //0 é %
+            this.setState({item4:''})
+            this.setState({item3:'disabled'})
+
+          }
+
 
         }
       }
@@ -212,7 +234,7 @@ export default class Modalzin extends Component {
                        onChangeCapture={this.handleChange_Renda_Ano} 
                        placeholder="R$" 
                        class="caixa texto-cinza" 
-                       disabled = {(this.state.item)? "disabled" : ""}/>
+                       />
 
               </div>
               <div class="col-4"></div>
@@ -237,7 +259,10 @@ export default class Modalzin extends Component {
                 <input value={this.state.valor_crescimento} 
                        onChangeCapture={this.handleChange_Valor_Crescimento} 
                        type="text" placeholder="R$" 
-                       class="caixa texto-cinza"/>
+                       class="caixa texto-cinza"
+                       disabled = {(this.state.item1)? "disabled" : ""}
+
+                />
               </div>
 
               <div class="col-4">
@@ -246,7 +271,9 @@ export default class Modalzin extends Component {
                 <input value={this.state.porcento_crescimento} 
                        onChangeCapture={this.handleChange_Porcento_Crescimento} 
                        type="text" placeholder="R$" 
-                       class="caixa texto-cinza"/>
+                       class="caixa texto-cinza"
+                       disabled = {(this.state.item2)? "disabled" : ""}
+                       />
 
               </div>
 
@@ -271,8 +298,9 @@ export default class Modalzin extends Component {
                        onChange={this.handleChange_Valor_Meta_Ebitda} 
                        type="text" 
                        placeholder="R$" 
-                       class="caixa texto-cinza"/>
-
+                       class="caixa texto-cinza"
+                       disabled = {(this.state.item3)? "disabled" : ""}
+                />
               </div>
               <div class="col-4">
                 
@@ -281,8 +309,9 @@ export default class Modalzin extends Component {
                        onChange={this.handleChange_Porcento_Ebitda} 
                        type="text" 
                        placeholder="R$" 
-                       class="caixa texto-cinza"/>
-
+                       class="caixa texto-cinza"
+                       disabled = {(this.state.item4)? "disabled" : ""}
+                />
               </div>
 
               <a id="saveBtn" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" onClick={this.saveInDB} role="button" >Salvar</a>
