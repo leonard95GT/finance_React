@@ -22,10 +22,10 @@ export default class Modalzin extends Component {
         this.state = {
           show: true,
           renda_ano_passado:'',
-          tipo_crescimento: '',
+          tipo_crescimento: 0,
           valor_crescimento: '',
           porcento_crescimento: '',
-          meta_ebitda: '',
+          meta_ebitda: 0,
           valor_meta_ebitda: '',
           porcento_ebitda: '',
           item1:'',
@@ -95,11 +95,13 @@ export default class Modalzin extends Component {
           alert('Insira os dados da Renda do Ano Passado')
         }else{
           this.setState({
-            valor_crescimento: 0,
-            porcento_crescimento: 0,
+            valor_crescimento: 'R$',
+            porcento_crescimento: 'R$',
             tipo_crescimento: event.target.value       
           });
-          if(this.state.tipo_crescimento === 1){
+          let a = this.state.tipo_crescimento
+          console.log(a);
+          if(this.state.tipo_crescimento == 1){
             this.setState({item1:''})
             this.setState({item2:'disabled'})
           }else{
@@ -158,7 +160,16 @@ export default class Modalzin extends Component {
             porcento_ebitda: 0  , 
             meta_ebitda: event.target.value            
           });
-  
+          if(this.state.meta_ebitda == 0){
+            this.setState({item3:''})
+            this.setState({item4:'disabled'})
+          }else{
+            //0 é %
+            this.setState({item4:''})
+            this.setState({item3:'disabled'})
+
+          }
+
         }
       
 
@@ -247,9 +258,9 @@ export default class Modalzin extends Component {
 
                 <div class="dropdown">
                 <span class="titulo-caixa">Tipo de<br/>crescimento</span>
-                  <select value={this.state.tipo_crescimento} onChangeCapture={this.handleChange_Tipo_Crescimento}>
-                    <option value="1" class="titulo-caixa">Valor Bruto</option>
-                    <option value="0" class="titulo-caixa" >% de Crescimento</option>
+                  <select value={this.state.tipo_crescimento} onChange={this.handleChange_Tipo_Crescimento.bind(this)}>
+                    <option value="0" class="titulo-caixa">Valor Bruto</option>
+                    <option value="1" class="titulo-caixa" >% de Crescimento</option>
                   </select>
                 </div>
 
@@ -284,7 +295,7 @@ export default class Modalzin extends Component {
 
               <div class="dropdown">
                 <span class="titulo-caixa">Tipo de<br/>crescimento</span>
-                  <select value={this.state.meta_ebitda} onChange={this.handleChange_Meta_Ebitda}>
+                  <select value={this.state.meta_ebitda} onChange={this.handleChange_Meta_Ebitda.bind(this)}>
                     <option value="1" class="titulo-caixa">Meta do EBITDA</option>
                     <option value="0" class="titulo-caixa" >% de EBITDA</option>
                   </select>
