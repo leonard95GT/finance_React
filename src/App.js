@@ -13,7 +13,8 @@ export default class App extends Component {
     this.tableData = this.tableData.bind(this);
 
     this.state = {
-      renda: 12
+      renda: 12,
+      tamanho: 0
     }
 
   }
@@ -29,10 +30,12 @@ export default class App extends Component {
           host: '34.70.109.4',
           port: 8080
         }
-        }).then(function (response) {
-          
-        }).catch(function (err){
-          console.log(err)
+        }).then(res => {
+          const va = res.data
+          this.setState({
+            tamanho: va.length,
+            renda: va[va.length-1].grow_up_value,
+          })
         })
         
     }
@@ -163,7 +166,7 @@ export default class App extends Component {
 
         <div class="card-body">
           <div class="table-responsive">
-            {/* <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead class="head_table_base_zero">
                 <tr>
                   <th></th>
@@ -183,12 +186,11 @@ export default class App extends Component {
                 </tr>
               </thead>
               <tbody class="body_table_base_zero">
-                {this.tableData}
+              <Tabela data={this.state.renda}/>
               </tbody>
-            </table> */}
+            </table>
 
 
-            <Tabela/>
           </div>
  
           <Modal3 />

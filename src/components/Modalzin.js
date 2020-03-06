@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Button, Modal, Input} from 'react-bootstrap'
 import '../assets/css/style.css'
 import axios from 'axios'
+
  
 export default class Modalzin extends Component {
     constructor(props, context) {
