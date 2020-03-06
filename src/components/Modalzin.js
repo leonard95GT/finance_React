@@ -206,11 +206,13 @@ export default class Modalzin extends Component {
           var v1 = this.state.renda_ano_passado;
           var v2 = this.state.porcento_ebitda;
   
-          let porcent = (v1 /100)
-          let resultado = (porcent * v2)
+          let porcent = (parseInt(v1) /100)
+          let resultado = (parseInt(porcent) * parseInt(v2))
+          let teste = (parseInt(resultado) + parseInt(v1))
+          
 
           this.setState({
-            valor_meta_ebitda: resultado
+            valor_meta_ebitda: teste
           })  
 
         }
