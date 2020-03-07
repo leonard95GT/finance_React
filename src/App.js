@@ -1,19 +1,14 @@
 import React, { Component } from 'react'
-import Modalzin from './components/Modalzin'
-import Modal2 from './components/ModalCanal'
-import Modal3 from './components/ModalImposto'
 import './assets/css/style.css'
 import axios from 'axios'
-import Tabela from './components/Table'
 import Bla from './components/bla'
 import Bla2 from './components/Telas/bla2'
 import Bla3 from './components/Telas/bla3'
 import Logo from './assets/images/img/financebox-logo.png'
 import LogoPessoa from './assets/images/img/user.png'
-import LogoIcone from "./assets/images/img/four-rounded-squares-button_icon-icons.com_73245.png"
+import Tabela from './components/Tabela'
 
 import { Modal } from 'react-bootstrap'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 export default class App extends Component {
@@ -62,7 +57,24 @@ export default class App extends Component {
       item4:'disabled',
       gastos: {
         valorGeral: 8000
-      }
+      },
+      tabela:[
+        { description:'(*) Receita Bruta',
+        mouth1: 0, 
+        mouth2: 0,
+        mouth3: 0, 
+        mouth4: 0, 
+        mouth5: 0, 
+        mouth6: 0, 
+        mouth7: 0, 
+        mouth8: 0, 
+        mouth9: 0, 
+        mouth10: 0, 
+        mouth11: 0, 
+        mouth12: 0
+        },
+       
+      ]
     }
 
   }
@@ -168,6 +180,26 @@ export default class App extends Component {
           console.log(err)
         })
 
+        const valor = (this.state.valor_crescimento / 12)
+        console.log(valor)
+        this.setState({
+          tabela:[
+            {description:'(*) Receita Bruta',
+            mouth1: valor, 
+            mouth2: valor,
+            mouth3: valor, 
+            mouth4: valor, 
+            mouth5: valor, 
+            mouth6: valor, 
+            mouth7: valor, 
+            mouth8: valor, 
+            mouth9: valor, 
+            mouth10: valor, 
+            mouth11: valor, 
+            mouth12: valor
+          }
+          ]
+        })
 
       this.setState({ show: false });
     }
@@ -370,17 +402,19 @@ export default class App extends Component {
       <div>
       <Modal show={this.state.show} onHide={this.handleClose}>
         <Modal.Body>
-          <h4 class="font-weight-bold">Base zero</h4>
-          <p class="subTitle">Para iniciar as projeçoes precisamos preencher algumas informações básicas</p>
+          <div class="text-center text-muted">
+            <h4 class="font-weight-bold ">Base zero</h4>
+            <p class="subTitle">Para iniciar as projeçoes precisamos preencher algumas informações básicas</p>
+          </div>
+            <div class="container text-muted " id="container-central">
 
-          <div class="container text-muted " id="container-central">
+            <div class="row mb-4">
 
-      <div class="row mb-4">
+            <div class="col-4">
 
-        <div class="col-4">
-
-          <span  class="titulo-caixa">Renda bruta ano anterior:</span>
-          <input value={this.state.renda_ano_passado}  
+            <span  class="titulo-caixa">Renda bruta ano anterior:</span>
+            <input value={this.state.renda_ano_passado} 
+                 type="number" 
                  onChangeCapture={this.handleChange_Renda_Ano} 
                  placeholder="R$" 
                  class="caixa texto-cinza" 
@@ -405,10 +439,10 @@ export default class App extends Component {
 
         </div>
         <div className="col-4">
-          <span class="titulo-caixa">Valor de<br/>crescimento:</span>
+          <span class="titulo-caixa">Valor de<br/>crescimento: (R$)</span>
           <input value={this.state.valor_crescimento} 
                  onChangeCapture={this.handleChange_Valor_Crescimento} 
-                 type="text" placeholder="R$" 
+                 type="text" placeholder="" 
                  class="caixa texto-cinza"
                  disabled = {(this.state.item1)? "disabled" : ""}
 
@@ -420,7 +454,7 @@ export default class App extends Component {
           <span class="titulo-caixa">% de<br/>crescimento:</span>
           <input value={this.state.porcento_crescimento} 
                  onChangeCapture={this.handleChange_Porcento_Crescimento} 
-                 type="text" placeholder="R$" 
+                 type="text" placeholder="" 
                  class="caixa texto-cinza"
                  disabled = {(this.state.item2)? "disabled" : ""}
                  />
@@ -443,11 +477,12 @@ export default class App extends Component {
         </div>
         <div class="col-4">
           
-          <span class="titulo-caixa">Meta do<br/>EBITDA:</span>
+
+          <span class="titulo-caixa">Meta do<br/>EBITDA: (R$)</span>
           <input value={this.state.valor_meta_ebitda} 
                  onChange={this.handleChange_Valor_Meta_Ebitda} 
-                 type="text" 
-                 placeholder="R$" 
+                 type="number" 
+                 placeholder="" 
                  class="caixa texto-cinza"
                  disabled = {(this.state.item3)? "disabled" : ""}
           />
@@ -457,8 +492,8 @@ export default class App extends Component {
           <span class="titulo-caixa">% do<br/>EBITDA:</span>
           <input value={this.state.porcento_ebitda} 
                  onChange={this.handleChange_Porcento_Ebitda} 
-                 type="text" 
-                 placeholder="R$" 
+                 type="number" 
+                 placeholder="" 
                  class="caixa texto-cinza"
                  disabled = {(this.state.item4)? "disabled" : ""}
           />
@@ -468,6 +503,7 @@ export default class App extends Component {
 
       </div>
     </div>
+    
         </Modal.Body>
       </Modal>
     </div>
@@ -579,14 +615,13 @@ export default class App extends Component {
       </div>  
     </div>
     <div class="col-6">
-
-    
-    <div>
-            <button type="button" class="btn btn-primary" onClick={this.handleShow2}>
+    <button type="button" class="btn btn-primary" onClick={this.handleShow2}>
               (+) Adicionar Canal
             </button>
 
-      <Modal show={this.state.show2} onHide={this.handleClose}>
+    <div>
+
+       <Modal show={this.state.show2} onHide={this.handleClose}>
         <Modal.Body>
         <div class="text-center text-muted">
           <h4 class="font-weight-bold" >Adicionar canal de distribuição</h4>
@@ -594,20 +629,20 @@ export default class App extends Component {
 
         <div class="container" id="container-central">
 
-<div class="row mb-4">
+        <div class="row mb-4">
 
-<div class="col-12 text-center">
+        <div class="col-12 text-center">
 
-<span class="texto-cinza mr-2">Canal de distribuição:</span>
-<input class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do canal" type="text" name=""/>
-</div>
+        <span class="texto-cinza mr-2">Canal de distribuição:</span>
+        <input class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do canal" type="text" name=""/>
+        </div>
 
-<a id="save" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" role="button" onClick={this.saveInDBI}>Salvar</a>
+        <a id="save" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" role="button" onClick={this.saveInDBI}>Salvar</a>
 
 
-</div>
+        </div>
 
-</div>
+        </div>
 
         </Modal.Body>
       </Modal>
@@ -615,17 +650,12 @@ export default class App extends Component {
 
       
     </div>
-
-    <div>
-
-    </div>
-    <div>
-
-    </div>
   </div>
 
+  <Tabela datat ={this.state.tabela}/>
+
   <div class="card-body">
-    <div class="table-responsive">
+    {/* <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead class="head_table_base_zero">
           <tr>
@@ -674,7 +704,7 @@ export default class App extends Component {
       </table>
 
 
-    </div>
+    </div> */}
 
     <div class="row justify-content-center">
       <div class="col-2">
