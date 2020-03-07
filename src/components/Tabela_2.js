@@ -36,13 +36,13 @@ function DashFinal() {
     
 
   useEffect(() => {
-    
+    console.log(show)
    
   });
 return(
     <>
     <Button variant="primary" onClick={handleShow}>
-      Launch demo modal
+    (+) Adicionar Canal
     </Button>
 
     <Modal show={show} onHide={handleClose}>

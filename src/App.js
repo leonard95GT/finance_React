@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import './assets/css/style.css'
 import axios from 'axios'
-import Bla from './components/bla'
-import Bla2 from './components/Telas/bla2'
-import Bla3 from './components/Telas/bla3'
 import Logo from './assets/images/img/financebox-logo.png'
 import LogoPessoa from './assets/images/img/user.png'
-import Tabela from './components/Tabela_2'
+import Tabela from './components/Tabela'
 
 import { Modal } from 'react-bootstrap'
 
@@ -58,7 +55,7 @@ export default class App extends Component {
       gastos: {
         valorGeral: 8000
       },
-      tabela:[
+      tabela:
         { description:'(*) Receita Bruta',
         mouth1: 0, 
         mouth2: 0,
@@ -74,7 +71,7 @@ export default class App extends Component {
         mouth12: 0
         },
        
-      ]
+      
     }
 
   }
@@ -183,7 +180,7 @@ export default class App extends Component {
         const valor = (this.state.valor_crescimento / 12)
         console.log(valor)
         this.setState({
-          tabela:[
+          tabela:
             {description:'(*) Receita Bruta',
             mouth1: valor, 
             mouth2: valor,
@@ -198,7 +195,7 @@ export default class App extends Component {
             mouth11: valor, 
             mouth12: valor
           }
-          ]
+          
         })
 
       this.setState({ show: false });
@@ -648,99 +645,9 @@ export default class App extends Component {
     </div>
   </div>
 
-  <Tabela />
+  <Tabela info={this.state.tabela}/>
 
-  <div class="card-body">
-    {/* <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-        <thead class="head_table_base_zero">
-          <tr>
-            <th></th>
-            <th>JAN</th>
-            <th>FEV</th>
-            <th>MAR</th>
-            <th>ABR</th>
-            <th>MAI</th>
-            <th>JUN</th>
-            <th>JUL</th>
-            <th>AGO</th>
-            <th>SET</th>
-            <th>OUT</th>
-            <th>NOV</th>
-            <th>DEZ</th>
-            <th>YTD</th>
-          </tr>
-        </thead>
-        <tbody class="body_table_base_zero">
-        <tr class="body_table_base_zero">
-            <td>(*) Receita Bruta</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda / 12}</td>
-            <td>{this.state.renda}</td>
-          </tr>
-        </tbody>
-        <tbody className="teste">
-        <Bla sim={this.state.tamanho} valor={this.state.gastos.valorGeral}/>
-        <Bla2 sim={this.state.tamanho2} valor={this.state.parcelaImposto} valorBase={this.state.valor_crescimento}/>
-        <Bla3 sim={this.state.tamanho2} valor={parseInt(this.state.valor_crescimento) - parseInt(this.state.parcelaImposto) }/>
-        
-
-
-        </tbody>
-      </table>
-
-
-    </div> */}
-
-    <div class="row justify-content-center">
-      <div class="col-2">
-      <button type="button" class="btn btn-primary" onClick={this.handleShow3}>
-              Salvar
-            </button>
-        </div>
-
-    </div>
-
-      <Modal show={this.state.show3} onHide={this.handleClose2}>
-        <Modal.Body>
-        <div class="text-center text-muted">
-          <h4 class="font-weight-bold" >Adicionar imposto médio</h4>
-        </div>
-
-        <div class="container" id="container-central">
-
-<div class="row mb-4">
-
-<div class="col-12 text-center">
-
-<span class="texto-cinza mr-2">Imposto médio:</span>
-<input onChange={this.saveImposto} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite a porcentagem" type="text" name=""/>
-
-</div>
-
-<a id="save" onClick={this.handleClose2} class="btn mx-auto mt-5 text-white px-5 font-weight-bold" href="#" role="button" >Salvar</a>
-
-</div>
-
-</div>
-
-        </Modal.Body>
-      </Modal>
-
-
-
-
-</div>
+  
 
 
 </div>
