@@ -6,7 +6,7 @@ import Bla2 from './components/Telas/bla2'
 import Bla3 from './components/Telas/bla3'
 import Logo from './assets/images/img/financebox-logo.png'
 import LogoPessoa from './assets/images/img/user.png'
-import Tabela from './components/Tabela'
+import Tabela from './components/Tabela_2'
 
 import { Modal } from 'react-bootstrap'
 
@@ -404,7 +404,7 @@ export default class App extends Component {
         <Modal.Body>
           <div class="text-center text-muted">
             <h4 class="font-weight-bold ">Base zero</h4>
-            <p class="subTitle">Para iniciar as projeçoes precisamos preencher algumas informações básicas</p>
+            <p class="subTitle">Para iniciar as projeções precisamos preencher algumas informações básicas</p>
           </div>
             <div class="container text-muted " id="container-central">
 
@@ -615,13 +615,9 @@ export default class App extends Component {
       </div>  
     </div>
     <div class="col-6">
-    <button type="button" class="btn btn-primary" onClick={this.handleShow2}>
-              (+) Adicionar Canal
-            </button>
-
     <div>
 
-       <Modal show={this.state.show2} onHide={this.handleClose}>
+       {/* <Modal show={this.state.show2} onHide={this.handleClose}>
         <Modal.Body>
         <div class="text-center text-muted">
           <h4 class="font-weight-bold" >Adicionar canal de distribuição</h4>
@@ -645,14 +641,14 @@ export default class App extends Component {
         </div>
 
         </Modal.Body>
-      </Modal>
+      </Modal> */}
     </div>
 
       
     </div>
   </div>
 
-  <Tabela datat ={this.state.tabela}/>
+  <Tabela />
 
   <div class="card-body">
     {/* <div class="table-responsive">

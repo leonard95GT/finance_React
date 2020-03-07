@@ -3,7 +3,7 @@ import {Modal, Button} from 'react-bootstrap'
 import MaterialTable from 'material-table';
 
 
-function Tabela() {
+function DashFinal() {
     const [show, setShow] = useState(false);
     const [description, setDescription] = useState('');
     const handleClose = () => setShow(false);
@@ -42,7 +42,7 @@ function Tabela() {
 return(
     <>
     <Button variant="primary" onClick={handleShow}>
-      (+) Adicionar Canal
+      Launch demo modal
     </Button>
 
     <Modal show={show} onHide={handleClose}>
@@ -156,5 +156,5 @@ return(
   );
 }
 
-export default Tabela;
+export default DashFinal;
 
