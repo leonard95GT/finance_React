@@ -43,7 +43,7 @@ export default class App extends Component {
       show3:false,
       renda_ano_passado:'',
       tipo_crescimento: 0,
-      valor_crescimento: '',
+      valor_crescimento: 0,
       porcento_crescimento: '',
       meta_ebitda: 0,
       valor_meta_ebitda: '',
@@ -608,7 +608,7 @@ export default class App extends Component {
   <div class="container-fluid">
     <div class="col-6">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 onClick={this.tableData}class="h3 mb-0 text-gray-800">Detalhando os dados da receita bruta</h1>
+        <h1  onClick={this.tableData}class="h3 mb-0 text-gray-800">Detalhando os dados da receita bruta</h1>
       </div>  
     </div>
     <div class="col-6">
@@ -645,7 +645,7 @@ export default class App extends Component {
     </div>
   </div>
 
-  <Tabela info={this.state.tabela}/>
+  <Tabela info={this.state.tabela} base={this.state.valor_crescimento}/>
 
   
 

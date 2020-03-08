@@ -9,8 +9,8 @@ import { BrowserRouter, Switch, Route  } from 'react-router-dom'
 
 ReactDOM.render(
 <BrowserRouter>
-    <Route path="/" exact="true" component={App} />
-    <Route path="/Dash" exact="true" component={DashFInal} />
+    <Route path="/" component={App} />
+    <Route path="/Dash" x    component={DashFInal} />
 </BrowserRouter>
 
 , 

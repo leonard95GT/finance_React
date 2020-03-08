@@ -9,6 +9,9 @@ function DashFinal(props) {
 
     const [tabela, setTabela] = useState('');
     const [description, setDescription] = useState('');
+    const [tax, setTax] = useState(0);
+    const [renda, setRenda] = useState(2000);
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -37,34 +40,125 @@ function DashFinal(props) {
         ],
     
     
-        data: [{
-            description: props.info.description,
-            mouth1: props.info.mouth1,
-            mouth2: props.info.mouth2,
-            mouth3: props.info.mouth3,
-            mouth4: props.info.mouth4,
-            mouth5: props.info.mouth5,
-            mouth6: props.info.mouth6,
-            mouth7: props.info.mouth7,
-            mouth8: props.info.mouth8,
-            mouth9: props.info.mouth9,
-            mouth10: props.info.mouth10,
-            mouth11: props.info.mouth11,
-            mouth12: props.info.mouth12,
-            count: props.info.description
-
-        }],
+        data: [],
     
       });
     
 
   useEffect(() => {
-      
-    setTabela(props.info);  
-    console.log(tabela)
-    
-   
+    setTabela(props.info); 
+    setRenda(props.base);
+    state.data.forEach(function(el){
+        if(state.data[0].description === "(*) Receita Bruta"){
+            console.log('já tem')
+            state.data[0] = props.info;
+             
+            //state.data.push(props.info)
+        }else{
+            console.log('Não tem ainda')
+        }
+        //console.log(state.data[0])
+    })
+    //console.log(state.data)    
   });
+
+  
+  function calcularImpostos(){
+    //setTax(props.base)
+
+    let impostos = parseInt(tax,10);
+    
+    let valorGeral = parseInt(renda,10);
+
+    let totalImposto = ((parseInt(valorGeral) / 100) * impostos) 
+
+    let valorParcela = (totalImposto / 12);
+
+    let receita = valorGeral - totalImposto;
+     
+    let parcelaReceita = (receita / 12);
+
+    console.log('Impostos: '+ impostos);
+    console.log('Valor Geral: '+ valorGeral);
+    console.log('Total do valor do imposto: '+ totalImposto);
+    console.log('Parcela do Imposto: '+ valorParcela);
+    console.log('Receita: '+ receita)
+    
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: '(-) Impostos',
+          mouth1: valorParcela,
+          mouth2: valorParcela,
+          mouth3: valorParcela,
+          mouth4: valorParcela,
+          mouth5: valorParcela,
+          mouth6: valorParcela,
+          mouth7: valorParcela,
+          mouth8: valorParcela,
+          mouth9: valorParcela,
+          mouth10: valorParcela,
+          mouth11: valorParcela,
+          mouth12: valorParcela,
+          count: totalImposto
+      });
+      return { ...prevState, data };
+    });
+
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: '(=) Receita',
+          mouth1: parcelaReceita,
+          mouth2: parcelaReceita,
+          mouth3: parcelaReceita,
+          mouth4: parcelaReceita,
+          mouth5: parcelaReceita,
+          mouth6: parcelaReceita,
+          mouth7: parcelaReceita,
+          mouth8: parcelaReceita,
+          mouth9: parcelaReceita,
+          mouth10: parcelaReceita,
+          mouth11: parcelaReceita,
+          mouth12: parcelaReceita,
+          count: receita
+      });
+      return { ...prevState, data };
+    });
+
+    
+    setShow2(false)
+  }
+
+  
+
+  function adicionarCanal(){
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: description,
+          mouth1: 0,
+          mouth2: 0,
+          mouth3: 0,
+          mouth4: 0,
+          mouth5: 0,
+          mouth6: 0,
+          mouth7: 0,
+          mouth8: 0,
+          mouth9: 0,
+          mouth10: 0,
+          mouth11: 0,
+          mouth12: 0,
+          count: 0
+
+      });
+      return { ...prevState, data };
+    });
+
+    setShow(false)
+  }
+
+
 return(
     <>
     <button >
@@ -95,28 +189,7 @@ return(
         <a id="save"
            class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
            role="button"
-           onClick={() =>  setState(prevState => {
-            const data = [...prevState.data];
-            data.push({
-                description: description,
-                mouth1: 0,
-                mouth2: 0,
-                mouth3: 0,
-                mouth4: 0,
-                mouth5: 0,
-                mouth6: 0,
-                mouth7: 0,
-                mouth8: 0,
-                mouth9: 0,
-                mouth10: 0,
-                mouth11: 0,
-                mouth12: 0,
-                count: 0
-
-            });
-            return { ...prevState, data };
-          })
-          }>Salvar</a>
+           onClick={adicionarCanal}>Salvar</a>
 
 
         </div>
@@ -200,10 +273,10 @@ return(
             <div class="row mb-4">
               <div class="col-12 text-center">
                 <span class="texto-cinza mr-2">Imposto médio:</span>
-                <input class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite a porcentagem" type="text" name=""/>
+                <input onChange={e => setTax(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite a porcentagem" type="number" name=""/>
               </div>
 
-              <a id="save"  class="btn mx-auto mt-5 text-white px-5 font-weight-bold" href="#" role="button" >Salvar</a>
+              <a id="save" onClick={calcularImpostos}  class="btn mx-auto mt-5 text-white px-5 font-weight-bold" href="#" role="button" >Salvar</a>
           </div>
           </div>
         </Modal.Body>
