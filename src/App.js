@@ -45,7 +45,7 @@ export default class App extends Component {
       tipo_crescimento: 0,
       valor_crescimento: 0,
       porcento_crescimento: '',
-      meta_ebitda: 0,
+      meta_ebitda: 1,
       valor_meta_ebitda: '',
       porcento_ebitda: '',
       item1:'',
@@ -68,7 +68,8 @@ export default class App extends Component {
         mouth9: 0, 
         mouth10: 0, 
         mouth11: 0, 
-        mouth12: 0
+        mouth12: 0,
+        count: 0
         },
        
       
@@ -193,7 +194,8 @@ export default class App extends Component {
             mouth9: valor, 
             mouth10: valor, 
             mouth11: valor, 
-            mouth12: valor
+            mouth12: valor,
+            count: this.state.valor_crescimento
           }
           
         })
@@ -213,8 +215,8 @@ export default class App extends Component {
         alert('Insira os dados da Renda do Ano Passado')
       }else{
         this.setState({
-          valor_crescimento: 'R$',
-          porcento_crescimento: 'R$',
+          valor_crescimento: '',
+          porcento_crescimento: '',
           tipo_crescimento: event.target.value       
         });
         let a = this.state.tipo_crescimento
@@ -336,9 +338,7 @@ export default class App extends Component {
       }
     }
 
-    componentDidUpdate(){
-      console.log(this.state)
-      
+    componentDidUpdate(){      
     }
 
   render() {
@@ -357,7 +357,7 @@ export default class App extends Component {
 
 <hr class="sidebar-divider my-0"/>
 
-<li class="nav-item">
+{/* <li class="nav-item">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
     <i class="fas fa-fw fa-cog"></i>
     <span><img class="foto" src={LogoPessoa} alt=""/></span>
@@ -386,7 +386,7 @@ export default class App extends Component {
     <i class="fas fa-fw fa-cog"></i>
     <span><img class="icone" src="./img/four-rounded-squares-button_icon-icons.com_73245.png" alt=""/></span>
   </a>
-</li> 
+</li>  */}
 
 
 

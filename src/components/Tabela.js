@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Modal, Button} from 'react-bootstrap'
+import {Modal, Button, Table} from 'react-bootstrap'
 import MaterialTable from 'material-table';
 
 
@@ -11,6 +11,7 @@ function DashFinal(props) {
     const [description, setDescription] = useState('');
     const [tax, setTax] = useState(0);
     const [renda, setRenda] = useState(2000);
+    const [valorInicial, setValorInicial] = useState(1000000000000)
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -18,6 +19,7 @@ function DashFinal(props) {
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
   
+
   
     const [state, setState] = React.useState({
         columns: [
@@ -40,26 +42,51 @@ function DashFinal(props) {
         ],
     
     
-        data: [],
+        data: [{
+          description: props.info.description,
+          mouth1: props.info.mouth1,
+          mouth2: props.info.mouth2,
+          mouth3: props.info.mouth3,
+          mouth4: props.info.mouth4,
+          mouth5: props.info.mouth5,
+          mouth6: props.info.mouth6,
+          mouth7: props.info.mouth7,
+          mouth8: props.info.mouth8,
+          mouth9: props.info.mouth9,
+          mouth10: props.info.mouth10,
+          mouth11: props.info.mouth11,
+          mouth12: props.info.mouth12,
+          count: renda
+        }],
     
       });
     
 
   useEffect(() => {
+    
     setTabela(props.info); 
     setRenda(props.base);
-    state.data.forEach(function(el){
-        if(state.data[0].description === "(*) Receita Bruta"){
-            console.log('já tem')
-            state.data[0] = props.info;
-             
-            //state.data.push(props.info)
-        }else{
-            console.log('Não tem ainda')
-        }
-        //console.log(state.data[0])
-    })
-    //console.log(state.data)    
+
+    console.log(props.info.mouth1)
+    if(props.info.mouth1 == 0){
+      console.log('não precisa alterar')
+    }else{
+      console.log('agora pode') 
+      if(valorInicial == props.info.mouth1){
+        console.log('Ops, acho q dessa vez não, haha')
+      }else{
+        console.log('lets go')
+        setValorInicial(props.info.mouth1);
+        setState(prevState => {
+        const data = [...prevState.data];
+        data[0] = props.info;
+        return { ...prevState, data };
+      });
+
+      }
+
+    }
+
   });
 
   
@@ -130,7 +157,7 @@ function DashFinal(props) {
     setShow2(false)
   }
 
-  
+
 
   function adicionarCanal(){
     setState(prevState => {
@@ -161,9 +188,7 @@ function DashFinal(props) {
 
 return(
     <>
-    <button >
-    .
-    </button>
+   
     <Button variant="primary" onClick={handleShow}>
     (+) Adicionar Canal
     </Button>
@@ -206,6 +231,7 @@ return(
       data={state.data}
       options={{
         search: false,
+        paging:false,
         headerStyle: {
           backgroundColor: '#6a6af8',
           color: '#FFF'
