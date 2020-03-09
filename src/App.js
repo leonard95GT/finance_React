@@ -238,18 +238,9 @@ export default class App extends Component {
       if(this.state.renda_ano_passado ==""){
         alert('Insira os dados da Renda do Ano Passado')
       }else{
+        
         this.setState({valor_crescimento: event.target.value});
 
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.valor_crescimento;
-          
-        var calc = (v2 - v1);
-        calc = (calc / v1);
-        calc = (calc * 100);
-
-        this.setState({
-          porcento_crescimento: calc
-        })  
       }
     }
 
@@ -259,14 +250,6 @@ export default class App extends Component {
         alert('Insira os dados da Renda do Ano Passado')
       }else{
         this.setState({porcento_crescimento: event.target.value});
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.porcento_crescimento;
-
-        var porcent = ((v1 / 100) * v2);
-        var resultado = parseInt(porcent) + parseInt(v1)
-        this.setState({
-          valor_crescimento: resultado
-        })  
       }  
     }
 
@@ -301,16 +284,6 @@ export default class App extends Component {
       }else{
         this.setState({valor_meta_ebitda: event.target.value});
 
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.valor_meta_ebitda
-          
-        var calc = (v2 - v1);
-        calc = (calc / v1);
-        calc = (calc * 100);
-
-        this.setState({
-          porcento_ebitda: calc
-        })  
       }
 
 
@@ -323,22 +296,69 @@ export default class App extends Component {
       }else{
         this.setState({porcento_ebitda: event.target.value});
 
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.porcento_ebitda;
-
-        let porcent = (parseInt(v1) /100)
-        let resultado = (parseInt(porcent) * parseInt(v2))
-        let teste = (parseInt(resultado) + parseInt(v1))
-        
-
-        this.setState({
-          valor_meta_ebitda: teste
-        })  
-
       }
     }
 
-    componentDidUpdate(){      
+    componentDidUpdate(prevProps, prevState){  
+      //valor de crescimento
+      if (prevState.valor_crescimento !== this.state.valor_crescimento) {
+        console.log('Esse é o this '+ this.state.valor_crescimento)
+        var v1 = this.state.renda_ano_passado;
+        var v2 = this.state.valor_crescimento;
+          
+        var calc = (v2 - v1);
+        calc = (calc / v1);
+        calc = (calc * 100);
+
+        this.setState({
+          porcento_crescimento: calc
+        })  
+      }  
+      
+      //% de crescimento      
+      if (prevState.porcento_crescimento !== this.state.porcento_crescimento) {
+        console.log('Esse é o this '+ this.state.valor_crescimento)
+
+        var v1 = this.state.renda_ano_passado;
+        var v2 = this.state.porcento_crescimento;
+
+        var porcent = ((v1 / 100) * v2);
+        var resultado = parseInt(porcent) + parseInt(v1)
+        this.setState({
+          valor_crescimento: resultado
+        })  
+      }  
+
+      //valor de meta ebitda
+      if (prevState.valor_meta_ebitda !== this.state.valor_meta_ebitda) {
+        //console.log('Esse é o this '+ this.state.valor_crescimento)
+        var v1 = this.state.renda_ano_passado;
+        var v2 = this.state.valor_meta_ebitda
+          
+        var calc = (v2 - v1);
+        calc = (calc / v1);
+        calc = (calc * 100);
+
+        this.setState({
+          porcento_ebitda: calc
+        })  
+      }  
+      
+      //% de meta ebitda      
+      if (prevState.porcento_ebitda !== this.state.porcento_ebitda) {
+        //console.log('Esse é o this '+ this.state.valor_crescimento)
+
+        var v1 = this.state.renda_ano_passado;
+        var v2 = this.state.porcento_ebitda;
+
+        var porcent = ((v1 / 100) * v2);
+        var resultado = parseInt(porcent) + parseInt(v1)
+        this.setState({
+          valor_meta_ebitda: resultado
+        })  
+      }  
+
+
     }
 
   render() {
@@ -357,38 +377,6 @@ export default class App extends Component {
 
 <hr class="sidebar-divider my-0"/>
 
-{/* <li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-    <i class="fas fa-fw fa-cog"></i>
-    <span><img class="foto" src={LogoPessoa} alt=""/></span>
-  </a>
-</li>
- <li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-    <i class="fas fa-fw fa-cog"></i>
-    <span><img class="icone" src="./img/four-rounded-squares-button_icon-icons.com_73245.png" alt=""/></span>
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-    <i class="fas fa-fw fa-cog"></i>
-    <span><img class="icone" src="./img/four-rounded-squares-button_icon-icons.com_73245.png" alt=""/></span>
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-    <i class="fas fa-fw fa-cog"></i>
-    <span><img class="icone" src="./img/four-rounded-squares-button_icon-icons.com_73245.png" alt=""/></span>
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-    <i class="fas fa-fw fa-cog"></i>
-    <span><img class="icone" src="./img/four-rounded-squares-button_icon-icons.com_73245.png" alt=""/></span>
-  </a>
-</li>  */}
-
-
 
 
 </ul>
@@ -397,7 +385,7 @@ export default class App extends Component {
         <div id="content-wrapper" class="d-flex flex-column">
           <div id="content">
       <div>
-      <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal id="staticBackdrop" show={this.state.show} onHide={this.handleClose}>
         <Modal.Body>
           <div class="text-center text-muted">
             <h4 class="font-weight-bold ">Base zero</h4>
@@ -410,12 +398,13 @@ export default class App extends Component {
             <div class="col-4">
 
             <span  class="titulo-caixa">Renda bruta ano anterior:</span>
-            <input value={this.state.renda_ano_passado} 
+            <input 
+                 value={this.state.renda_ano_passado} 
                  type="number" 
-                 onChangeCapture={this.handleChange_Renda_Ano} 
+                 onChange={this.handleChange_Renda_Ano} 
                  placeholder="R$" 
                  class="caixa texto-cinza" 
-                 />
+            />
 
         </div>
         <div class="col-4"></div>
@@ -438,8 +427,8 @@ export default class App extends Component {
         <div className="col-4">
           <span class="titulo-caixa">Valor de<br/>crescimento: (R$)</span>
           <input value={this.state.valor_crescimento} 
-                 onChangeCapture={this.handleChange_Valor_Crescimento} 
-                 type="text" placeholder="" 
+                 onChange={this.handleChange_Valor_Crescimento} 
+                 type="number" placeholder="" 
                  class="caixa texto-cinza"
                  disabled = {(this.state.item1)? "disabled" : ""}
 
