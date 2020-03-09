@@ -250,6 +250,7 @@ export default class App extends Component {
         alert('Insira os dados da Renda do Ano Passado')
       }else{
         this.setState({porcento_crescimento: event.target.value});
+        console.log('esse é o valor: '+this.state.porcento_crescimento)
       }  
     }
 
@@ -259,8 +260,8 @@ export default class App extends Component {
         alert('Insira os dados da Renda do Ano Passado')
       }else{
         this.setState({
-          valor_meta_ebitda: 0,
-          porcento_ebitda: 0  , 
+          valor_meta_ebitda: '',
+          porcento_ebitda: '', 
           meta_ebitda: event.target.value            
         });
         if(this.state.meta_ebitda == 0){
@@ -302,23 +303,41 @@ export default class App extends Component {
     componentDidUpdate(prevProps, prevState){  
       //valor de crescimento
       if (prevState.valor_crescimento !== this.state.valor_crescimento) {
-        console.log('Esse é o this '+ this.state.valor_crescimento)
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.valor_crescimento;
-          
-        var calc = (v2 - v1);
-        calc = (calc / v1);
-        calc = (calc * 100);
+        console.log('Esse é o this '+ this.state.porcento_crescimento)
+        console.log('Esse é o this1 '+ prevState.porcento_crescimento)
 
-        this.setState({
-          porcento_crescimento: calc
-        })  
+        if(this.state.valor_crescimento==0 ){
+          console.log('nada')
+        }else{
+          console.log('tem algo')
+          var v1 = this.state.renda_ano_passado;
+          var v2 = this.state.valor_crescimento;
+            
+          var calc = (v2 - v1);
+          calc = (calc / v1);
+          calc = (calc * 100);
+  
+          this.setState({
+            porcento_crescimento: calc
+          }) 
+          console.log('Esse é o this2 '+ this.state.porcento_crescimento)
+
+        }
+ 
       }  
       
       //% de crescimento      
       if (prevState.porcento_crescimento !== this.state.porcento_crescimento) {
-        console.log('Esse é o this '+ this.state.valor_crescimento)
+        console.log('Esse é o this '+ this.state.porcento_crescimento)
+        console.log('Esse é o this1 '+ prevState.porcento_crescimento)
+        
 
+        if(this.state.porcento_crescimento==0){
+          console.log('a')
+        }else if (this.state.porcento_crescimento==''){
+          this.state.porcento_crescimento=prevState.porcento_crescimento
+        }else{
+          console.log('b')
         var v1 = this.state.renda_ano_passado;
         var v2 = this.state.porcento_crescimento;
 
@@ -327,35 +346,48 @@ export default class App extends Component {
         this.setState({
           valor_crescimento: resultado
         })  
+
+        }
       }  
 
       //valor de meta ebitda
       if (prevState.valor_meta_ebitda !== this.state.valor_meta_ebitda) {
         //console.log('Esse é o this '+ this.state.valor_crescimento)
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.valor_meta_ebitda
-          
-        var calc = (v2 - v1);
-        calc = (calc / v1);
-        calc = (calc * 100);
 
-        this.setState({
-          porcento_ebitda: calc
-        })  
+        if(this.state.valor_meta_ebitda == 0){
+          console.log('teste')
+        }else{
+          var v1 = this.state.renda_ano_passado;
+          var v2 = this.state.valor_meta_ebitda
+            
+          var calc = (v2 - v1);
+          calc = (calc / v1);
+          calc = (calc * 100);
+  
+          this.setState({
+            porcento_ebitda: calc
+          })  
+  
+        }
       }  
       
       //% de meta ebitda      
       if (prevState.porcento_ebitda !== this.state.porcento_ebitda) {
         //console.log('Esse é o this '+ this.state.valor_crescimento)
 
-        var v1 = this.state.renda_ano_passado;
-        var v2 = this.state.porcento_ebitda;
-
-        var porcent = ((v1 / 100) * v2);
-        var resultado = parseInt(porcent) + parseInt(v1)
-        this.setState({
-          valor_meta_ebitda: resultado
-        })  
+        if (this.state.porcento_ebitda == 0 || this.state.porcento_ebitda ==0){
+          console.log('teste')
+        }else{
+          var v1 = this.state.renda_ano_passado;
+          var v2 = this.state.porcento_ebitda;
+  
+          var porcent = ((v1 / 100) * v2);
+          var resultado = parseInt(porcent) + parseInt(v1)
+          this.setState({
+            valor_meta_ebitda: resultado
+          })  
+  
+        }
       }  
 
 
@@ -440,7 +472,7 @@ export default class App extends Component {
           <span class="titulo-caixa">% de<br/>crescimento:</span>
           <input value={this.state.porcento_crescimento} 
                  onChangeCapture={this.handleChange_Porcento_Crescimento} 
-                 type="text" placeholder="" 
+                 type="number" placeholder="" 
                  class="caixa texto-cinza"
                  disabled = {(this.state.item2)? "disabled" : ""}
                  />
