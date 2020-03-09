@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Modal, Button, Table} from 'react-bootstrap'
+import {Modal, Button} from 'react-bootstrap'
 import MaterialTable from 'material-table';
 
 
@@ -12,6 +12,7 @@ function DashFinal(props) {
     const [tax, setTax] = useState(0);
     const [renda, setRenda] = useState(2000);
     const [valorInicial, setValorInicial] = useState(1000000000000)
+    const [calculado, setCalculado] = useState(false)
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -154,7 +155,8 @@ function DashFinal(props) {
     });
 
     
-    setShow2(false)
+    setShow2(false);
+    setCalculado(true)
   }
 
 
@@ -183,6 +185,10 @@ function DashFinal(props) {
     });
 
     setShow(false)
+  }
+
+  function editarCanal(){
+
   }
 
 
@@ -229,7 +235,15 @@ return(
       title=""
       columns={state.columns}
       data={state.data}
+      icons={{
+        Add: props => (
+          <div>
+          </div>
+        ),
+      }}
       options={{
+        actionsColumnIndex: -1,
+
         search: false,
         paging:false,
         headerStyle: {
@@ -254,6 +268,36 @@ return(
             setTimeout(() => {
               resolve();
               if (oldData) {
+                newData.count = (parseInt(newData.mouth1)
+                                +parseInt(newData.mouth2)
+                                +parseInt(newData.mouth3)
+                                +parseInt(newData.mouth4)
+                                +parseInt(newData.mouth5)
+                                +parseInt(newData.mouth6)
+                                +parseInt(newData.mouth7)
+                                +parseInt(newData.mouth8)
+                                +parseInt(newData.mouth9)
+                                +parseInt(newData.mouth10)
+                                +parseInt(newData.mouth11)
+                                +parseInt(newData.mouth12));
+
+                if (state.data[0].count < newData.count){
+                  state.data[0].mouth1 = newData.mouth1;
+                  state.data[0].mouth2 = newData.mouth2;
+                  state.data[0].mouth3 = newData.mouth3;
+                  state.data[0].mouth4 = newData.mouth4;
+                  state.data[0].mouth5 = newData.mouth5;
+                  state.data[0].mouth6 = newData.mouth6;
+                  state.data[0].mouth7 = newData.mouth7;
+                  state.data[0].mouth8 = newData.mouth8;
+                  state.data[0].mouth9 = newData.mouth9;
+                  state.data[0].mouth10 = newData.mouth10;
+                  state.data[0].mouth11 = newData.mouth11;
+                  state.data[0].mouth12 = newData.mouth12;
+                  state.data[0].count = newData.count;
+                }
+                
+                console.log(newData)
                 setState(prevState => {
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
@@ -301,8 +345,15 @@ return(
                 <span class="texto-cinza mr-2">Imposto médio:</span>
                 <input onChange={e => setTax(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite a porcentagem" type="number" name=""/>
               </div>
-
-              <a id="save" onClick={calcularImpostos}  class="btn mx-auto mt-5 text-white px-5 font-weight-bold" href="#" role="button" >Salvar</a>
+              {calculado 
+              ? 
+              ''
+              : 
+              <a id="save" onClick={calcularImpostos} 
+                 class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
+                 href="#"
+                 role="button">Salvar
+              </a>}
           </div>
           </div>
         </Modal.Body>
