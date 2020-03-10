@@ -3,6 +3,12 @@ import './assets/css/style.css'
 import axios from 'axios'
 import Logo from './assets/images/img/financebox-logo.png'
 import LogoPessoa from './assets/images/img/user.png'
+import LogoIcone1 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
+import LogoIcone2 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
+import LogoIcone3 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
+import LogoIcone4 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
+import LogoIcone5 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
+
 import Tabela from './components/Tabela'
 
 import { Modal } from 'react-bootstrap'
@@ -408,7 +414,48 @@ export default class App extends Component {
             </div>
           </a>
           <hr class="sidebar-divider my-0"/>
+          <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span><img src={LogoPessoa} alt="" /></span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span><img src={LogoIcone1} alt="" /></span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span><img src={LogoIcone2} alt="" /></span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span><img src={LogoIcone3} alt="" /></span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span><img src={LogoIcone4} alt="" /></span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span><img src={LogoIcone5} alt="" /></span>
+        </a>
+      </li>
+
+
         </ul>
+
 
 
         <div id="content-wrapper" className="d-flex flex-column">
@@ -593,6 +640,7 @@ export default class App extends Component {
 
       <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src={LogoPessoa} alt="" />
         </a>
         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
           <a class="dropdown-item" href="#">
