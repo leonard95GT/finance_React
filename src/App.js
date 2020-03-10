@@ -110,6 +110,7 @@ export default class App extends Component {
     
   
   }
+  
   saveInDBI() {
     this.setState({
       tamanho:1,

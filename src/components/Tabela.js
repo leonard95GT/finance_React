@@ -225,7 +225,11 @@ return(
     </div> */}
     <div class="col-6 d-sm-flex align-items-right justify-content-between mb-4">
       
-   
+    {calculado ?     
+   <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
+      (+) Adicionar Canal
+    </Button>
+ : ''}
 
     </div>
   </div>
@@ -270,6 +274,12 @@ return(
       icons={{
         Add: props => (
           <div>
+             {calculado ?     
+   <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
+      (+) Adicionar Canal
+    </Button>
+ : ''}
+
           </div>
         ),
       }}
@@ -473,7 +483,7 @@ return(
               ? 
               <div class="row justify-content-center">
               <div class="col-2">
-              <Button variant="primary" onClick={handleShow2}>
+              <Button  variant="primary" onClick={handleShow2}>
                 Salvar
               </Button>
                 </div>   </div>
