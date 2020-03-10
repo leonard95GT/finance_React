@@ -189,7 +189,7 @@ export default class App extends Component {
         console.log(valor)
         this.setState({
           tabela:
-            {description:'(*) Receita Bruta',
+            {description:'(+) Receita Bruta',
             mouth1: valor, 
             mouth2: valor,
             mouth3: valor, 

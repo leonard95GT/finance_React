@@ -11,6 +11,7 @@ function DashFinal(props) {
     const [description, setDescription] = useState('');
     const [tax, setTax] = useState(0);
     const [renda, setRenda] = useState(2000);
+    const [contador, setContador] = useState(0);
     const [renda2, setRenda2] = useState(0)
     const [valorInicial, setValorInicial] = useState(1000000000000)
     const [calculado, setCalculado] = useState(true)
@@ -162,6 +163,9 @@ function DashFinal(props) {
 
 
   function adicionarCanal(){
+    const valor = contador;
+    setContador(valor+1);
+
     if(state.data[1]){
       setState(prevState => {
         const data = [...prevState.data];
@@ -298,6 +302,11 @@ return(
         actionsColumnIndex: -1,
         search: false,
         paging:false,
+        rowStyle: rowData => ({
+          backgroundColor: (rowData.tableData.id ==0) ? '#6dc4e6' : '#6dc4e6',
+          color: (rowData.tableData.id ==0) ? '#fff' : '#fff'
+
+        }),
         headerStyle: {
           backgroundColor: '#6a6af8',
           color: '#FFF',
@@ -524,6 +533,9 @@ return(
     
   );
 }
+
+
+
 
 export default DashFinal;
 
