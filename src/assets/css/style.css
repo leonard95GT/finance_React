@@ -193,6 +193,21 @@
   img {
     vertical-align: middle;
     border-style: none;
+    width: 34px;
+    margin-left: 10px;
+  }
+
+  #btn_add_Canal{
+    border-radius: 47px;
+    height: 38px;
+    width: 238px;
+    background-color: rgb(106, 106, 248);
+  }
+
+
+  #tabela{
+    margin-left: 25px;
+    margin-right: 25px;
   }
   
   svg {
@@ -611,11 +626,19 @@
     margin-left: auto;
   }
   
+#contentA{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 20px;
+}
+
   .row {
     display: flex;
     flex-wrap: wrap;
     margin-right: -0.75rem;
     margin-left: -0.75rem;
+    
   }
   
   .no-gutters {

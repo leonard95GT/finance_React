@@ -3,10 +3,10 @@ import './assets/css/style.css'
 import axios from 'axios'
 import Logo from './assets/images/img/financebox-logo.png'
 import LogoPessoa from './assets/images/img/user.png'
-import LogoIcone1 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
-import LogoIcone2 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
-import LogoIcone3 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
-import LogoIcone4 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
+import LogoIcone1 from './assets/images/sidebar_icons/icon-menu-home.png'
+import LogoIcone2 from './assets/images/sidebar_icons/icon-menu-venda.png'
+import LogoIcone3 from './assets/images/sidebar_icons/icon-menu-projecoes.png'
+import LogoIcone4 from './assets/images/sidebar_icons/icon-menu-financeiro.png'
 import LogoIcone5 from './assets/images/sidebar_icons/icon-menu-analise-economica.png'
 
 import Tabela from './components/Tabela'
@@ -460,7 +460,7 @@ export default class App extends Component {
 
 
         <div id="content-wrapper" className="d-flex flex-column">
-          <div id="content">
+          <div id="contentA">
             <div>
                 <Modal className="modal-container" id="staticBackdrop"  show={this.state.show} onHide={this.handleClose}>
                   <Modal.Body>
@@ -565,148 +565,104 @@ export default class App extends Component {
               
                   </Modal.Body>
                 </Modal>
-    </div>
-
-
-  
-  
-  
-  
-  <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-      <i class="fa fa-bars"></i>
-    </button>
-
-
-    <ul class="navbar-nav ml-auto">
-
-      <li class="nav-item dropdown no-arrow mx-1">
-        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-bell fa-fw"></i>
-          <span class="badge badge-danger badge-counter">3+</span>
-        </a>
-    </li>
-
-      <li class="nav-item dropdown no-arrow mx-1">
-        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-envelope fa-fw"></i>
-          <span class="badge badge-danger badge-counter">7</span>
-        </a>
-        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-          <h6 class="dropdown-header">
-            Message Center
-          </h6>
-          <a class="dropdown-item d-flex align-items-center" href="#">
-            <div class="dropdown-list-image mr-3">
-              <div class="status-indicator bg-success"></div>
             </div>
-            <div class="font-weight-bold">
-              <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
-              <div class="small text-gray-500">Emily Fowler · 58m</div>
-            </div>
-          </a>
-          <a class="dropdown-item d-flex align-items-center" href="#">
-            <div class="dropdown-list-image mr-3">
-              <div class="status-indicator"></div>
-            </div>
-            <div>
-              <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
-              <div class="small text-gray-500">Jae Chun · 1d</div>
-            </div>
-          </a>
-          <a class="dropdown-item d-flex align-items-center" href="#">
-            <div class="dropdown-list-image mr-3">
-              <div class="status-indicator bg-warning"></div>
-            </div>
-            <div>
-              <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
-              <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-            </div>
-          </a>
-          <a class="dropdown-item d-flex align-items-center" href="#">
-            <div class="dropdown-list-image mr-3">
-              <div class="status-indicator bg-success"></div>
-            </div>
-            <div>
-              <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
-              <div class="small text-gray-500">Chicken the Dog · 2w</div>
-            </div>
-          </a>
-          <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-        </div>
-      </li>
 
-      <div class="topbar-divider d-none d-sm-block"></div>
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src={LogoPessoa} alt="" />
-        </a>
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#">
-            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-            Profile
-          </a>
-          <a class="dropdown-item" href="#">
-            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-            Settings
-          </a>
-          <a class="dropdown-item" href="#">
-            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-            Activity Log
-          </a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-            Logout
-          </a>
-        </div>
-      </li>
-
-    </ul>
-
-  </nav>
-
-  <div class="container-fluid">
-    <div class="col-6">
-      <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1  onClick={this.tableData}class="h3 mb-0 text-gray-800">Detalhando os dados da receita bruta</h1>
-      </div>  
-    </div>
-    <div class="col-6">
-    <div>
-
-       {/* <Modal show={this.state.show2} onHide={this.handleClose}>
-        <Modal.Body>
-        <div class="text-center text-muted">
-          <h4 class="font-weight-bold" >Adicionar canal de distribuição</h4>
-        </div>
-
-        <div class="container" id="container-central">
-
-        <div class="row mb-4">
-
-        <div class="col-12 text-center">
-
-        <span class="texto-cinza mr-2">Canal de distribuição:</span>
-        <input class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do canal" type="text" name=""/>
-        </div>
-
-        <a id="save" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" role="button" onClick={this.saveInDBI}>Salvar</a>
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
 
 
-        </div>
+            <ul class="navbar-nav ml-auto">
 
-        </div>
+              <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-bell fa-fw"></i>
+                  <span class="badge badge-danger badge-counter">3+</span>
+                </a>
+            </li>
 
-        </Modal.Body>
-      </Modal> */}
-    </div>
+              <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-envelope fa-fw"></i>
+                  <span class="badge badge-danger badge-counter">7</span>
+                </a>
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                  <h6 class="dropdown-header">
+                    Message Center
+                  </h6>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                      <div class="status-indicator bg-success"></div>
+                    </div>
+                    <div class="font-weight-bold">
+                      <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
+                      <div class="small text-gray-500">Emily Fowler · 58m</div>
+                    </div>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                      <div class="status-indicator"></div>
+                    </div>
+                    <div>
+                      <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
+                      <div class="small text-gray-500">Jae Chun · 1d</div>
+                    </div>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                      <div class="status-indicator bg-warning"></div>
+                    </div>
+                    <div>
+                      <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
+                      <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                    </div>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                      <div class="status-indicator bg-success"></div>
+                    </div>
+                    <div>
+                      <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
+                      <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                    </div>
+                  </a>
+                  <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                </div>
+              </li>
 
-      
-    </div>
-  </div>
+              <div class="topbar-divider d-none d-sm-block"></div>
+
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src={LogoPessoa} alt="" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Profile
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Settings
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Activity Log
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                  </a>
+                </div>
+              </li>
+
+            </ul>
+
+          </nav>
+
 
   <Tabela info={this.state.tabela} base={this.state.valor_crescimento}/>
 

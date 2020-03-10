@@ -215,13 +215,22 @@ function DashFinal(props) {
 
 
 return(
-    <>
+    <div id="tabela">
+
+<div id="contentA" class="row container-fluid">
+    {/* <div class="col-5">
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Detalhando os dados da receita bruta</h1>
+      </div>  
+    </div> */}
+    <div class="col-6 d-sm-flex align-items-right justify-content-between mb-4">
+      
    
-   {calculado ?     
-   <Button variant="primary" onClick={handleShow}>
-      (+) Adicionar Canal
-    </Button>
- : ''}
+
+    </div>
+  </div>
+
+   
 
 
     <Modal show={show} onHide={handleClose}>
@@ -255,7 +264,7 @@ return(
     </Modal>
 
     {calculado ?   <MaterialTable
-      title=""
+      title="Detalhando os dados da receita bruta"
       columns={state.columns}
       data={state.data}
       icons={{
@@ -266,12 +275,13 @@ return(
       }}
       options={{
         actionsColumnIndex: -1,
-
         search: false,
         paging:false,
         headerStyle: {
           backgroundColor: '#6a6af8',
-          color: '#FFF'
+          color: '#FFF',
+          fontSize: 12,
+          paddingLeft:1
         }
       }}
       
@@ -499,7 +509,7 @@ return(
 
 
 
-  </>
+  </div>
     
   );
 }
