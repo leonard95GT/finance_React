@@ -56,7 +56,7 @@ export default class App extends Component {
         valorGeral: 8000
       },
       tabela:
-        { description:'(*) Receita Bruta',
+        { description:'(+) Receita Bruta',
         mouth1: 0, 
         mouth2: 0,
         mouth3: 0, 

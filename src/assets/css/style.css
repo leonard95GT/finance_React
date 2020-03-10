@@ -274,6 +274,7 @@
     padding: 8px 20px;
     width: 140px;
     border-radius: 3px;
+    height: 42px; 
   }
 
   .select-items{
@@ -10150,7 +10151,7 @@
     display: inline-block;
     float: left;
     text-align: right;
-    margin-right: 12px;
+    margin-right: 6px;
   }
 
   #nome-canal{
