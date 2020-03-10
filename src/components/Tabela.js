@@ -11,6 +11,7 @@ function DashFinal(props) {
     const [description, setDescription] = useState('');
     const [tax, setTax] = useState(0);
     const [renda, setRenda] = useState(2000);
+    const [renda2, setRenda2] = useState(0)
     const [valorInicial, setValorInicial] = useState(1000000000000)
     const [calculado, setCalculado] = useState(true)
 
@@ -95,7 +96,7 @@ function DashFinal(props) {
 
     let impostos = parseInt(tax,10);
     
-    let valorGeral = parseInt(renda,10);
+    let valorGeral = parseInt(renda2  ,10);
 
     let totalImposto = ((parseInt(valorGeral) / 100) * impostos) 
 
@@ -328,6 +329,22 @@ return(
                       count: 0
                     }
 
+
+                    antiga.count = (
+                     parseInt(antiga.mouth1)
+                    +parseInt(antiga.mouth2)
+                    +parseInt(antiga.mouth3)
+                    +parseInt(antiga.mouth4)
+                    +parseInt(antiga.mouth5)
+                    +parseInt(antiga.mouth6)
+                    +parseInt(antiga.mouth7)
+                    +parseInt(antiga.mouth8)
+                    +parseInt(antiga.mouth9)
+                    +parseInt(antiga.mouth10)
+                    +parseInt(antiga.mouth11)
+                    +parseInt(antiga.mouth12));
+
+
                     antiga.mouth1 += nova.mouth1;
                     antiga.mouth2 += nova.mouth2;
                     antiga.mouth3 += nova.mouth3;
@@ -340,7 +357,12 @@ return(
                     antiga.mouth10 += nova.mouth10;
                     antiga.mouth11 += nova.mouth11;
                     antiga.mouth12 += nova.mouth12;
-  
+                    antiga.count +=  parseInt(nova.count)
+                    
+                    console.log('renda '+renda)
+                    console.log('nova '+nova.count)
+                    console.log('antiga '+antiga.count)
+
                   state.data[0].mouth1 = antiga.mouth1;
                   state.data[0].mouth2 = antiga.mouth2;
                   state.data[0].mouth3 = antiga.mouth3;
@@ -353,14 +375,22 @@ return(
                   state.data[0].mouth10 = antiga.mouth10;
                   state.data[0].mouth11 = antiga.mouth11;
                   state.data[0].mouth12 = antiga.mouth12;
-                  state.data[0].count = parseInt(renda) + nova.count;
+                  state.data[0].count = antiga.count;
+
+                  setRenda2(antiga.count)
+
                 
-                console.log(nova)
+                //console.log(nova)
                 setState(prevState => {
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };
                 });
+                state.data.forEach(function(el){
+                  console.log('to contando'+el.count)
+                })
+
+
               }
             }, 600);
           }),
