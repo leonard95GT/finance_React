@@ -208,6 +208,7 @@
   #tabela{
     margin-left: 25px;
     margin-right: 25px;
+    background-color: #ecf1f7;
   }
   
   svg {
@@ -306,6 +307,16 @@
   [type="reset"],
   [type="submit"] {
     -webkit-appearance: button;
+  }
+
+  .MuiToolbar-gutters{
+    background-color: #ecf1f7;
+  }
+  #btn_save{
+    border-radius: 50px;
+    width: 100px;
+    height: 34px;
+    background-color: #6c79f8;
   }
   
   button:not(:disabled),
@@ -9667,7 +9678,7 @@
   }
   
   #wrapper #content-wrapper {
-    background-color: #f8f9fc;
+    background-color: #ecf1f7;
     width: 100%;
     overflow-x: hidden;
   }

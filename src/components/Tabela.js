@@ -272,7 +272,7 @@ return(
       columns={state.columns}
       data={state.data}
       icons={{
-        Add: props => (
+        add: props => (
           <div>
              {calculado ?     
    <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
@@ -283,6 +283,17 @@ return(
           </div>
         ),
       }}
+      actions={[
+        {
+          icon: () => calculado ?     
+          <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
+             (+) Adicionar Canal
+           </Button>
+        : '',
+          isFreeAction: true,
+          onClick: (event) => handleShow()
+        }
+      ]}
       options={{
         actionsColumnIndex: -1,
         search: false,
@@ -298,17 +309,7 @@ return(
       editable={{
         isEditable: rowData => calculado, // only name(a) rows would be editable
         isDeletable: rowData => calculado, // only name(a) rows would be deletable
-        onRowAdd: newData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.push(newData);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
+       
         onRowUpdate: (newData, oldData) =>
           new Promise(resolve => {
             setTimeout(() => {
@@ -483,7 +484,7 @@ return(
               ? 
               <div class="row justify-content-center">
               <div class="col-2">
-              <Button  variant="primary" onClick={handleShow2}>
+              <Button id="" variant="primary" onClick={handleShow2}>
                 Salvar
               </Button>
                 </div>   </div>
