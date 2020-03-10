@@ -162,27 +162,52 @@ function DashFinal(props) {
 
 
   function adicionarCanal(){
-    setState(prevState => {
-      const data = [...prevState.data];
-      data.push({
-          description: description,
-          mouth1: 0,
-          mouth2: 0,
-          mouth3: 0,
-          mouth4: 0,
-          mouth5: 0,
-          mouth6: 0,
-          mouth7: 0,
-          mouth8: 0,
-          mouth9: 0,
-          mouth10: 0,
-          mouth11: 0,
-          mouth12: 0,
-          count: 0
-
+    if(state.data[1]){
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: description,
+            mouth1: 0,
+            mouth2: 0,
+            mouth3: 0,
+            mouth4: 0,
+            mouth5: 0,
+            mouth6: 0,
+            mouth7: 0,
+            mouth8: 0,
+            mouth9: 0,
+            mouth10: 0,
+            mouth11: 0,
+            mouth12: 0,
+            count: 0
+  
+        });
+        return { ...prevState, data };
       });
-      return { ...prevState, data };
-    });
+      }else{
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: description,
+            mouth1: state.data[0].mouth1,
+            mouth2: state.data[0].mouth2,
+            mouth3: state.data[0].mouth3,
+            mouth4: state.data[0].mouth4,
+            mouth5: state.data[0].mouth5,
+            mouth6: state.data[0].mouth6,
+            mouth7: state.data[0].mouth7,
+            mouth8: state.data[0].mouth8,
+            mouth9: state.data[0].mouth9,
+            mouth10: state.data[0].mouth10,
+            mouth11: state.data[0].mouth11,
+            mouth12: state.data[0].mouth12,
+            count: renda
+  
+        });
+        return { ...prevState, data };
+      });
+      }
+
 
     setShow(false)
   }
