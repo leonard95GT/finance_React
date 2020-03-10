@@ -90,7 +90,7 @@ function DashFinal(props) {
 
   });
 
-  
+  //calcula 
   function calcularImpostos(){
     //setTax(props.base)
 
