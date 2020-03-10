@@ -251,8 +251,38 @@
     text-transform: none;
   }
   
+.modal_base_zero{
+  position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
   select {
     word-wrap: normal;
+    word-wrap: normal;
+    background: #6dc4e6;
+    color: white;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 8px 20px;
+    width: 140px;
+    border-radius: 3px;
+  }
+
+  .select-items{
+    position: absolute;
+      background-color: white;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 99;
   }
   
   button,

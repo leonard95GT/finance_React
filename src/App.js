@@ -411,10 +411,10 @@ export default class App extends Component {
         </ul>
 
 
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" className="d-flex flex-column">
           <div id="content">
             <div>
-                <Modal id="staticBackdrop"  show={this.state.show} onHide={this.handleClose}>
+                <Modal className="modal-container" id="staticBackdrop"  show={this.state.show} onHide={this.handleClose}>
                   <Modal.Body>
                     <div class="text-center text-muted">
                       <h4 class="font-weight-bold ">Base zero</h4>
@@ -444,18 +444,16 @@ export default class App extends Component {
                   
                   <div class="col-4">
 
-                    <div class="dropdown">
                     <span class="titulo-caixa">Tipo de<br/>crescimento</span>
                       <select value={this.state.tipo_crescimento} onChange={this.handleChange_Tipo_Crescimento.bind(this)}>
                         <option value="0" class="titulo-caixa">Valor Bruto</option>
                         <option value="1" class="titulo-caixa" >% de Crescimento</option>
                       </select>
-                    </div>
 
                   </div>
                   <div className="col-4">
                     <span class="titulo-caixa">Valor de<br/>crescimento:</span>
-                    <input value={this.state.valor_crescimento} 
+                    <input class="btn dropdown-azul dropdown-toggle" value={this.state.valor_crescimento} 
                           onChange={this.handleChange_Valor_Crescimento} 
                           type="number" placeholder="R$" 
                           class="caixa texto-cinza"
@@ -491,8 +489,6 @@ export default class App extends Component {
 
                   </div>
                   <div class="col-4">
-                    
-
                     <span class="titulo-caixa">Meta do<br/>EBITDA: </span>
                     <input value={this.state.valor_meta_ebitda} 
                           onChange={this.handleChange_Valor_Meta_Ebitda} 
