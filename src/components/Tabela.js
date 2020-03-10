@@ -12,7 +12,7 @@ function DashFinal(props) {
     const [tax, setTax] = useState(0);
     const [renda, setRenda] = useState(2000);
     const [valorInicial, setValorInicial] = useState(1000000000000)
-    const [calculado, setCalculado] = useState(false)
+    const [calculado, setCalculado] = useState(true)
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -44,7 +44,6 @@ function DashFinal(props) {
     
     
         data: [{
-          description: props.info.description,
           mouth1: props.info.mouth1,
           mouth2: props.info.mouth2,
           mouth3: props.info.mouth3,
@@ -115,7 +114,7 @@ function DashFinal(props) {
     setState(prevState => {
       const data = [...prevState.data];
       data.push({
-          description: '(-) Impostos',
+          description: '(-) Impostos s/ serviços',
           mouth1: valorParcela,
           mouth2: valorParcela,
           mouth3: valorParcela,
@@ -136,7 +135,7 @@ function DashFinal(props) {
     setState(prevState => {
       const data = [...prevState.data];
       data.push({
-          description: '(=) Receita',
+          description: '(=) Receita Líquida',
           mouth1: parcelaReceita,
           mouth2: parcelaReceita,
           mouth3: parcelaReceita,
@@ -156,7 +155,7 @@ function DashFinal(props) {
 
     
     setShow2(false);
-    setCalculado(true)
+    setCalculado(false)
   }
 
 
@@ -187,17 +186,16 @@ function DashFinal(props) {
     setShow(false)
   }
 
-  function editarCanal(){
-
-  }
 
 
 return(
     <>
    
-    <Button variant="primary" onClick={handleShow}>
-    (+) Adicionar Canal
+   {calculado ?     
+   <Button variant="primary" onClick={handleShow}>
+      (+) Adicionar Canal
     </Button>
+ : ''}
 
 
     <Modal show={show} onHide={handleClose}>
@@ -230,8 +228,7 @@ return(
       </Modal.Body>
     </Modal>
 
-
-    <MaterialTable
+    {calculado ?   <MaterialTable
       title=""
       columns={state.columns}
       data={state.data}
@@ -251,7 +248,10 @@ return(
           color: '#FFF'
         }
       }}
+      
       editable={{
+        isEditable: rowData => calculado, // only name(a) rows would be editable
+        isDeletable: rowData => calculado, // only name(a) rows would be deletable
         onRowAdd: newData =>
           new Promise(resolve => {
             setTimeout(() => {
@@ -280,24 +280,82 @@ return(
                                 +parseInt(newData.mouth10)
                                 +parseInt(newData.mouth11)
                                 +parseInt(newData.mouth12));
-
-                if (state.data[0].count < newData.count){
-                  state.data[0].mouth1 = newData.mouth1;
-                  state.data[0].mouth2 = newData.mouth2;
-                  state.data[0].mouth3 = newData.mouth3;
-                  state.data[0].mouth4 = newData.mouth4;
-                  state.data[0].mouth5 = newData.mouth5;
-                  state.data[0].mouth6 = newData.mouth6;
-                  state.data[0].mouth7 = newData.mouth7;
-                  state.data[0].mouth8 = newData.mouth8;
-                  state.data[0].mouth9 = newData.mouth9;
-                  state.data[0].mouth10 = newData.mouth10;
-                  state.data[0].mouth11 = newData.mouth11;
-                  state.data[0].mouth12 = newData.mouth12;
-                  state.data[0].count = newData.count;
-                }
                 
-                console.log(newData)
+
+
+                    const nova = {          
+                      mouth1: parseFloat(newData.mouth1),
+                      mouth2: parseFloat(newData.mouth2),
+                      mouth3: parseFloat(newData.mouth3),
+                      mouth4: parseFloat(newData.mouth4),
+                      mouth5: parseFloat(newData.mouth5),
+                      mouth6: parseFloat(newData.mouth6),
+                      mouth7: parseFloat(newData.mouth7),
+                      mouth8: parseFloat(newData.mouth8),
+                      mouth9: parseFloat(newData.mouth9),
+                      mouth10: parseFloat(newData.mouth10),
+                      mouth11: parseFloat(newData.mouth11),
+                      mouth12: parseFloat(newData.mouth12),
+                      count: 0
+                    }
+
+                    nova.count = (parseInt(nova.mouth1)
+                    +parseInt(nova.mouth2)
+                    +parseInt(nova.mouth3)
+                    +parseInt(nova.mouth4)
+                    +parseInt(nova.mouth5)
+                    +parseInt(nova.mouth6)
+                    +parseInt(nova.mouth7)
+                    +parseInt(nova.mouth8)
+                    +parseInt(nova.mouth9)
+                    +parseInt(nova.mouth10)
+                    +parseInt(nova.mouth11)
+                    +parseInt(nova.mouth12));
+                    
+                    const antiga = {          
+                      mouth1: parseFloat(state.data[0].mouth1),
+                      mouth2: parseFloat(state.data[0].mouth2),
+                      mouth3: parseFloat(state.data[0].mouth3),
+                      mouth4: parseFloat(state.data[0].mouth4),
+                      mouth5: parseFloat(state.data[0].mouth5),
+                      mouth6: parseFloat(state.data[0].mouth6),
+                      mouth7: parseFloat(state.data[0].mouth7),
+                      mouth8: parseFloat(state.data[0].mouth8),
+                      mouth9: parseFloat(state.data[0].mouth9),
+                      mouth10: parseFloat(state.data[0].mouth10),
+                      mouth11: parseFloat(state.data[0].mouth11),
+                      mouth12: parseFloat(state.data[0].mouth12),
+                      count: 0
+                    }
+
+                    antiga.mouth1 += nova.mouth1;
+                    antiga.mouth2 += nova.mouth2;
+                    antiga.mouth3 += nova.mouth3;
+                    antiga.mouth4 += nova.mouth4;
+                    antiga.mouth5 += nova.mouth5;
+                    antiga.mouth6 += nova.mouth6;
+                    antiga.mouth7 += nova.mouth7;
+                    antiga.mouth8 += nova.mouth8;
+                    antiga.mouth9 += nova.mouth9;
+                    antiga.mouth10 += nova.mouth10;
+                    antiga.mouth11 += nova.mouth11;
+                    antiga.mouth12 += nova.mouth12;
+  
+                  state.data[0].mouth1 = antiga.mouth1;
+                  state.data[0].mouth2 = antiga.mouth2;
+                  state.data[0].mouth3 = antiga.mouth3;
+                  state.data[0].mouth4 = antiga.mouth4;
+                  state.data[0].mouth5 = antiga.mouth5;
+                  state.data[0].mouth6 = antiga.mouth6;
+                  state.data[0].mouth7 = antiga.mouth7;
+                  state.data[0].mouth8 = antiga.mouth8;
+                  state.data[0].mouth9 = antiga.mouth9;
+                  state.data[0].mouth10 = antiga.mouth10;
+                  state.data[0].mouth11 = antiga.mouth11;
+                  state.data[0].mouth12 = antiga.mouth12;
+                  state.data[0].count = parseInt(renda) + nova.count;
+                
+                console.log(nova)
                 setState(prevState => {
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
@@ -318,20 +376,46 @@ return(
             }, 600);
           }),
       }}
-    />
+    /> :   <MaterialTable
+    title=""
+    columns={state.columns}
+    data={state.data}
+    icons={{
+      Add: props => (
+        <div>
+        </div>
+      ),
+    }}
+    options={{
+      actionsColumnIndex: -1,
+
+      search: false,
+      paging:false,
+      headerStyle: {
+        backgroundColor: '#6a6af8',
+        color: '#FFF'
+      }
+    }}
+    
+  
+  />}
+  
 
 
 <div class="card-body">
 
+      {calculado 
+              ? 
+              <div class="row justify-content-center">
+              <div class="col-2">
+              <Button variant="primary" onClick={handleShow2}>
+                Salvar
+              </Button>
+                </div>   </div>
+              :  ''}
+   
 
-    <div class="row justify-content-center">
-      <div class="col-2">
-      <Button variant="primary" onClick={handleShow2}>
-        Salvar
-      </Button>
-        </div>
-
-    </div>
+ 
 
     <Modal show={show2} onHide={handleClose2}>
         <Modal.Body>
@@ -345,15 +429,12 @@ return(
                 <span class="texto-cinza mr-2">Imposto médio:</span>
                 <input onChange={e => setTax(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite a porcentagem" type="number" name=""/>
               </div>
-              {calculado 
-              ? 
-              ''
-              : 
+           
               <a id="save" onClick={calcularImpostos} 
                  class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
                  href="#"
                  role="button">Salvar
-              </a>}
+              </a>
           </div>
           </div>
         </Modal.Body>

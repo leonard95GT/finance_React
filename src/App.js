@@ -43,7 +43,7 @@ export default class App extends Component {
       show3:false,
       renda_ano_passado:'',
       tipo_crescimento: 0,
-      valor_crescimento: 0,
+      valor_crescimento: '',
       porcento_crescimento: '',
       meta_ebitda: 1,
       valor_meta_ebitda: '',
@@ -401,132 +401,126 @@ export default class App extends Component {
 
 
       <div id="wrapper">
-
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark" id="accordionSidebar">
-
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-  <div class="sidebar-brand-icon rotate-n-15">
-    <img src={Logo} alt="" />
-  </div>
-</a>
-
-<hr class="sidebar-divider my-0"/>
-
-
-
-</ul>
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark" id="accordionSidebar">
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+            <div class="sidebar-brand-icon rotate-n-15">
+              <img src={Logo} alt="" />
+            </div>
+          </a>
+          <hr class="sidebar-divider my-0"/>
+        </ul>
 
 
         <div id="content-wrapper" class="d-flex flex-column">
           <div id="content">
-      <div>
-      <Modal id="staticBackdrop" show={this.state.show} onHide={this.handleClose}>
-        <Modal.Body>
-          <div class="text-center text-muted">
-            <h4 class="font-weight-bold ">Base zero</h4>
-            <p class="subTitle">Para iniciar as projeções precisamos preencher algumas informações básicas</p>
-          </div>
-            <div class="container text-muted " id="container-central">
+            <div>
+                <Modal id="staticBackdrop"  show={this.state.show} onHide={this.handleClose}>
+                  <Modal.Body>
+                    <div class="text-center text-muted">
+                      <h4 class="font-weight-bold ">Base zero</h4>
+                      <p class="subTitle">Para iniciar as projeções precisamos preencher algumas informações básicas</p>
+                    </div>
+                      <div class="container text-muted " id="container-central">
 
-            <div class="row mb-4">
+                      <div class="row mb-4">
 
-            <div class="col-4">
+                      <div class="col-4">
 
-            <span  class="titulo-caixa">Renda bruta ano anterior:</span>
-            <input 
-                 value={this.state.renda_ano_passado} 
-                 type="number" 
-                 onChange={this.handleChange_Renda_Ano} 
-                 placeholder="R$" 
-                 class="caixa texto-cinza" 
-            />
+                      <span  class="titulo-caixa">Renda bruta ano anterior:</span>
+                      <input 
+                          value={this.state.renda_ano_passado} 
+                          type="number" 
+                          onChange={this.handleChange_Renda_Ano} 
+                          placeholder="R$" 
+                          class="caixa texto-cinza" 
+                      />
 
-        </div>
-        <div class="col-4"></div>
-        <div class="col-4"></div>
+                  </div>
+                  <div class="col-4"></div>
+                  <div class="col-4"></div>
 
-      </div>
-      <div class="row mb-4 ">
-        
-        <div class="col-4">
+                </div>
+                <div class="row mb-4 ">
+                  
+                  <div class="col-4">
 
-          <div class="dropdown">
-          <span class="titulo-caixa">Tipo de<br/>crescimento</span>
-            <select value={this.state.tipo_crescimento} onChange={this.handleChange_Tipo_Crescimento.bind(this)}>
-              <option value="0" class="titulo-caixa">Valor Bruto</option>
-              <option value="1" class="titulo-caixa" >% de Crescimento</option>
-            </select>
-          </div>
+                    <div class="dropdown">
+                    <span class="titulo-caixa">Tipo de<br/>crescimento</span>
+                      <select value={this.state.tipo_crescimento} onChange={this.handleChange_Tipo_Crescimento.bind(this)}>
+                        <option value="0" class="titulo-caixa">Valor Bruto</option>
+                        <option value="1" class="titulo-caixa" >% de Crescimento</option>
+                      </select>
+                    </div>
 
-        </div>
-        <div className="col-4">
-          <span class="titulo-caixa">Valor de<br/>crescimento: (R$)</span>
-          <input value={this.state.valor_crescimento} 
-                 onChange={this.handleChange_Valor_Crescimento} 
-                 type="number" placeholder="" 
-                 class="caixa texto-cinza"
-                 disabled = {(this.state.item1)? "disabled" : ""}
+                  </div>
+                  <div className="col-4">
+                    <span class="titulo-caixa">Valor de<br/>crescimento:</span>
+                    <input value={this.state.valor_crescimento} 
+                          onChange={this.handleChange_Valor_Crescimento} 
+                          type="number" placeholder="R$" 
+                          class="caixa texto-cinza"
+                          disabled = {(this.state.item1)? "disabled" : ""}
 
-          />
-        </div>
+                    />
+                  </div>
 
-        <div class="col-4">
-          
-          <span class="titulo-caixa">% de<br/>crescimento:</span>
-          <input value={this.state.porcento_crescimento} 
-                 onChangeCapture={this.handleChange_Porcento_Crescimento} 
-                 type="number" placeholder="" 
-                 class="caixa texto-cinza"
-                 disabled = {(this.state.item2)? "disabled" : ""}
-                 />
+                  <div class="col-4">
+                    
+                    <span class="titulo-caixa">% de<br/>crescimento:</span>
+                    <input value={this.state.porcento_crescimento} 
+                          onChangeCapture={this.handleChange_Porcento_Crescimento} 
+                          type="number" placeholder="%" 
+                          class="caixa texto-cinza"
+                          disabled = {(this.state.item2)? "disabled" : ""}
+                          />
 
-        </div>
+                  </div>
 
-      </div>
-      <div class="row mb-4">
-        
-        <div class="col-4">
+                </div>
+                <div class="row mb-4">
+                  
+                  <div class="col-4">
 
-        <div class="dropdown">
-          <span class="titulo-caixa">Tipo de<br/>crescimento</span>
-            <select value={this.state.meta_ebitda} onChange={this.handleChange_Meta_Ebitda.bind(this)}>
-              <option value="1" class="titulo-caixa">Meta do EBITDA</option>
-              <option value="0" class="titulo-caixa" >% de EBITDA</option>
-            </select>
-          </div>
+                  <div class="dropdown">
+                    <span class="titulo-caixa">Tipo de<br/>crescimento</span>
+                      <select value={this.state.meta_ebitda} onChange={this.handleChange_Meta_Ebitda.bind(this)}>
+                        <option value="1" class="titulo-caixa">Meta do EBITDA</option>
+                        <option value="0" class="titulo-caixa" >% de EBITDA</option>
+                      </select>
+                    </div>
 
-        </div>
-        <div class="col-4">
-          
+                  </div>
+                  <div class="col-4">
+                    
 
-          <span class="titulo-caixa">Meta do<br/>EBITDA: (R$)</span>
-          <input value={this.state.valor_meta_ebitda} 
-                 onChange={this.handleChange_Valor_Meta_Ebitda} 
-                 type="number" 
-                 placeholder="" 
-                 class="caixa texto-cinza"
-                 disabled = {(this.state.item3)? "disabled" : ""}
-          />
-        </div>
-        <div class="col-4">
-          
-          <span class="titulo-caixa">% do<br/>EBITDA:</span>
-          <input value={this.state.porcento_ebitda} 
-                 onChange={this.handleChange_Porcento_Ebitda} 
-                 type="number" 
-                 placeholder="" 
-                 class="caixa texto-cinza"
-                 disabled = {(this.state.item4)? "disabled" : ""}
-          />
-        </div>
+                    <span class="titulo-caixa">Meta do<br/>EBITDA: </span>
+                    <input value={this.state.valor_meta_ebitda} 
+                          onChange={this.handleChange_Valor_Meta_Ebitda} 
+                          type="number" 
+                          placeholder="R$" 
+                          class="caixa texto-cinza"
+                          disabled = {(this.state.item3)? "disabled" : ""}
+                    />
+                  </div>
+                  <div class="col-4">
+                    
+                    <span class="titulo-caixa">% do<br/>EBITDA:</span>
+                    <input value={this.state.porcento_ebitda} 
+                          onChange={this.handleChange_Porcento_Ebitda} 
+                          type="number" 
+                          placeholder="%" 
+                          class="caixa texto-cinza"
+                          disabled = {(this.state.item4)? "disabled" : ""}
+                    />
+                  </div>
 
-        <a id="saveBtn" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" onClick={this.saveInDB} role="button" >Salvar</a>
+                  <a id="saveBtn" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" onClick={this.saveInDB} role="button" >Salvar</a>
 
-      </div>
-    </div>
-    
-        </Modal.Body>
-      </Modal>
+                </div>
+              </div>
+              
+                  </Modal.Body>
+                </Modal>
     </div>
 
 
