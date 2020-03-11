@@ -84,7 +84,9 @@ export default class App extends Component {
   }
 
   handleClose() {
-    this.setState({ show2: false, tamanho:1 });
+    if(this.state.valor_crescimento!='' && this.state.valor_crescimento > ''){
+      this.setState({ show2: false, tamanho:1 });
+    }
   }
 
   saveImposto(event){
@@ -150,7 +152,12 @@ export default class App extends Component {
 
      
     handleClose() {
-      this.setState({ show: false });
+      if(this.state.valor_crescimento!='' && this.state.valor_crescimento > ''){
+        this.setState({ show: false });
+      }else{
+        alert('Para iniciar no Base Zero, informe os dados abaixo!')
+      }
+  
     }
   
     handleShow() {
@@ -185,7 +192,7 @@ export default class App extends Component {
           console.log(err)
         })
 
-        const valor = (this.state.valor_crescimento / 12)
+        const valor = (this.state.valor_crescimento / 12).toFixed(2)
         console.log(valor)
         this.setState({
           tabela:

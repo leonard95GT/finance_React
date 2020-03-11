@@ -12,7 +12,8 @@ function DashFinal(props) {
     const [tax, setTax] = useState(0);
     const [renda, setRenda] = useState(2000);
     const [contador, setContador] = useState(0);
-    const [renda2, setRenda2] = useState(0)
+    const [contadorFinal, setContadorFinal] = useState(20);
+    const [renda2, setRenda2] = useState(0);
     const [valorInicial, setValorInicial] = useState(1000000000000)
     const [calculado, setCalculado] = useState(true)
 
@@ -94,6 +95,10 @@ function DashFinal(props) {
   //calcula 
   function calcularImpostos(){
     //setTax(props.base)
+    const valor = contadorFinal;
+    setContadorFinal(valor);
+    console.log('Contador final: ' + contador);
+
 
     let impostos = parseInt(tax,10);
     
@@ -101,11 +106,11 @@ function DashFinal(props) {
 
     let totalImposto = ((parseInt(valorGeral) / 100) * impostos) 
 
-    let valorParcela = (totalImposto / 12);
+    let valorParcela = (totalImposto / 12).toFixed(2);
 
     let receita = valorGeral - totalImposto;
      
-    let parcelaReceita = (receita / 12);
+    let parcelaReceita = (receita / 12).toFixed(2);
 
     console.log('Impostos: '+ impostos);
     console.log('Valor Geral: '+ valorGeral);
@@ -164,26 +169,27 @@ function DashFinal(props) {
 
   function adicionarCanal(){
     const valor = contador;
-    setContador(valor+1);
+    setContador(valor+2);
+    console.log('Contador para a cor: ' + contador);
 
     if(state.data[1]){
       setState(prevState => {
         const data = [...prevState.data];
         data.push({
             description: description,
-            mouth1: 0,
-            mouth2: 0,
-            mouth3: 0,
-            mouth4: 0,
-            mouth5: 0,
-            mouth6: 0,
-            mouth7: 0,
-            mouth8: 0,
-            mouth9: 0,
-            mouth10: 0,
-            mouth11: 0,
-            mouth12: 0,
-            count: 0
+            mouth1: '',
+            mouth2: '',
+            mouth3: '',
+            mouth4: '',
+            mouth5: '',
+            mouth6: '',
+            mouth7: '',
+            mouth8: '',
+            mouth9: '',
+            mouth10: '',
+            mouth11: '',
+            mouth12: '',
+            count: ''
   
         });
         return { ...prevState, data };
@@ -303,8 +309,8 @@ return(
         search: false,
         paging:false,
         rowStyle: rowData => ({
-          backgroundColor: (rowData.tableData.id ==0) ? '#6dc4e6' : '#6dc4e6',
-          color: (rowData.tableData.id ==0) ? '#fff' : '#fff'
+          backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
+          color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
 
         }),
         headerStyle: {
@@ -479,7 +485,13 @@ return(
       headerStyle: {
         backgroundColor: '#6a6af8',
         color: '#FFF'
-      }
+      },
+      rowStyle: rowData => ({
+        backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
+        color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
+
+      }),
+
     }}
     
   
