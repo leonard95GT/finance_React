@@ -102,6 +102,7 @@ function DashFinal(props) {
         data[0] = props.info;
         return { ...prevState, data };
       });
+      
       setState(prevState => {
         const data2 = [...prevState.data2];
         data2[0] = props.info;
@@ -134,11 +135,11 @@ function DashFinal(props) {
      
     let parcelaReceita = (receita / 12).toFixed(2);
 
-    //console..log('Impostos: '+ impostos);
-    //console..log('Valor Geral: '+ valorGeral);
-    //console..log('Total do valor do imposto: '+ totalImposto);
-    //console..log('Parcela do Imposto: '+ valorParcela);
-    //console..log('Receita: '+ receita)
+    console.log('Impostos: '+ impostos);
+    console.log('Valor Geral: '+ valorGeral);
+    console.log('Total do valor do imposto: '+ totalImposto);
+    console.log('Parcela do Imposto: '+ valorParcela);
+    console.log('Receita: '+ receita)
     
     setState(prevState => {
       const data = [...prevState.data];
@@ -192,6 +193,7 @@ function DashFinal(props) {
   function adicionarCanal(){
     const valor = contador;
     setContador(valor+2);
+    setRenda2(state.data[0].count)
     //console..log('Contador para a cor: ' + contador);
 
     if(state.data[1]){
@@ -530,22 +532,7 @@ return(
                   +parseInt(state.data[0].mouth11)
                   +parseInt(state.data[0].mouth12));
 
-
-                  //state.data[0].mouth1 = antiga.mouth1;
-                  // state.data[0].mouth2 = antiga.mouth2;
-                  // state.data[0].mouth3 = antiga.mouth3;
-                  // state.data[0].mouth4 = antiga.mouth4;
-                  // state.data[0].mouth5 = antiga.mouth5;
-                  // state.data[0].mouth6 = antiga.mouth6;
-                  // state.data[0].mouth7 = antiga.mouth7;
-                  // state.data[0].mouth8 = antiga.mouth8;
-                  // state.data[0].mouth9 = antiga.mouth9;
-                  // state.data[0].mouth10 = antiga.mouth10;
-                  // state.data[0].mouth11 = antiga.mouth11;
-                  // state.data[0].mouth12 = antiga.mouth12;
-                  // state.data[0].count = antiga.count;
-
-                //  setRenda2(antiga.count)
+                  setRenda2(state.data[0].count)
                 
                 setState(prevState => {
                   const data = [...prevState.data];
