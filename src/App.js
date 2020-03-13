@@ -192,7 +192,7 @@ export default class App extends Component {
           //console..log(err)
         })
 
-        const valor = (this.state.valor_crescimento / 12).toFixed(2)
+        const valor = (this.state.valor_crescimento / 12)
         //console..log(valor)
         this.setState({
           tabela:
