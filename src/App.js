@@ -92,14 +92,14 @@ export default class App extends Component {
   saveImposto(event){
     this.setState({ imposto:event.target.value });
     const calculo = this.state.imposto;
-    console.log('Imposto' + calculo)
+    ////console...log('Imposto' + calculo)
 
     const imposto = this.state.imposto;
     const renda = this.state.valor_crescimento;
 
     const parcela = (parseInt(renda) / 100);
     const parcelImposto = (parcela * imposto);
-    console.log(parcelImposto)
+    ////console...log(parcelImposto)
 
     this.setState({parcelaImposto: parcelImposto})
 
@@ -165,7 +165,7 @@ export default class App extends Component {
     }
 
     saveInDB() {
-      //console.log(this.state)
+      ////console..log(this.state)
       this.setState({renda: this.state.valor_crescimento})
       const proxyurl = "https://cors-anywhere.herokuapp.com/";  
       axios.post(proxyurl + 'http://34.70.109.4/projection', {
@@ -186,14 +186,14 @@ export default class App extends Component {
           port: 8080
         }
         }).then(function (response) {
-          console.log('response is : ' + response.data);
+          //console..log('response is : ' + response.data);
           
         }).catch(function (err){
-          console.log(err)
+          //console..log(err)
         })
 
         const valor = (this.state.valor_crescimento / 12).toFixed(2)
-        console.log(valor)
+        //console..log(valor)
         this.setState({
           tabela:
             {description:'(+) Receita Bruta',
@@ -220,7 +220,7 @@ export default class App extends Component {
 
     handleChange_Renda_Ano(event) {
         this.setState({renda_ano_passado: event.target.value});
-        console.log(this.state.renda_ano_passado)
+        //console..log(this.state.renda_ano_passado)
     }
 
 
@@ -234,7 +234,7 @@ export default class App extends Component {
           tipo_crescimento: event.target.value       
         });
         let a = this.state.tipo_crescimento
-        console.log(a);
+        //console..log(a);
         if(this.state.tipo_crescimento == 1){
           this.setState({item1:''})
           this.setState({item2:'disabled'})
@@ -264,7 +264,7 @@ export default class App extends Component {
         alert('Insira os dados da Renda do Ano Passado')
       }else{
         this.setState({porcento_crescimento: event.target.value});
-        console.log('esse é o valor: '+this.state.porcento_crescimento)
+        //console..log('esse é o valor: '+this.state.porcento_crescimento)
       }  
     }
 
@@ -319,9 +319,9 @@ export default class App extends Component {
       if (prevState.valor_crescimento !== this.state.valor_crescimento   && 
         this.state.tipo_crescimento == 0) {
         if(this.state.valor_crescimento==0 ){
-          console.log('nada')
+          //console..log('nada')
         }else{
-          console.log('tem algo')
+          //console..log('tem algo')
           var v1 = this.state.renda_ano_passado;
           var v2 = this.state.valor_crescimento;
             
@@ -344,16 +344,16 @@ export default class App extends Component {
         
 
         if(this.state.porcento_crescimento==0){
-          console.log('a')
+          //console..log('a')
         }else if (this.state.porcento_crescimento==''){
           this.state.porcento_crescimento=prevState.porcento_crescimento
-          console.log('c')
+          //console..log('c')
         }else{
-          console.log('b')
+          //console..log('b')
         var v1 = this.state.renda_ano_passado;
         var v2 = this.state.porcento_crescimento;
 
-        console.log('olha o valor: '+v2)
+        //console..log('olha o valor: '+v2)
         var porcent = ((v1 / 100) * v2);
         var resultado = parseInt(porcent) + parseInt(v1)
         this.setState({
@@ -367,10 +367,10 @@ export default class App extends Component {
       if (prevState.valor_meta_ebitda !== this.state.valor_meta_ebitda
         && 
          this.state.meta_ebitda == 1) {
-        //console.log('Esse é o this '+ this.state.valor_crescimento)
+        ////console..log('Esse é o this '+ this.state.valor_crescimento)
 
         if(this.state.valor_meta_ebitda == 0){
-          console.log('teste')
+          //console..log('teste')
         }else{
           var v1 = this.state.renda_ano_passado;
           var v2 = this.state.valor_meta_ebitda
@@ -390,10 +390,10 @@ export default class App extends Component {
       if (prevState.porcento_ebitda !== this.state.porcento_ebitda
         && 
         this.state.meta_ebitda == 0) {
-        //console.log('Esse é o this '+ this.state.valor_crescimento)
+        ////console..log('Esse é o this '+ this.state.valor_crescimento)
 
         if (this.state.porcento_ebitda == 0 || this.state.porcento_ebitda ==0){
-          console.log('teste')
+          //console..log('teste')
         }else{
           var v1 = this.state.renda_ano_passado;
           var v2 = this.state.porcento_ebitda;

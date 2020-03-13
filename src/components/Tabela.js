@@ -61,6 +61,23 @@ function DashFinal(props) {
           mouth12: props.info.mouth12,
           count: renda
         }],
+
+        data2: [{
+          mouth1: props.info.mouth1,
+          mouth2: props.info.mouth2,
+          mouth3: props.info.mouth3,
+          mouth4: props.info.mouth4,
+          mouth5: props.info.mouth5,
+          mouth6: props.info.mouth6,
+          mouth7: props.info.mouth7,
+          mouth8: props.info.mouth8,
+          mouth9: props.info.mouth9,
+          mouth10: props.info.mouth10,
+          mouth11: props.info.mouth11,
+          mouth12: props.info.mouth12,
+          count: renda
+        }],
+
     
       });
     
@@ -70,20 +87,25 @@ function DashFinal(props) {
     setTabela(props.info); 
     setRenda(props.base);
 
-    console.log(props.info.mouth1)
+    //console..log(props.info.mouth1)
     if(props.info.mouth1 == 0){
-      console.log('não precisa alterar')
+      //console.log('não precisa alterar')
     }else{
-      console.log('agora pode') 
+      //console.log('agora pode') 
       if(valorInicial == props.info.mouth1){
-        console.log('Ops, acho q dessa vez não, haha')
+        //console.log('Ops, acho q dessa vez não, haha')
       }else{
-        console.log('lets go')
+        //console.log('lets go')
         setValorInicial(props.info.mouth1);
         setState(prevState => {
         const data = [...prevState.data];
         data[0] = props.info;
         return { ...prevState, data };
+      });
+      setState(prevState => {
+        const data2 = [...prevState.data2];
+        data2[0] = props.info;
+        return { ...prevState, data2 };
       });
 
       }
@@ -92,12 +114,12 @@ function DashFinal(props) {
 
   });
 
-  //calcula 
+  
   function calcularImpostos(){
     //setTax(props.base)
     const valor = contadorFinal;
     setContadorFinal(valor);
-    console.log('Contador final: ' + contador);
+    //console..log('Contador final: ' + contador);
 
 
     let impostos = parseInt(tax,10);
@@ -112,11 +134,11 @@ function DashFinal(props) {
      
     let parcelaReceita = (receita / 12).toFixed(2);
 
-    console.log('Impostos: '+ impostos);
-    console.log('Valor Geral: '+ valorGeral);
-    console.log('Total do valor do imposto: '+ totalImposto);
-    console.log('Parcela do Imposto: '+ valorParcela);
-    console.log('Receita: '+ receita)
+    //console..log('Impostos: '+ impostos);
+    //console..log('Valor Geral: '+ valorGeral);
+    //console..log('Total do valor do imposto: '+ totalImposto);
+    //console..log('Parcela do Imposto: '+ valorParcela);
+    //console..log('Receita: '+ receita)
     
     setState(prevState => {
       const data = [...prevState.data];
@@ -170,26 +192,26 @@ function DashFinal(props) {
   function adicionarCanal(){
     const valor = contador;
     setContador(valor+2);
-    console.log('Contador para a cor: ' + contador);
+    //console..log('Contador para a cor: ' + contador);
 
     if(state.data[1]){
       setState(prevState => {
         const data = [...prevState.data];
         data.push({
             description: description,
-            mouth1: '',
-            mouth2: '',
-            mouth3: '',
-            mouth4: '',
-            mouth5: '',
-            mouth6: '',
-            mouth7: '',
-            mouth8: '',
-            mouth9: '',
-            mouth10: '',
-            mouth11: '',
-            mouth12: '',
-            count: ''
+            mouth1: 0,
+            mouth2: 0,
+            mouth3: 0,
+            mouth4: 0,
+            mouth5: 0,
+            mouth6: 0,
+            mouth7: 0,
+            mouth8: 0,
+            mouth9: 0,
+            mouth10: 0,
+            mouth11: 0,
+            mouth12: 0,
+            count: 0
   
         });
         return { ...prevState, data };
@@ -228,11 +250,6 @@ return(
     <div id="tabela">
 
 <div id="contentA" class="row container-fluid">
-    {/* <div class="col-5">
-      <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Detalhando os dados da receita bruta</h1>
-      </div>  
-    </div> */}
     <div class="col-6 d-sm-flex align-items-right justify-content-between mb-4">
       
     {calculado ?     
@@ -281,6 +298,11 @@ return(
       title="Detalhando os dados da receita bruta"
       columns={state.columns}
       data={state.data}
+      localization={{
+        body:{
+         
+        }
+      }}
       icons={{
         add: props => (
           <div>
@@ -322,14 +344,17 @@ return(
       }}
       
       editable={{
-        isEditable: rowData => calculado, // only name(a) rows would be editable
+        isEditable: rowData => calculado,// only name(a) rows would be editable
         isDeletable: rowData => calculado, // only name(a) rows would be deletable
-       
+        
         onRowUpdate: (newData, oldData) =>
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
               if (oldData) {
+                if(oldData == state.data[1]){
+                  //Aqui deve ocorrer o ajuste do campo um para o campo de renda bruta.
+                }
                 newData.count = (parseInt(newData.mouth1)
                                 +parseInt(newData.mouth2)
                                 +parseInt(newData.mouth3)
@@ -342,114 +367,192 @@ return(
                                 +parseInt(newData.mouth10)
                                 +parseInt(newData.mouth11)
                                 +parseInt(newData.mouth12));
+
+                  if(parseInt(newData.mouth1)>parseInt(oldData.mouth1)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth1) - parseInt(oldData.mouth1))
+                    console.log(diff)
+                    var valor = parseInt(state.data[0].mouth1);
+                    state.data[0].mouth1 = valor + diff;
+                    console.log('valor depois: '+ state.data[0].mouth1)
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth1) - parseInt(newData.mouth1))
+                    console.log(diff)
+                    var valor = parseInt(state.data[0].mouth1);
+                    state.data[0].mouth1 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mout2)>parseInt(oldData.mouth2)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth2) - parseInt(oldData.mouth2))
+                    var valor = parseInt(state.data[0].mouth2);
+                    state.data[0].mouth2 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth2) - parseInt(newData.mouth2))
+                    var valor = parseInt(state.data[0].mouth2);
+                    state.data[0].mouth2 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mouth3)>parseInt(oldData.mouth3)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth3) - parseInt(oldData.mouth3))
+                    var valor = parseInt(state.data[0].mouth3);
+                    state.data[0].mouth3 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth3) - parseInt(newData.mouth3))
+                    var valor = parseInt(state.data[0].mouth3);
+                    state.data[0].mouth3 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mouth4)>parseInt(oldData.mouth4)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth4) - parseInt(oldData.mouth4))
+                    var valor = parseInt(state.data[0].mouth4);
+                    state.data[0].mouth4 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth4) - parseInt(newData.mouth4))
+                    var valor = parseInt(state.data[0].mouth4);
+                    state.data[0].mouth4 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mouth5)>parseInt(oldData.mouth5)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth5) - parseInt(oldData.mouth5))
+                    var valor = parseInt(state.data[0].mouth5);
+                    state.data[0].mouth5 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth5) - parseInt(newData.mouth5))
+                    var valor = parseInt(state.data[0].mouth5);
+                    state.data[0].mouth5 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mouth6)>parseInt(oldData.mouth6)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth6) - parseInt(oldData.mouth6))
+                    var valor = parseInt(state.data[0].mouth6);
+                    state.data[0].mouth6 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth6) - parseInt(newData.mouth6))
+                    var valor = parseInt(state.data[0].mouth6);
+                    state.data[0].mouth6 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mouth7)>parseInt(oldData.mouth7)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth7) - parseInt(oldData.mouth7))
+                    var valor = parseInt(state.data[0].mouth7);
+                    state.data[0].mouth7 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth7) - parseInt(newData.mouth7))
+                    var valor = parseInt(state.data[0].mouth7);
+                    state.data[0].mouth7 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mouth8)>parseInt(oldData.mouth8)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth8) - parseInt(oldData.mouth8))
+                    var valor = parseInt(state.data[0].mouth8);
+                    state.data[0].mouth8 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth8) - parseInt(newData.mouth8))
+                    var valor = parseInt(state.data[0].mouth8);
+                    state.data[0].mouth8 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mouth10)>parseInt(oldData.mouth10)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth10) - parseInt(oldData.mouth10))
+                    var valor = parseInt(state.data[0].mouth10);
+                    state.data[0].mouth10 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth10) - parseInt(newData.mouth10))
+                    var valor = parseInt(state.data[0].mouth10);
+                    state.data[0].mouth10 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mouth11)>parseInt(oldData.mouth11)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth11) - parseInt(oldData.mouth11))
+                    var valor = parseInt(state.data[0].mouth11);
+                    state.data[0].mouth11 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth11) - parseInt(newData.mouth11))
+                    var valor = parseInt(state.data[0].mouth11);
+                    state.data[0].mouth11 = valor - diff;
+                  }
+
+                  if(parseInt(newData.mouth12)>parseInt(oldData.mouth12)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth12) - parseInt(oldData.mouth12))
+                    var valor = parseInt(state.data[0].mouth12);
+                    state.data[0].mouth12 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth12) - parseInt(newData.mouth12))
+                    var valor = parseInt(state.data[0].mouth12);
+                    state.data[0].mouth12 = valor - diff;
+                  }
+
+
+                  if(parseInt(newData.mouth9)>parseInt(oldData.mouth9)){
+                    console.log('add')
+                    var diff = (parseInt(newData.mouth9) - parseInt(oldData.mouth9))
+                    var valor = parseInt(state.data[0].mouth9);
+                    state.data[0].mouth9 = valor + diff;
+                  }else{
+                    console.log('remove')
+                    var diff = (parseInt(oldData.mouth9) - parseInt(newData.mouth9))
+                    var valor = parseInt(state.data[0].mouth9);
+                    state.data[0].mouth9 = valor + diff;
+                  }
+
+                  state.data[0].count =  
+                  (parseInt(state.data[0].mouth1)
+                  +parseInt(state.data[0].mouth2)
+                  +parseInt(state.data[0].mouth3)
+                  +parseInt(state.data[0].mouth4)
+                  +parseInt(state.data[0].mouth5)
+                  +parseInt(state.data[0].mouth6)
+                  +parseInt(state.data[0].mouth7)
+                  +parseInt(state.data[0].mouth8)
+                  +parseInt(state.data[0].mouth9)
+                  +parseInt(state.data[0].mouth10)
+                  +parseInt(state.data[0].mouth11)
+                  +parseInt(state.data[0].mouth12));
+
+
+                  //state.data[0].mouth1 = antiga.mouth1;
+                  // state.data[0].mouth2 = antiga.mouth2;
+                  // state.data[0].mouth3 = antiga.mouth3;
+                  // state.data[0].mouth4 = antiga.mouth4;
+                  // state.data[0].mouth5 = antiga.mouth5;
+                  // state.data[0].mouth6 = antiga.mouth6;
+                  // state.data[0].mouth7 = antiga.mouth7;
+                  // state.data[0].mouth8 = antiga.mouth8;
+                  // state.data[0].mouth9 = antiga.mouth9;
+                  // state.data[0].mouth10 = antiga.mouth10;
+                  // state.data[0].mouth11 = antiga.mouth11;
+                  // state.data[0].mouth12 = antiga.mouth12;
+                  // state.data[0].count = antiga.count;
+
+                //  setRenda2(antiga.count)
                 
-
-
-                    const nova = {          
-                      mouth1: parseFloat(newData.mouth1),
-                      mouth2: parseFloat(newData.mouth2),
-                      mouth3: parseFloat(newData.mouth3),
-                      mouth4: parseFloat(newData.mouth4),
-                      mouth5: parseFloat(newData.mouth5),
-                      mouth6: parseFloat(newData.mouth6),
-                      mouth7: parseFloat(newData.mouth7),
-                      mouth8: parseFloat(newData.mouth8),
-                      mouth9: parseFloat(newData.mouth9),
-                      mouth10: parseFloat(newData.mouth10),
-                      mouth11: parseFloat(newData.mouth11),
-                      mouth12: parseFloat(newData.mouth12),
-                      count: 0
-                    }
-
-                    nova.count = (parseInt(nova.mouth1)
-                    +parseInt(nova.mouth2)
-                    +parseInt(nova.mouth3)
-                    +parseInt(nova.mouth4)
-                    +parseInt(nova.mouth5)
-                    +parseInt(nova.mouth6)
-                    +parseInt(nova.mouth7)
-                    +parseInt(nova.mouth8)
-                    +parseInt(nova.mouth9)
-                    +parseInt(nova.mouth10)
-                    +parseInt(nova.mouth11)
-                    +parseInt(nova.mouth12));
-                    
-                    const antiga = {          
-                      mouth1: parseFloat(state.data[0].mouth1),
-                      mouth2: parseFloat(state.data[0].mouth2),
-                      mouth3: parseFloat(state.data[0].mouth3),
-                      mouth4: parseFloat(state.data[0].mouth4),
-                      mouth5: parseFloat(state.data[0].mouth5),
-                      mouth6: parseFloat(state.data[0].mouth6),
-                      mouth7: parseFloat(state.data[0].mouth7),
-                      mouth8: parseFloat(state.data[0].mouth8),
-                      mouth9: parseFloat(state.data[0].mouth9),
-                      mouth10: parseFloat(state.data[0].mouth10),
-                      mouth11: parseFloat(state.data[0].mouth11),
-                      mouth12: parseFloat(state.data[0].mouth12),
-                      count: 0
-                    }
-
-
-                    antiga.count = (
-                     parseInt(antiga.mouth1)
-                    +parseInt(antiga.mouth2)
-                    +parseInt(antiga.mouth3)
-                    +parseInt(antiga.mouth4)
-                    +parseInt(antiga.mouth5)
-                    +parseInt(antiga.mouth6)
-                    +parseInt(antiga.mouth7)
-                    +parseInt(antiga.mouth8)
-                    +parseInt(antiga.mouth9)
-                    +parseInt(antiga.mouth10)
-                    +parseInt(antiga.mouth11)
-                    +parseInt(antiga.mouth12));
-
-
-                    antiga.mouth1 += nova.mouth1;
-                    antiga.mouth2 += nova.mouth2;
-                    antiga.mouth3 += nova.mouth3;
-                    antiga.mouth4 += nova.mouth4;
-                    antiga.mouth5 += nova.mouth5;
-                    antiga.mouth6 += nova.mouth6;
-                    antiga.mouth7 += nova.mouth7;
-                    antiga.mouth8 += nova.mouth8;
-                    antiga.mouth9 += nova.mouth9;
-                    antiga.mouth10 += nova.mouth10;
-                    antiga.mouth11 += nova.mouth11;
-                    antiga.mouth12 += nova.mouth12;
-                    antiga.count +=  parseInt(nova.count)
-                    
-                    console.log('renda '+renda)
-                    console.log('nova '+nova.count)
-                    console.log('antiga '+antiga.count)
-
-                  state.data[0].mouth1 = antiga.mouth1;
-                  state.data[0].mouth2 = antiga.mouth2;
-                  state.data[0].mouth3 = antiga.mouth3;
-                  state.data[0].mouth4 = antiga.mouth4;
-                  state.data[0].mouth5 = antiga.mouth5;
-                  state.data[0].mouth6 = antiga.mouth6;
-                  state.data[0].mouth7 = antiga.mouth7;
-                  state.data[0].mouth8 = antiga.mouth8;
-                  state.data[0].mouth9 = antiga.mouth9;
-                  state.data[0].mouth10 = antiga.mouth10;
-                  state.data[0].mouth11 = antiga.mouth11;
-                  state.data[0].mouth12 = antiga.mouth12;
-                  state.data[0].count = antiga.count;
-
-                  setRenda2(antiga.count)
-
-                
-                //console.log(nova)
                 setState(prevState => {
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };
                 });
-                state.data.forEach(function(el){
-                  console.log('to contando'+el.count)
-                })
+             
 
 
               }
@@ -489,11 +592,8 @@ return(
       rowStyle: rowData => ({
         backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
         color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-
       }),
-
     }}
-    
   
   />}
   
@@ -510,9 +610,6 @@ return(
               </Button>
                 </div>   </div>
               :  ''}
-   
-
- 
 
     <Modal show={show2} onHide={handleClose2}>
         <Modal.Body>
@@ -538,9 +635,6 @@ return(
       </Modal>
 
     </div>
-
-
-
   </div>
     
   );
