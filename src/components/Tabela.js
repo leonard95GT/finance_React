@@ -124,40 +124,70 @@ function DashFinal(props) {
 
 
     let impostos = parseInt(tax,10);
+
+    let resultadoParaImposto=[];
+
+    resultadoParaImposto = state.data[0];
+
+    let valorImpostoParcela1 = ((resultadoParaImposto.mouth1 / 100) * impostos)
+    let descontoImposto1 = resultadoParaImposto.mouth1 - valorImpostoParcela1
+    //console.log(descontoImposto1)
+
+    let valorImpostoParcela2 = ((resultadoParaImposto.mouth2 / 100) * impostos)
+    let descontoImposto2 = resultadoParaImposto.mouth2 - valorImpostoParcela2
+    //console.log(descontoImposto2)
+
+    let valorImpostoParcela3 = ((resultadoParaImposto.mouth3 / 100) * impostos)
+    let descontoImposto3 = resultadoParaImposto.mouth3 - valorImpostoParcela3
+
+    let valorImpostoParcela4 = ((resultadoParaImposto.mouth4 / 100) * impostos)
+    let descontoImposto4 = resultadoParaImposto.mouth4 - valorImpostoParcela4
+
+    let valorImpostoParcela5 = ((resultadoParaImposto.mouth5 / 100) * impostos)
+    let descontoImposto5 = resultadoParaImposto.mouth5 - valorImpostoParcela5
+
+    let valorImpostoParcela6 = ((resultadoParaImposto.mouth6 / 100) * impostos)
+    let descontoImposto6 = resultadoParaImposto.mouth6 - valorImpostoParcela6
+
+    let valorImpostoParcela7 = ((resultadoParaImposto.mouth7 / 100) * impostos)
+    let descontoImposto7 = resultadoParaImposto.mouth7 - valorImpostoParcela7
+
+    let valorImpostoParcela8 = ((resultadoParaImposto.mouth8 / 100) * impostos)
+    let descontoImposto8 = resultadoParaImposto.mouth8 - valorImpostoParcela8
+
+    let valorImpostoParcela9 = ((resultadoParaImposto.mouth9 / 100) * impostos)
+    let descontoImposto9 = resultadoParaImposto.mouth9 - valorImpostoParcela9
+
+    let valorImpostoParcela10 = ((resultadoParaImposto.mouth10 / 100) * impostos)
+    let descontoImposto10 = resultadoParaImposto.mouth10 - valorImpostoParcela10
+
+    let valorImpostoParcela11 = ((resultadoParaImposto.mouth11 / 100) * impostos)
+    let descontoImposto11 = resultadoParaImposto.mouth11 - valorImpostoParcela11
+
+    let valorImpostoParcela12 = ((resultadoParaImposto.mouth12 / 100) * impostos)
+    let descontoImposto12 = resultadoParaImposto.mouth12 - valorImpostoParcela12
+
+    let valorGeral = ((renda2 / 100) * impostos)
+    let descontoGeral = renda2 - valorGeral
     
-    let valorGeral = parseInt(renda2  ,10);
-
-    let totalImposto = ((parseInt(valorGeral) / 100) * impostos) 
-
-    let valorParcela = (totalImposto / 12).toFixed(2);
-
-    let receita = valorGeral - totalImposto;
-     
-    let parcelaReceita = (receita / 12).toFixed(2);
-
-    console.log('Impostos: '+ impostos);
-    console.log('Valor Geral: '+ valorGeral);
-    console.log('Total do valor do imposto: '+ totalImposto);
-    console.log('Parcela do Imposto: '+ valorParcela);
-    console.log('Receita: '+ receita)
     
     setState(prevState => {
       const data = [...prevState.data];
       data.push({
           description: '(-) Impostos s/ serviços',
-          mouth1: valorParcela,
-          mouth2: valorParcela,
-          mouth3: valorParcela,
-          mouth4: valorParcela,
-          mouth5: valorParcela,
-          mouth6: valorParcela,
-          mouth7: valorParcela,
-          mouth8: valorParcela,
-          mouth9: valorParcela,
-          mouth10: valorParcela,
-          mouth11: valorParcela,
-          mouth12: valorParcela,
-          count: totalImposto
+          mouth1: valorImpostoParcela1,
+          mouth2: valorImpostoParcela2,
+          mouth3: valorImpostoParcela3,
+          mouth4: valorImpostoParcela4,
+          mouth5: valorImpostoParcela5,
+          mouth6: valorImpostoParcela6,
+          mouth7: valorImpostoParcela7,
+          mouth8: valorImpostoParcela8,
+          mouth9: valorImpostoParcela9,
+          mouth10: valorImpostoParcela10,
+          mouth11: valorImpostoParcela11,
+          mouth12: valorImpostoParcela12,
+          count: valorGeral
       });
       return { ...prevState, data };
     });
@@ -166,19 +196,19 @@ function DashFinal(props) {
       const data = [...prevState.data];
       data.push({
           description: '(=) Receita Líquida',
-          mouth1: parcelaReceita,
-          mouth2: parcelaReceita,
-          mouth3: parcelaReceita,
-          mouth4: parcelaReceita,
-          mouth5: parcelaReceita,
-          mouth6: parcelaReceita,
-          mouth7: parcelaReceita,
-          mouth8: parcelaReceita,
-          mouth9: parcelaReceita,
-          mouth10: parcelaReceita,
-          mouth11: parcelaReceita,
-          mouth12: parcelaReceita,
-          count: receita
+          mouth1: descontoImposto1,
+          mouth2: descontoImposto2,
+          mouth3: descontoImposto3,
+          mouth4: descontoImposto4,
+          mouth5: descontoImposto5,
+          mouth6: descontoImposto6,
+          mouth7: descontoImposto7,
+          mouth8: descontoImposto8,
+          mouth9: descontoImposto9,
+          mouth10: descontoImposto10,
+          mouth11: descontoImposto11,
+          mouth12: descontoImposto12,
+          count: descontoGeral
       });
       return { ...prevState, data };
     });
@@ -515,7 +545,7 @@ return(
                     console.log('remove')
                     var diff = (parseInt(oldData.mouth9) - parseInt(newData.mouth9))
                     var valor = parseInt(state.data[0].mouth9);
-                    state.data[0].mouth9 = valor + diff;
+                    state.data[0].mouth9 = valor - diff;
                   }
 
                   state.data[0].count =  
