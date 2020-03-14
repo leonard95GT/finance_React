@@ -92,14 +92,12 @@ export default class App extends Component {
   saveImposto(event){
     this.setState({ imposto:event.target.value });
     const calculo = this.state.imposto;
-    ////console...log('Imposto' + calculo)
 
     const imposto = this.state.imposto;
     const renda = this.state.valor_crescimento;
 
     const parcela = (parseInt(renda) / 100);
     const parcelImposto = (parcela * imposto);
-    ////console...log(parcelImposto)
 
     this.setState({parcelaImposto: parcelImposto})
 
@@ -197,18 +195,18 @@ export default class App extends Component {
         this.setState({
           tabela:
             {description:'(+) Receita Bruta',
-            mouth1: valor, 
-            mouth2: valor,
-            mouth3: valor, 
-            mouth4: valor, 
-            mouth5: valor, 
-            mouth6: valor, 
-            mouth7: valor, 
-            mouth8: valor, 
-            mouth9: valor, 
-            mouth10: valor, 
-            mouth11: valor, 
-            mouth12: valor,
+            mouth1: Math.round(valor), 
+            mouth2: Math.round(valor),
+            mouth3: Math.round(valor), 
+            mouth4: Math.round(valor), 
+            mouth5: Math.round(valor), 
+            mouth6: Math.round(valor), 
+            mouth7: Math.round(valor), 
+            mouth8: Math.round(valor), 
+            mouth9: Math.round(valor), 
+            mouth10: Math.round(valor), 
+            mouth11: Math.round(valor), 
+            mouth12: Math.round(valor),
             count: this.state.valor_crescimento
           }
           
@@ -330,7 +328,7 @@ export default class App extends Component {
           calc = (calc * 100);
   
           this.setState({
-            porcento_crescimento: calc
+            porcento_crescimento: Math.round(calc)
           }) 
 
         }
@@ -357,7 +355,7 @@ export default class App extends Component {
         var porcent = ((v1 / 100) * v2);
         var resultado = parseInt(porcent) + parseInt(v1)
         this.setState({
-          valor_crescimento: resultado
+          valor_crescimento: Math.round(resultado)
         })  
 
         }
@@ -380,7 +378,7 @@ export default class App extends Component {
           calc = (calc * 100);
   
           this.setState({
-            porcento_ebitda: calc
+            porcento_ebitda: Math.round(calc)
           })  
   
         }
@@ -401,7 +399,7 @@ export default class App extends Component {
           var porcent = ((v1 / 100) * v2);
           var resultado = parseInt(porcent) + parseInt(v1)
           this.setState({
-            valor_meta_ebitda: resultado
+            valor_meta_ebitda: Math.round(resultado)
           })  
   
         }

@@ -12,6 +12,7 @@ function DashFinal(props) {
     const [tax, setTax] = useState(0);
     const [renda, setRenda] = useState(2000);
     const [contador, setContador] = useState(0);
+    const [contadorLinhaImposto, setContadorLinhaImposto] = useState(0)
     const [contadorFinal, setContadorFinal] = useState(20);
     const [renda2, setRenda2] = useState(0);
     const [valorInicial, setValorInicial] = useState(1000000000000)
@@ -117,10 +118,8 @@ function DashFinal(props) {
 
   
   function calcularImpostos(){
-    //setTax(props.base)
     const valor = contadorFinal;
     setContadorFinal(valor);
-    //console..log('Contador final: ' + contador);
 
 
     let impostos = parseInt(tax,10);
@@ -131,7 +130,6 @@ function DashFinal(props) {
 
     let valorImpostoParcela1 = ((resultadoParaImposto.mouth1 / 100) * impostos)
     let descontoImposto1 = resultadoParaImposto.mouth1 - valorImpostoParcela1
-    //console.log(descontoImposto1)
 
     let valorImpostoParcela2 = ((resultadoParaImposto.mouth2 / 100) * impostos)
     let descontoImposto2 = resultadoParaImposto.mouth2 - valorImpostoParcela2
@@ -170,48 +168,99 @@ function DashFinal(props) {
     let valorGeral = ((renda2 / 100) * impostos)
     let descontoGeral = renda2 - valorGeral
     
-    
-    setState(prevState => {
-      const data = [...prevState.data];
-      data.push({
+    if(calculado){
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: '(-) Impostos s/ serviços',
+            mouth1: Math.round(valorImpostoParcela1),
+            mouth2: Math.round(valorImpostoParcela2),
+            mouth3: Math.round(valorImpostoParcela3),
+            mouth4: Math.round(valorImpostoParcela4),
+            mouth5: Math.round(valorImpostoParcela5),
+            mouth6: Math.round(valorImpostoParcela6),
+            mouth7: Math.round(valorImpostoParcela7),
+            mouth8: Math.round(valorImpostoParcela8),
+            mouth9: Math.round(valorImpostoParcela9),
+            mouth10: Math.round(valorImpostoParcela10),
+            mouth11: Math.round(valorImpostoParcela11),
+            mouth12: Math.round(valorImpostoParcela12),
+            count: Math.round(valorGeral)
+        });
+        return { ...prevState, data };
+      });
+  
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: '(=) Receita Líquida',
+            mouth1: Math.round(descontoImposto1),
+            mouth2: Math.round(descontoImposto2),
+            mouth3: Math.round(descontoImposto3),
+            mouth4: Math.round(descontoImposto4),
+            mouth5: Math.round(descontoImposto5),
+            mouth6: Math.round(descontoImposto6),
+            mouth7: Math.round(descontoImposto7),
+            mouth8: Math.round(descontoImposto8),
+            mouth9: Math.round(descontoImposto9),
+            mouth10: Math.round(descontoImposto10),
+            mouth11: Math.round(descontoImposto11),
+            mouth12: Math.round(descontoImposto12),
+            count: Math.round(descontoGeral )
+        });
+        return { ...prevState, data };
+      });
+    }else{
+      console.log('é atualização')
+      let pos = (state.data.length - 1)
+      let pos2 = (state.data.length - 2)
+      console.log(pos);
+  
+      
+      setState(prevState => {
+        const data = [...prevState.data];
+        data[pos2] = ({
           description: '(-) Impostos s/ serviços',
-          mouth1: valorImpostoParcela1,
-          mouth2: valorImpostoParcela2,
-          mouth3: valorImpostoParcela3,
-          mouth4: valorImpostoParcela4,
-          mouth5: valorImpostoParcela5,
-          mouth6: valorImpostoParcela6,
-          mouth7: valorImpostoParcela7,
-          mouth8: valorImpostoParcela8,
-          mouth9: valorImpostoParcela9,
-          mouth10: valorImpostoParcela10,
-          mouth11: valorImpostoParcela11,
-          mouth12: valorImpostoParcela12,
-          count: valorGeral
+            mouth1: Math.round(valorImpostoParcela1),
+            mouth2: Math.round(valorImpostoParcela2),
+            mouth3: Math.round(valorImpostoParcela3),
+            mouth4: Math.round(valorImpostoParcela4),
+            mouth5: Math.round(valorImpostoParcela5),
+            mouth6: Math.round(valorImpostoParcela6),
+            mouth7: Math.round(valorImpostoParcela7),
+            mouth8: Math.round(valorImpostoParcela8),
+            mouth9: Math.round(valorImpostoParcela9),
+            mouth10: Math.round(valorImpostoParcela10),
+            mouth11: Math.round(valorImpostoParcela11),
+            mouth12: Math.round(valorImpostoParcela12),
+            count: Math.round(valorGeral)
+        });
+        return { ...prevState, data };
       });
-      return { ...prevState, data };
-    });
+  
+      setState(prevState => {
+        const data = [...prevState.data];
+        data[pos] = ({
+            description: '(=) Receita Líquida',
+            mouth1: Math.round(descontoImposto1),
+            mouth2: Math.round(descontoImposto2),
+            mouth3: Math.round(descontoImposto3),
+            mouth4: Math.round(descontoImposto4),
+            mouth5: Math.round(descontoImposto5),
+            mouth6: Math.round(descontoImposto6),
+            mouth7: Math.round(descontoImposto7),
+            mouth8: Math.round(descontoImposto8),
+            mouth9: Math.round(descontoImposto9),
+            mouth10: Math.round(descontoImposto10),
+            mouth11: Math.round(descontoImposto11),
+            mouth12: Math.round(descontoImposto12),
+            count: Math.round(descontoGeral )
+        });
+        return { ...prevState, data };
+      });
 
-    setState(prevState => {
-      const data = [...prevState.data];
-      data.push({
-          description: '(=) Receita Líquida',
-          mouth1: descontoImposto1,
-          mouth2: descontoImposto2,
-          mouth3: descontoImposto3,
-          mouth4: descontoImposto4,
-          mouth5: descontoImposto5,
-          mouth6: descontoImposto6,
-          mouth7: descontoImposto7,
-          mouth8: descontoImposto8,
-          mouth9: descontoImposto9,
-          mouth10: descontoImposto10,
-          mouth11: descontoImposto11,
-          mouth12: descontoImposto12,
-          count: descontoGeral
-      });
-      return { ...prevState, data };
-    });
+    }
+    
 
     
     setShow2(false);
@@ -221,11 +270,10 @@ function DashFinal(props) {
 
 
   function adicionarCanal(){
+
     const valor = contador;
     setContador(valor+2);
     setRenda2(state.data[0].count)
-    //console..log('Contador para a cor: ' + contador);
-
     if(state.data[1]){
       setState(prevState => {
         const data = [...prevState.data];
@@ -326,7 +374,9 @@ return(
       </Modal.Body>
     </Modal>
 
-    {calculado ?   <MaterialTable
+    
+    
+    <MaterialTable
       title="Detalhando os dados da receita bruta"
       columns={state.columns}
       data={state.data}
@@ -376,8 +426,21 @@ return(
       }}
       
       editable={{
-        isEditable: rowData => calculado,// only name(a) rows would be editable
-        isDeletable: rowData => calculado, // only name(a) rows would be deletable
+        isEditable: rowData => {{
+          if(rowData.tableData.id === 0){
+            return false
+          }else{
+            return true
+          }
+        }},// only name(a) rows would be editable
+        isDeletable: rowData => {{
+          if(rowData.tableData.id === 0){
+            return false
+          }else{
+            return true
+          }
+
+        }}, // only name(a) rows would be deletable
         
         onRowUpdate: (newData, oldData) =>
           new Promise(resolve => {
@@ -570,7 +633,9 @@ return(
                   return { ...prevState, data };
                 });
              
-
+                if(!calculado){
+                  calcularImpostos()
+                }
 
               }
             }, 600);
@@ -587,32 +652,7 @@ return(
             }, 600);
           }),
       }}
-    /> :   <MaterialTable
-    title="Orçamento Base Zero"
-    columns={state.columns}
-    data={state.data}
-    icons={{
-      Add: props => (
-        <div>
-        </div>
-      ),
-    }}
-    options={{
-      actionsColumnIndex: -1,
-
-      search: false,
-      paging:false,
-      headerStyle: {
-        backgroundColor: '#6a6af8',
-        color: '#FFF'
-      },
-      rowStyle: rowData => ({
-        backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
-        color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-      }),
-    }}
-  
-  />}
+    />
   
 
 
