@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {Modal, Button} from 'react-bootstrap'
 import MaterialTable from 'material-table';
 import { InputBase } from '@material-ui/core';
@@ -20,10 +20,23 @@ function DashFinal(props) {
     const [calculado, setCalculado] = useState(true)
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+      if (props.tableRef.current.state.lastEditingRow == undefined){
+        setShow(true)
+      }else{
+        alert('Conclua a edição da planilha para dar continuidade')
+      }
+    };
 
     const handleClose2 = () => setShow2(false);
-    const handleShow2 = () => setShow2(true);
+    const handleShow2 = () =>{
+      if (props.tableRef.current.state.lastEditingRow == undefined){
+        setShow2(true)
+      }else{
+        alert('Conclua a edição da planilha para dar continuidade')
+      }
+
+    } 
   
 
   
@@ -82,6 +95,8 @@ function DashFinal(props) {
 
     
       });
+
+   const tableRef = useRef();   
     
 
   useEffect(() => {
@@ -282,7 +297,11 @@ function DashFinal(props) {
 
 
   function adicionarCanal(){
-
+    if(tableRef){
+      console.log(props.tableRef.current.state.lastEditingRow)
+    }else{
+      console.log('ainda não')
+    }
     const valor = contador;
     setContador(valor+2);
     setRenda2(state.data[0].count)
@@ -386,7 +405,7 @@ return(
     
  {calculado ? 
  
- <MaterialTable
+ <MaterialTable tableRef={props.tableRef}
  title="Detalhando os dados da receita bruta"
  columns={state.columns}
  data={state.data}
@@ -672,7 +691,7 @@ return(
  
  : 
  
- <MaterialTable
+ <MaterialTable ref={tableRef}
  title="Detalhando os dados da receita bruta"
  columns={state.columns}
  data={state.data}

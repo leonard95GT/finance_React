@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import './assets/css/style.css'
 import axios from 'axios'
 import Logo from './assets/images/img/financebox-logo.png'
@@ -18,6 +18,7 @@ export default class App extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.tableRef = createRef()
     this.tableData = this.tableData.bind(this);
     this.handleShow2 = this.handleShow2.bind(this);
     this.handleShow3 = this.handleShow3.bind(this);
@@ -312,8 +313,12 @@ export default class App extends Component {
       }
     }
 
+
     componentDidUpdate(prevProps, prevState){  
       //valor de crescimento
+        console.info('Esse é o valor: '+this.tableRef.current.state.lastEditingRow)
+
+
       if (prevState.valor_crescimento !== this.state.valor_crescimento   && 
         this.state.tipo_crescimento == 0) {
         if(this.state.valor_crescimento==0 ){
@@ -670,7 +675,7 @@ export default class App extends Component {
           </nav>
 
 
-  <Tabela info={this.state.tabela} base={this.state.valor_crescimento}/>
+  <Tabela tableRef={this.tableRef} info={this.state.tabela} base={this.state.valor_crescimento}/>
 
   
 
