@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Modal, Button} from 'react-bootstrap'
 import MaterialTable from 'material-table';
+import { InputBase } from '@material-ui/core';
 
 
 function DashFinal(props) {
@@ -28,7 +29,7 @@ function DashFinal(props) {
   
     const [state, setState] = React.useState({
         columns: [
-          { title: '', field: 'description'},
+          { title: '', field: 'description', type: 'text'},
           { title: 'JAN', field: 'mouth1', type: 'numeric'  },
           { title: 'FEV', field: 'mouth2', type: 'numeric' },
           { title: 'MAR', field: 'mouth3', type: 'numeric' },
@@ -110,6 +111,8 @@ function DashFinal(props) {
         return { ...prevState, data2 };
       });
 
+      
+
       }
 
     }
@@ -167,6 +170,15 @@ function DashFinal(props) {
 
     let valorGeral = ((renda2 / 100) * impostos)
     let descontoGeral = renda2 - valorGeral
+
+    
+    if (renda2 == 0){
+     valorGeral = ((renda / 100) * impostos)
+     descontoGeral = renda - valorGeral
+    }else{
+      valorGeral = ((renda2 / 100) * impostos)
+      descontoGeral = renda2 - valorGeral
+     }
     
     if(calculado){
       setState(prevState => {
@@ -341,9 +353,6 @@ return(
     </div>
   </div>
 
-   
-
-
     <Modal show={show} onHide={handleClose}>
       <Modal.Body>
           
@@ -399,6 +408,7 @@ return(
    ),
  }}
  actions={[
+   
    {
      icon: () => calculado ?     
      <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
@@ -416,7 +426,6 @@ return(
    rowStyle: rowData => ({
      backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
      color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-
    }),
    headerStyle: {
      backgroundColor: '#6a6af8',
@@ -429,13 +438,16 @@ return(
  editable={{
    isEditable: rowData => {{
      let pos = state.data.length;
-     if(rowData.tableData.id === 0){   
+     if(rowData.tableData.id === 0){  
+        console.log(rowData.tableData.edittingw)
+      
        return false
      }else{
        return true
      }
   
-   }},// only name(a) rows would be editable
+   }},
+   // only name(a) rows would be editable
    isDeletable: rowData => {{
      if(rowData.tableData.id === 0){
        return false
@@ -443,9 +455,11 @@ return(
        return true
      }
 
-   }}, // only name(a) rows would be deletable
+   }}, 
+   // only name(a) rows would be deletable
    
    onRowUpdate: (newData, oldData) =>
+     
      new Promise(resolve => {
        setTimeout(() => {
          resolve();
@@ -601,7 +615,6 @@ return(
                state.data[0].mouth12 = valor - diff;
              }
 
-
              if(parseInt(newData.mouth9)>parseInt(oldData.mouth9)){
                console.log('add')
                var diff = (parseInt(newData.mouth9) - parseInt(oldData.mouth9))
@@ -727,7 +740,8 @@ return(
                 Salvar
               </Button>
                 </div>   </div>
-              :  ''}
+              :  
+              ''}
 
     <Modal show={show2} onHide={handleClose2}>
         <Modal.Body>
