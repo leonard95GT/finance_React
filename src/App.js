@@ -316,7 +316,7 @@ export default class App extends Component {
 
     componentDidUpdate(prevProps, prevState){  
       //valor de crescimento
-        console.info('Esse é o valor: '+this.tableRef.current.state.lastEditingRow)
+        //console.info('Esse é o valor: '+this.tableRef.current.state.lastEditingRow)
 
 
       if (prevState.valor_crescimento !== this.state.valor_crescimento   && 
