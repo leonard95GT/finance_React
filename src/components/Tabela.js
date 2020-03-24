@@ -21,6 +21,7 @@ function DashFinal(props) {
     //Tela inicial
     const [renda, setRenda] = useState(2000);
     const [contador, setContador] = useState(0);
+    const [contador2, setContador2] = useState(0);
     const [contadorFinal, setContadorFinal] = useState(20);
     const [renda2, setRenda2] = useState(0);
     const [valorInicial, setValorInicial] = useState(1000000000000)
@@ -44,6 +45,11 @@ function DashFinal(props) {
     const [nameCost, setNameCost] = useState('');
     const [typeCost, setTypeCost] = useState(0);
     const [valueCost, setValueCost] = useState(0);
+
+    //Despesas Variáveis
+    const [nameCostVariable, setNameCostVariable] = useState('');
+    const [typeCostVariable, setTypeCostVariable] = useState(0);
+    const [valueCostVariable, setValueCostVariable] = useState(0);
 
     //Modais: só aparecer se a tabela não estiver sendo editada
     const handleClose = () => setShow(false);
@@ -181,6 +187,22 @@ function DashFinal(props) {
         {nameCost:'', typeCost:0, valueCost:0}
       ]
     })
+
+    const [itemsCostVariable, setItemsCostVariable] = useState({
+      items:[
+        {nameCost:'', typeCost:0, valueCost:0}
+      ]
+    })
+
+    const [itemsTax, setItemsTax] = useState({
+      items:[
+        {
+          nameTax:'', 
+          valueTax:0
+        }
+      ]
+    })
+
 
     //Referencia para tabela.
    const tableRef = useRef();   
@@ -333,35 +355,76 @@ function DashFinal(props) {
   }
   
   function calcularImpostos(){
-    const valor = contadorFinal;
-    setContadorFinal(valor);
 
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";  
-    axios.post(proxyurl + 'http://34.70.109.4/tax', {
+    
+    // const valor = contadorFinal;
+    // setContadorFinal(valor);
+
+    // const proxyurl = "https://cors-anywhere.herokuapp.com/";  
+    // axios.post(proxyurl + 'http://34.70.109.4/tax', {
   
-    name: nameTax,
-    value: tax 
+    // name: nameTax,
+    // value: tax 
 
-    },
-    {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*'
-      },
-      proxy: {
-        host: '34.70.109.4',
-        port: 8080
-      }
-      }).then(function (response) {
-        //console..log('response is : ' + response.data);
+    // },
+    // {
+    //   headers: {
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Access-Control-Allow-Headers': '*'
+    //   },
+    //   proxy: {
+    //     host: '34.70.109.4',
+    //     port: 8080
+    //   }
+    //   }).then(function (response) {
+    //     //console..log('response is : ' + response.data);
         
-      }).catch(function (err){
-        //console..log(err)
-      })
+    //   }).catch(function (err){
+    //     //console..log(err)
+    //   })
+
+    const item = itemsTax.items[contador2];
+  
+    item.nameTax = nameTax;
+    item.valueTax = tax;
+  
+    itemsTax.items[contador2] = item;
+    console.log(itemsTax.items[contador2])
+  
+    var valor = 0;
+
+    for(let i = 0; i < itemsTax.items.length; i++){
+      valor = parseInt(valor) + parseInt(itemsTax.items[i].valueTax)
+      console.log('valor geral a: '+valor)
+      const proxyurl = "https://cors-anywhere.herokuapp.com/";  
+      axios.post(proxyurl + 'http://34.70.109.4/tax', {
+    
+      name: itemsTax.items[i].nameTax,
+      value: itemsTax.items[i].valueTax  
+
+      },
+      {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': '*'
+        },
+        proxy: {
+          host: '34.70.109.4',
+          port: 8080
+        }
+        }).then(function (response) {
+          //console..log('response is : ' + response.data);
+          
+        }).catch(function (err){
+          //console..log(err)
+        })
 
 
+    }
 
-    let impostos = parseInt(tax,10);
+    console.log('valor geral: '+valor)
+
+    let impostos = parseInt(valor,10);
 
     let resultadoParaImposto=[];
 
@@ -372,7 +435,6 @@ function DashFinal(props) {
 
     let valorImpostoParcela2 = ((resultadoParaImposto.mouth2 / 100) * impostos)
     let descontoImposto2 = resultadoParaImposto.mouth2 - valorImpostoParcela2
-    //console.log(descontoImposto2)
 
     let valorImpostoParcela3 = ((resultadoParaImposto.mouth3 / 100) * impostos)
     let descontoImposto3 = resultadoParaImposto.mouth3 - valorImpostoParcela3
@@ -415,6 +477,8 @@ function DashFinal(props) {
       valorGeral = ((renda2 / 100) * impostos)
       descontoGeral = renda2 - valorGeral
      }
+
+
     
     if(calculado){
       setState(prevState => {
@@ -437,6 +501,32 @@ function DashFinal(props) {
         });
         return { ...prevState, data };
       });
+
+      for(let i = 0; i < itemsTax.items.length; i++){
+        let valorAnual = (itemsTax.items[i].valueTax * 12)
+        setState(prevState => {
+          const data = [...prevState.data];
+          data.push({
+              description: itemsTax.items[i].nameTax,
+              mouth1: itemsTax.items[i].valueTax,
+              mouth2: itemsTax.items[i].valueTax,
+              mouth3: itemsTax.items[i].valueTax,
+              mouth4: itemsTax.items[i].valueTax,
+              mouth5: itemsTax.items[i].valueTax,
+              mouth6: itemsTax.items[i].valueTax,
+              mouth7: itemsTax.items[i].valueTax,
+              mouth8: itemsTax.items[i].valueTax,
+              mouth9: itemsTax.items[i].valueTax,
+              mouth10: itemsTax.items[i].valueTax,
+              mouth11: itemsTax.items[i].valueTax,
+              mouth12: itemsTax.items[i].valueTax,
+              count: valorAnual
+          });
+          return { ...prevState, data };
+        });
+  
+      }
+  
   
       setState(prevState => {
         const data = [...prevState.data];
@@ -512,6 +602,7 @@ function DashFinal(props) {
 
     
     setShow2(false);
+    setContador2(0)
     setFase(1)
   }
 
@@ -520,33 +611,76 @@ function DashFinal(props) {
  }
 
  function custoVariavel(){
+  const item = itemsCostVariable.items[contador2];
+  const numero = contador2;
+
+  item.nameCost = nameCostVariable;
+  item.typeCost = typeCostVariable;
+  item.valueCost = valueCostVariable;
+
+  itemsCostVariable.items[contador2] = item;
+
+  
   let valorGeral = 0;
-  if(typeCost == 0){
-    valorGeral = (parseInt(valueCost) * 12)
+
+  for(let i = 0; i < itemsCostVariable.items.length; i++){
+    valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
   }
 
- setState(prevState => {
-   const data = [...prevState.data];
-   data.push({
-       description: nameCost,
-       mouth1: valueCost,
-       mouth2: valueCost,
-       mouth3: valueCost,
-       mouth4: valueCost,
-       mouth5: valueCost,
-       mouth6: valueCost,
-       mouth7: valueCost,
-       mouth8: valueCost,
-       mouth9: valueCost,
-       mouth10: valueCost,
-       mouth11: valueCost,
-       mouth12: valueCost,
-       count: valorGeral
-   });
-   return { ...prevState, data };
- });
+  console.log('Soma das despesas '+valorGeral)
+
+  let valorMes = (valorGeral * 12)
+   
+  setState(prevState => {
+    const data = [...prevState.data];
+    data.push({
+        description: 'Custos Variáveis  ',
+        mouth1: valorGeral,
+        mouth2: valorGeral,
+        mouth3: valorGeral,
+        mouth4: valorGeral,
+        mouth5: valorGeral,
+        mouth6: valorGeral,
+        mouth7: valorGeral,
+        mouth8: valorGeral,
+        mouth9: valorGeral,
+        mouth10: valorGeral,
+        mouth11: valorGeral,
+        mouth12: valorGeral,
+        count: valorMes
+    });
+    return { ...prevState, data };
+  });
+
+
+  for(let i = 0; i < itemsCostVariable.items.length; i++){
+    //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
+    let valor = (itemsCostVariable.items[i].valueCost * 12)
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: itemsCostVariable.items[i].nameCost,
+          mouth1: itemsCostVariable.items[i].valueCost,
+          mouth2: itemsCostVariable.items[i].valueCost,
+          mouth3: itemsCostVariable.items[i].valueCost,
+          mouth4: itemsCostVariable.items[i].valueCost,
+          mouth5: itemsCostVariable.items[i].valueCost,
+          mouth6: itemsCostVariable.items[i].valueCost,
+          mouth7: itemsCostVariable.items[i].valueCost,
+          mouth8: itemsCostVariable.items[i].valueCost,
+          mouth9: itemsCostVariable.items[i].valueCost,
+          mouth10: itemsCostVariable.items[i].valueCost,
+          mouth11: itemsCostVariable.items[i].valueCost,
+          mouth12: itemsCostVariable.items[i].valueCost,
+          count: valor
+      });
+      return { ...prevState, data };
+    });
+  
+  }
 
   setFase(3)
+  setContador2(0);
  }
 
  function custoSalario(){
@@ -578,35 +712,93 @@ function DashFinal(props) {
  }
 
  function outrasDespesas(){
-   let valorGeral = 0;
-   if(typeCost == 0){
-     valorGeral = (parseInt(valueCost) * 12)
-   }
+  const item = itemsCost.items[contador2];
+  const numero = contador2;
 
+  item.nameCost = nameCost;
+  item.typeCost = typeCost;
+  item.valueCost = valueCost;
+
+  itemsCost.items[contador2] = item;
+
+  
+  let valorGeral = 0;
+
+  for(let i = 0; i < itemsCost.items.length; i++){
+    valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
+  }
+
+  console.log('Soma das despesas '+valorGeral)
+
+  let valorMes = (valorGeral * 12)
+   
   setState(prevState => {
     const data = [...prevState.data];
     data.push({
-        description: nameCost,
-        mouth1: valueCost,
-        mouth2: valueCost,
-        mouth3: valueCost,
-        mouth4: valueCost,
-        mouth5: valueCost,
-        mouth6: valueCost,
-        mouth7: valueCost,
-        mouth8: valueCost,
-        mouth9: valueCost,
-        mouth10: valueCost,
-        mouth11: valueCost,
-        mouth12: valueCost,
-        count: valorGeral
+        description: 'Outras despesas',
+        mouth1: valorGeral,
+        mouth2: valorGeral,
+        mouth3: valorGeral,
+        mouth4: valorGeral,
+        mouth5: valorGeral,
+        mouth6: valorGeral,
+        mouth7: valorGeral,
+        mouth8: valorGeral,
+        mouth9: valorGeral,
+        mouth10: valorGeral,
+        mouth11: valorGeral,
+        mouth12: valorGeral,
+        count: valorMes
     });
     return { ...prevState, data };
   });
+
+
+  for(let i = 0; i < itemsCost.items.length; i++){
+    //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
+    let valor = (itemsCost.items[i].valueCost * 12)
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: itemsCost.items[i].nameCost,
+          mouth1: itemsCost.items[i].valueCost,
+          mouth2: itemsCost.items[i].valueCost,
+          mouth3: itemsCost.items[i].valueCost,
+          mouth4: itemsCost.items[i].valueCost,
+          mouth5: itemsCost.items[i].valueCost,
+          mouth6: itemsCost.items[i].valueCost,
+          mouth7: itemsCost.items[i].valueCost,
+          mouth8: itemsCost.items[i].valueCost,
+          mouth9: itemsCost.items[i].valueCost,
+          mouth10: itemsCost.items[i].valueCost,
+          mouth11: itemsCost.items[i].valueCost,
+          mouth12: itemsCost.items[i].valueCost,
+          count: valor
+      });
+      return { ...prevState, data };
+    });
+  
+  }
+
   setFase(5)
  }
 
 function addOutrasDespesas(){
+  const item = itemsCost.items[contador2];
+  const numero = contador2;
+
+  item.nameCost = nameCost;
+  item.typeCost = typeCost;
+  item.valueCost = valueCost;
+
+  itemsCost.items[contador2] = item;
+
+  setContador2(numero+1);
+
+  setNameCost('');
+  setTypeCost(0);
+  setValueCost('R$');
+
   setItemsCost(prevItems => ({
     items: [...prevItems.items, {
       nameCost: '',
@@ -616,6 +808,55 @@ function addOutrasDespesas(){
   }))
 }
 
+function addOutrasDespesasVariaveis(){
+  const item = itemsCostVariable.items[contador2];
+  const numero = contador2;
+
+  item.nameCost = nameCostVariable;
+  item.typeCost = typeCostVariable;
+  item.valueCost = valueCostVariable;
+
+  itemsCostVariable.items[contador2] = item;
+
+  setContador2(numero+1);
+
+  setNameCostVariable('');
+  setTypeCostVariable(0);
+  setValueCostVariable('R$');
+
+  setItemsCostVariable(prevItems => ({
+    items: [...prevItems.items, {
+      nameCost: '',
+      typeCost: 0,
+      valueCost: 0
+    }]
+  }))
+}
+
+function addTax(){
+  const item = itemsTax.items[contador2];
+  const numero = contador2;
+
+  item.nameTax = nameTax;
+  item.valueTax = tax;
+
+  itemsTax.items[contador2] = item;
+  console.log(itemsTax.items[contador2])
+
+  setContador2(numero+1);
+  console.log('contador'+contador2)
+
+  setNameTax('');
+  setTax('%');
+
+  setItemsTax(prevItems => ({
+    items: [...prevItems.items, {
+      nameTax: '',
+      valueTax: 0
+    }]
+  }))
+
+}
 
  
  
@@ -1042,25 +1283,39 @@ function addOutrasDespesas(){
             </div>
 
             <div class="container" id="container-central">
-              <div class="row mb-4">
-                <div class="col-6 text-center">
-                  <span class="texto-cinza mr-2">Nome do Imposto:</span>
-                  <input 
-                  onChange={r => setNameTax(r.target.value)}
-                  class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do imposto" type="text" name=""/>
-                </div>
+            {itemsTax.items.map((i, e) => 
+                      <div key={i}>
+                <div class="row mb-4">
+  
+                        <div class="col-6 text-center">
+                          <span class="texto-cinza mr-2">Nome do Imposto:</span>
+                          <input 
+                          onChange={r => setNameTax(r.target.value)}
+                          class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do imposto" type="text" name=""/>
+                        </div>
 
-                <div class="col-6 text-center">
-                  <span class="texto-cinza mr-2">Imposto médio:</span>
-                  <input onChange={e => setTax(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-do-canal" placeholder="Digite a porcentagem" type="number" name=""/>
-                </div>
+                        <div class="col-6 text-center">
+                          <span class="texto-cinza mr-2">Imposto médio:</span>
+                          <input onChange={e => setTax(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-do-canal" placeholder="Digite a porcentagem" type="number" name=""/>
+                        </div>
+                      </div>
+                      </div>
+                    )}
 
-                <a id="save" onClick={calcularImpostos} 
-                  class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
-                  href="#"
-                  role="button">Salvar
-                </a>
-            </div>
+
+                  <a id="save" onClick={addTax} 
+                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
+                    href="#"
+                    role="button">+
+                  </a>
+
+
+                  <a id="save" onClick={calcularImpostos} 
+                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
+                    href="#"
+                    role="button">Salvar
+                  </a>
+              
             </div>
           </Modal.Body>
         </Modal>
@@ -1409,12 +1664,12 @@ function addOutrasDespesas(){
             <h4 class="font-weight-bold" >Adicionar custos variáveis</h4>
           </div>
           <div class="container" id="container-central">
-              {itemsCost.items.map((i, ind) =>
+              {itemsCostVariable.items.map((i, ind) =>
                 <div key={ind}>
                   <div class="row mb-4">
                     <div class="col-4 text-center">
                           <span class="titulo-caixa">Nome da<br/>despesa</span>
-                          <input onChange={w => setNameCost(w.target.value)} 
+                          <input onChange={w => setNameCostVariable(w.target.value)} 
                           class="text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-categoria" 
                           placeholder="Digite o nome da despesa" 
@@ -1424,7 +1679,7 @@ function addOutrasDespesas(){
                       </div>
                       <div class="col-4 text-center">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
-                            <select value={typeCost} onChange={s => setTypeCost(s.target.value)}>
+                            <select value={typeCost} onChange={s => setTypeCostVariable(s.target.value)}>
                                 <option value="0" class="titulo-caixa">Valor da despesa</option>
                                 <option value="1" class="titulo-caixa" >% da despesa</option>
                             </select>
@@ -1434,7 +1689,7 @@ function addOutrasDespesas(){
                       ?
                       <div class="col-4 text-center">
                         <span class="titulo-caixa">Valor<br/>de despesa</span>
-                        <input onChange={e => setValueCost(e.target.value)} 
+                        <input onChange={e => setValueCostVariable(e.target.value)} 
                               class="text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
@@ -1445,7 +1700,7 @@ function addOutrasDespesas(){
                       :
                       <div class="col-4 text-center">
                         <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
-                        <input onChange={e => setValueCost(e.target.value)} 
+                        <input onChange={e => setValueCostVariable(e.target.value)} 
                               class="text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="%" 
@@ -1464,7 +1719,7 @@ function addOutrasDespesas(){
                     class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                     role="button"
                     onClick={
-                      addOutrasDespesas
+                      addOutrasDespesasVariaveis
                       }>Add
                   </a>
 
@@ -1473,7 +1728,7 @@ function addOutrasDespesas(){
                     class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                     role="button"
                     onClick={
-                      outrasDespesas
+                      custoVariavel
                       }>Salvar
                   </a>
              
@@ -2111,7 +2366,8 @@ function addOutrasDespesas(){
                   <div class="row mb-4">
                     <div class="col-4 text-center">
                           <span class="titulo-caixa">Nome da<br/>despesa</span>
-                          <input onChange={w => setNameCost(w.target.value)} 
+                          <input
+                          onChange={s => setNameCost(s.target.value)}
                           class="text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-categoria" 
                           placeholder="Digite o nome da despesa" 
@@ -2156,7 +2412,6 @@ function addOutrasDespesas(){
                 </div>              
               )
               }
-
                   <a id="save"
                     class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                     role="button"
