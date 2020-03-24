@@ -1,33 +1,60 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {Modal, Button} from 'react-bootstrap'
 import MaterialTable from 'material-table';
-import { InputBase } from '@material-ui/core';
+import axios from 'axios'
 
 
 function DashFinal(props) {
+    const [fase, setFase] = useState(0);
+
+    //Modais
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
+    const [showProduto, setShowProduto] = useState(false);
+    const [showVariavel, setShowVariavel] = useState(false);
+    const [showSalario, setShowSalario] = useState(false);
+    const [showDespesas, setShowDespesas] = useState(false);
 
     const [tabela, setTabela] = useState('');
     const [description, setDescription] = useState('');
-    const [tax, setTax] = useState(0);
+
+    //Tela inicial
     const [renda, setRenda] = useState(2000);
     const [contador, setContador] = useState(0);
-    const [contadorLinhaImposto, setContadorLinhaImposto] = useState(0)
     const [contadorFinal, setContadorFinal] = useState(20);
     const [renda2, setRenda2] = useState(0);
     const [valorInicial, setValorInicial] = useState(1000000000000)
     const [calculado, setCalculado] = useState(true)
 
+    //Cadastro das categorias de produtos
+    const [nameCategoria, setNameCategoria] = useState('');
+    const [tipoCusto, setTipoCusto] = useState(0);
+    const [tipoVenda, setTipoVenda] = useState(0);
+    const [valorVenda, setValorVenda] = useState(0);
+    const [quantVenda, setQuantVenda] = useState(0);
+
+    //Impostos
+    const [tax, setTax] = useState(0);
+    const [nameTax, setNameTax] = useState('');
+
+    //Salários
+    const [salary, setSalary] = useState(0);
+    
+    //Outras Despesas
+    const [nameCost, setNameCost] = useState('');
+    const [typeCost, setTypeCost] = useState(0);
+    const [valueCost, setValueCost] = useState(0);
+
+    //Modais: só aparecer se a tabela não estiver sendo editada
     const handleClose = () => setShow(false);
     const handleShow = () => {
       if (props.tableRef.current.state.lastEditingRow == undefined){
-        setShow(true)
+        setShow(true);
+        setControladorCategoria(true);
       }else{
         alert('Conclua a edição da planilha para dar continuidade')
       }
     };
-
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () =>{
       if (props.tableRef.current.state.lastEditingRow == undefined){
@@ -36,10 +63,55 @@ function DashFinal(props) {
         alert('Conclua a edição da planilha para dar continuidade')
       }
 
-    } 
+    }; 
   
+    const handleCloseProduto = () => setShowProduto(false);
+    const handleShowProduto = () =>{
+      if (props.tableRef.current.state.lastEditingRow == undefined){
+        setShowProduto(true)
+      }else{
+        alert('Conclua a edição da planilha para dar continuidade')
+      }
 
-  
+    }; 
+
+    const handleCloseVariavel = () => setShowVariavel(false);
+    const handleShowVariavel = () =>{
+      if (props.tableRef.current.state.lastEditingRow == undefined){
+        setShowVariavel(true)
+      }else{
+        alert('Conclua a edição da planilha para dar continuidade')
+      }
+
+    }; 
+
+    const handleCloseSalario = () => setShowSalario(false);
+    const handleShowSalario = () =>{
+      if (props.tableRef.current.state.lastEditingRow == undefined){
+        setShowSalario(true)
+      }else{
+        alert('Conclua a edição da planilha para dar continuidade')
+      }
+
+    }; 
+
+
+    const handleCloseDespesas = () => setShowDespesas(false);
+    const handleShowDespesas = () =>{
+      if (props.tableRef.current.state.lastEditingRow == undefined){
+        setShowDespesas(true)
+      }else{
+        alert('Conclua a edição da planilha para dar continuidade')
+      }
+
+    }; 
+
+
+    //Set controlador para telas de categoria de produto.
+    const [controlCategoria, setControladorCategoria] = useState(true)
+
+
+    //Dados da tabela, initial state.
     const [state, setState] = React.useState({
         columns: [
           { title: '', field: 'description', type: 'text'},
@@ -94,15 +166,32 @@ function DashFinal(props) {
         }],
 
     
-      });
+    });
 
+
+    //Dados de todas as categorias inclusas no sistema
+    const [produto, setProduto] = useState({
+      it:[
+        
+      ]
+    })
+
+    const [itemsCost, setItemsCost] = useState({
+      items:[
+        {nameCost:'', typeCost:0, valueCost:0}
+      ]
+    })
+
+    //Referencia para tabela.
    const tableRef = useRef();   
     
 
+  //Atualização via useEffect, qualquer mudança de state ocasiona efeito aqui.
   useEffect(() => {
     
     setTabela(props.info); 
     setRenda(props.base);
+    console.log(tipoCusto)
 
     //console..log(props.info.mouth1)
     if(props.info.mouth1 == 0){
@@ -134,10 +223,142 @@ function DashFinal(props) {
 
   });
 
+
+  //Chama a tela de categoria
+  function categoriaProd(){
+    setControladorCategoria(false);
+  }
+
+   //Volta para a tela de Canal de distribuição, com a categoria já vinculada
+   function distribuicao(){
+    setProduto(prevProduto => ({
+      it: [...prevProduto.it, {
+        name: nameCategoria,
+        type_cost: tipoCusto,
+        type_sale: tipoVenda,
+        value_sale: valorVenda,
+        quantity_items: quantVenda
+      }]
+    
+    }));
+  
+  setControladorCategoria(true);
+  }
+
+  function adicionarCanal(){
+    //Insert into database
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";  
+    axios.post(proxyurl + 'http://34.70.109.4/distribution', {
+      
+      channelName: description,
+      categoryProduct: 'categoria',
+      salesQt: 2,
+      salesPrice: 2,
+      costType: 1,
+      projection_id: 1,
+      cpv_feedstock: 2,
+      cpv_indirect_cost: 2,
+      cpv_labor: 2,
+      total_cost: 300,
+      
+    },
+    {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*'
+      },
+      proxy: {
+        host: '34.70.109.4',
+        port: 8080
+      }
+      }).then(function (response) {
+        //console..log('response is : ' + response.data);
+        
+      }).catch(function (err){
+        //console..log(err)
+      })
+
+
+    const valor = contador;
+    setContador(valor+2);
+    setRenda2(state.data[0].count)
+    if(state.data[1]){
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: description,
+            mouth1: 0,
+            mouth2: 0,
+            mouth3: 0,
+            mouth4: 0,
+            mouth5: 0,
+            mouth6: 0,
+            mouth7: 0,
+            mouth8: 0,
+            mouth9: 0,
+            mouth10: 0,
+            mouth11: 0,
+            mouth12: 0,
+            count: 0
+  
+        });
+        return { ...prevState, data };
+      });
+      }else{
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: description,
+            mouth1: state.data[0].mouth1,
+            mouth2: state.data[0].mouth2,
+            mouth3: state.data[0].mouth3,
+            mouth4: state.data[0].mouth4,
+            mouth5: state.data[0].mouth5,
+            mouth6: state.data[0].mouth6,
+            mouth7: state.data[0].mouth7,
+            mouth8: state.data[0].mouth8,
+            mouth9: state.data[0].mouth9,
+            mouth10: state.data[0].mouth10,
+            mouth11: state.data[0].mouth11,
+            mouth12: state.data[0].mouth12,
+            count: renda
+  
+        });
+        return { ...prevState, data };
+      });
+      }
+
+
+    setShow(false)
+  }
   
   function calcularImpostos(){
     const valor = contadorFinal;
     setContadorFinal(valor);
+
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";  
+    axios.post(proxyurl + 'http://34.70.109.4/tax', {
+  
+    name: nameTax,
+    value: tax 
+
+    },
+    {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*'
+      },
+      proxy: {
+        host: '34.70.109.4',
+        port: 8080
+      }
+      }).then(function (response) {
+        //console..log('response is : ' + response.data);
+        
+      }).catch(function (err){
+        //console..log(err)
+      })
+
 
 
     let impostos = parseInt(tax,10);
@@ -291,504 +512,1996 @@ function DashFinal(props) {
 
     
     setShow2(false);
-    setCalculado(false)
+    setFase(1)
   }
 
-
-
-  function adicionarCanal(){
-    if(tableRef){
-      console.log(props.tableRef.current.state.lastEditingRow)
-    }else{
-      console.log('ainda não')
-    }
-    const valor = contador;
-    setContador(valor+2);
-    setRenda2(state.data[0].count)
-    if(state.data[1]){
-      setState(prevState => {
-        const data = [...prevState.data];
-        data.push({
-            description: description,
-            mouth1: 0,
-            mouth2: 0,
-            mouth3: 0,
-            mouth4: 0,
-            mouth5: 0,
-            mouth6: 0,
-            mouth7: 0,
-            mouth8: 0,
-            mouth9: 0,
-            mouth10: 0,
-            mouth11: 0,
-            mouth12: 0,
-            count: 0
-  
-        });
-        return { ...prevState, data };
-      });
-      }else{
-      setState(prevState => {
-        const data = [...prevState.data];
-        data.push({
-            description: description,
-            mouth1: state.data[0].mouth1,
-            mouth2: state.data[0].mouth2,
-            mouth3: state.data[0].mouth3,
-            mouth4: state.data[0].mouth4,
-            mouth5: state.data[0].mouth5,
-            mouth6: state.data[0].mouth6,
-            mouth7: state.data[0].mouth7,
-            mouth8: state.data[0].mouth8,
-            mouth9: state.data[0].mouth9,
-            mouth10: state.data[0].mouth10,
-            mouth11: state.data[0].mouth11,
-            mouth12: state.data[0].mouth12,
-            count: renda
-  
-        });
-        return { ...prevState, data };
-      });
-      }
-
-
-    setShow(false)
-  }
-
-
-
-return(
-    <div id="tabela">
-
-<div id="contentA" class="row container-fluid">
-    <div class="col-6 d-sm-flex align-items-right justify-content-between mb-4">
-      
-    {calculado ?     
-   <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
-      (+) Adicionar Canal
-    </Button>
- : ''}
-
-    </div>
-  </div>
-
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Body>
-          
-      <div class="text-center text-muted">
-          <h4 class="font-weight-bold" >Adicionar canal de distribuição</h4>
-        </div>
-
-        <div class="container" id="container-central">
-
-        <div class="row mb-4">
-
-        <div class="col-12 text-center">
-
-        <span class="texto-cinza mr-2">Canal de distribuição:</span>
-        <input onChange={e => setDescription(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do canal" type="text" name=""/>
-        </div>
-
-        <a id="save"
-           class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
-           role="button"
-           onClick={adicionarCanal}>Salvar</a>
-
-
-        </div>
-
-        </div>
-
-      </Modal.Body>
-    </Modal>
-
-    
- {calculado ? 
- 
- <MaterialTable tableRef={props.tableRef}
- title="Detalhando os dados da receita bruta"
- columns={state.columns}
- data={state.data}
- localization={{
-   body:{
-    
-   }
- }}
- icons={{
-   add: props => (
-     <div>
-        {calculado ?     
-<Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
- (+) Adicionar Canal
-</Button>
-: ''}
-
-     </div>
-   ),
- }}
- actions={[
-   
-   {
-     icon: () => calculado ?     
-     <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
-        (+) Adicionar Canal
-      </Button>
-   : '',
-     isFreeAction: true,
-     onClick: (event) => handleShow()
-   }
- ]}
- options={{
-   actionsColumnIndex: -1,
-   search: false,
-   paging:false,
-   rowStyle: rowData => ({
-     backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
-     color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-   }),
-   headerStyle: {
-     backgroundColor: '#6a6af8',
-     color: '#FFF',
-     fontSize: 12,
-     paddingLeft:1
-   }
- }}
- 
- editable={{
-   isEditable: rowData => {{
-     let pos = state.data.length;
-     if(rowData.tableData.id === 0){  
-        console.log(rowData.tableData.edittingw)
-      
-       return false
-     }else{
-       return true
-     }
-  
-   }},
-   // only name(a) rows would be editable
-   isDeletable: rowData => {{
-     if(rowData.tableData.id === 0){
-       return false
-     }else{
-       return true
-     }
-
-   }}, 
-   // only name(a) rows would be deletable
-   
-   onRowUpdate: (newData, oldData) =>
-     
-     new Promise(resolve => {
-       setTimeout(() => {
-         resolve();
-         if (oldData) {
-           if(oldData == state.data[1]){
-             //Aqui deve ocorrer o ajuste do campo um para o campo de renda bruta.
-           }
-           newData.count = (parseInt(newData.mouth1)
-                           +parseInt(newData.mouth2)
-                           +parseInt(newData.mouth3)
-                           +parseInt(newData.mouth4)
-                           +parseInt(newData.mouth5)
-                           +parseInt(newData.mouth6)
-                           +parseInt(newData.mouth7)
-                           +parseInt(newData.mouth8)
-                           +parseInt(newData.mouth9)
-                           +parseInt(newData.mouth10)
-                           +parseInt(newData.mouth11)
-                           +parseInt(newData.mouth12));
-
-             if(parseInt(newData.mouth1)>parseInt(oldData.mouth1)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth1) - parseInt(oldData.mouth1))
-               console.log(diff)
-               var valor = parseInt(state.data[0].mouth1);
-               state.data[0].mouth1 = valor + diff;
-               console.log('valor depois: '+ state.data[0].mouth1)
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth1) - parseInt(newData.mouth1))
-               console.log(diff)
-               var valor = parseInt(state.data[0].mouth1);
-               state.data[0].mouth1 = valor - diff;
-             }
-
-             if(parseInt(newData.mout2)>parseInt(oldData.mouth2)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth2) - parseInt(oldData.mouth2))
-               var valor = parseInt(state.data[0].mouth2);
-               state.data[0].mouth2 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth2) - parseInt(newData.mouth2))
-               var valor = parseInt(state.data[0].mouth2);
-               state.data[0].mouth2 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth3)>parseInt(oldData.mouth3)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth3) - parseInt(oldData.mouth3))
-               var valor = parseInt(state.data[0].mouth3);
-               state.data[0].mouth3 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth3) - parseInt(newData.mouth3))
-               var valor = parseInt(state.data[0].mouth3);
-               state.data[0].mouth3 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth4)>parseInt(oldData.mouth4)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth4) - parseInt(oldData.mouth4))
-               var valor = parseInt(state.data[0].mouth4);
-               state.data[0].mouth4 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth4) - parseInt(newData.mouth4))
-               var valor = parseInt(state.data[0].mouth4);
-               state.data[0].mouth4 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth5)>parseInt(oldData.mouth5)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth5) - parseInt(oldData.mouth5))
-               var valor = parseInt(state.data[0].mouth5);
-               state.data[0].mouth5 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth5) - parseInt(newData.mouth5))
-               var valor = parseInt(state.data[0].mouth5);
-               state.data[0].mouth5 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth6)>parseInt(oldData.mouth6)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth6) - parseInt(oldData.mouth6))
-               var valor = parseInt(state.data[0].mouth6);
-               state.data[0].mouth6 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth6) - parseInt(newData.mouth6))
-               var valor = parseInt(state.data[0].mouth6);
-               state.data[0].mouth6 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth7)>parseInt(oldData.mouth7)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth7) - parseInt(oldData.mouth7))
-               var valor = parseInt(state.data[0].mouth7);
-               state.data[0].mouth7 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth7) - parseInt(newData.mouth7))
-               var valor = parseInt(state.data[0].mouth7);
-               state.data[0].mouth7 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth8)>parseInt(oldData.mouth8)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth8) - parseInt(oldData.mouth8))
-               var valor = parseInt(state.data[0].mouth8);
-               state.data[0].mouth8 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth8) - parseInt(newData.mouth8))
-               var valor = parseInt(state.data[0].mouth8);
-               state.data[0].mouth8 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth10)>parseInt(oldData.mouth10)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth10) - parseInt(oldData.mouth10))
-               var valor = parseInt(state.data[0].mouth10);
-               state.data[0].mouth10 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth10) - parseInt(newData.mouth10))
-               var valor = parseInt(state.data[0].mouth10);
-               state.data[0].mouth10 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth11)>parseInt(oldData.mouth11)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth11) - parseInt(oldData.mouth11))
-               var valor = parseInt(state.data[0].mouth11);
-               state.data[0].mouth11 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth11) - parseInt(newData.mouth11))
-               var valor = parseInt(state.data[0].mouth11);
-               state.data[0].mouth11 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth12)>parseInt(oldData.mouth12)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth12) - parseInt(oldData.mouth12))
-               var valor = parseInt(state.data[0].mouth12);
-               state.data[0].mouth12 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth12) - parseInt(newData.mouth12))
-               var valor = parseInt(state.data[0].mouth12);
-               state.data[0].mouth12 = valor - diff;
-             }
-
-             if(parseInt(newData.mouth9)>parseInt(oldData.mouth9)){
-               console.log('add')
-               var diff = (parseInt(newData.mouth9) - parseInt(oldData.mouth9))
-               var valor = parseInt(state.data[0].mouth9);
-               state.data[0].mouth9 = valor + diff;
-             }else{
-               console.log('remove')
-               var diff = (parseInt(oldData.mouth9) - parseInt(newData.mouth9))
-               var valor = parseInt(state.data[0].mouth9);
-               state.data[0].mouth9 = valor - diff;
-             }
-
-             state.data[0].count =  
-             (parseInt(state.data[0].mouth1)
-             +parseInt(state.data[0].mouth2)
-             +parseInt(state.data[0].mouth3)
-             +parseInt(state.data[0].mouth4)
-             +parseInt(state.data[0].mouth5)
-             +parseInt(state.data[0].mouth6)
-             +parseInt(state.data[0].mouth7)
-             +parseInt(state.data[0].mouth8)
-             +parseInt(state.data[0].mouth9)
-             +parseInt(state.data[0].mouth10)
-             +parseInt(state.data[0].mouth11)
-             +parseInt(state.data[0].mouth12));
-
-             setRenda2(state.data[0].count)
-           
-           setState(prevState => {
-             const data = [...prevState.data];
-             data[data.indexOf(oldData)] = newData;
-             return { ...prevState, data };
-           });
-        
-           if(!calculado){
-             calcularImpostos()
-           }
-
-         }
-       }, 600);
-     }),
-   onRowDelete: oldData =>
-     new Promise(resolve => {
-       setTimeout(() => {
-         resolve();
-         setState(prevState => {
-           const data = [...prevState.data];
-           data.splice(data.indexOf(oldData), 1);
-           return { ...prevState, data };
-         });
-       }, 600);
-     }),
- }}
-/>
- 
- : 
- 
- <MaterialTable ref={tableRef}
- title="Detalhando os dados da receita bruta"
- columns={state.columns}
- data={state.data}
- localization={{
-   body:{
-    
-   }
- }}
- icons={{
-   add: props => (
-     <div>
-        {calculado ?     
-          <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
-            (+) Adicionar Canal
-          </Button>
-          :   
-          ''}
-     </div>
-   ),
- }}
- actions={[
-   {
-     icon: () => calculado ?     
-     <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
-        (+) Adicionar Canal
-      </Button>
-   : '',
-     isFreeAction: true,
-     onClick: (event) => handleShow()
-   },
- 
-   
- ]}
- options={{
-   actionsColumnIndex: -1,
-   search: false,
-   paging:false,
-   rowStyle: rowData => ({
-     backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
-     color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-
-   }),
-   headerStyle: {
-     backgroundColor: '#6a6af8',
-     color: '#FFF',
-     fontSize: 12,
-     paddingLeft:1
-   }
- }}
- 
- 
-/>
-
+ function custoProduto(){
+  setFase(2)
  }
-  
+
+ function custoVariavel(){
+  let valorGeral = 0;
+  if(typeCost == 0){
+    valorGeral = (parseInt(valueCost) * 12)
+  }
+
+ setState(prevState => {
+   const data = [...prevState.data];
+   data.push({
+       description: nameCost,
+       mouth1: valueCost,
+       mouth2: valueCost,
+       mouth3: valueCost,
+       mouth4: valueCost,
+       mouth5: valueCost,
+       mouth6: valueCost,
+       mouth7: valueCost,
+       mouth8: valueCost,
+       mouth9: valueCost,
+       mouth10: valueCost,
+       mouth11: valueCost,
+       mouth12: valueCost,
+       count: valorGeral
+   });
+   return { ...prevState, data };
+ });
+
+  setFase(3)
+ }
+
+ function custoSalario(){
+  let valorSalarioGeral = (parseInt(salary) * 12)
+
+  setState(prevState => {
+    const data = [...prevState.data];
+    data.push({
+        description: 'Salarios',
+        mouth1: salary,
+        mouth2: salary,
+        mouth3: salary,
+        mouth4: salary,
+        mouth5: salary,
+        mouth6: salary,
+        mouth7: salary,
+        mouth8: salary,
+        mouth9: salary,
+        mouth10: salary,
+        mouth11: salary,
+        mouth12: salary,
+        count: valorSalarioGeral
+    });
+    return { ...prevState, data };
+  });
 
 
-<div class="card-body">
+  setFase(4)
+ }
 
-      {calculado 
-              ? 
-              <div class="row justify-content-center">
-              <div class="col-2">
-              <Button id="btn_save" variant="primary" onClick={handleShow2}>
-                Salvar
-              </Button>
-                </div>   </div>
-              :  
-              ''}
+ function outrasDespesas(){
+   let valorGeral = 0;
+   if(typeCost == 0){
+     valorGeral = (parseInt(valueCost) * 12)
+   }
 
-    <Modal show={show2} onHide={handleClose2}>
-        <Modal.Body>
-          <div class="text-center text-muted">
-            <h4 class="font-weight-bold" >Adicionar imposto médio</h4>
-          </div>
+  setState(prevState => {
+    const data = [...prevState.data];
+    data.push({
+        description: nameCost,
+        mouth1: valueCost,
+        mouth2: valueCost,
+        mouth3: valueCost,
+        mouth4: valueCost,
+        mouth5: valueCost,
+        mouth6: valueCost,
+        mouth7: valueCost,
+        mouth8: valueCost,
+        mouth9: valueCost,
+        mouth10: valueCost,
+        mouth11: valueCost,
+        mouth12: valueCost,
+        count: valorGeral
+    });
+    return { ...prevState, data };
+  });
+  setFase(5)
+ }
 
-          <div class="container" id="container-central">
-            <div class="row mb-4">
-              <div class="col-12 text-center">
-                <span class="texto-cinza mr-2">Imposto médio:</span>
-                <input onChange={e => setTax(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite a porcentagem" type="number" name=""/>
+function addOutrasDespesas(){
+  setItemsCost(prevItems => ({
+    items: [...prevItems.items, {
+      nameCost: '',
+      typeCost: 0,
+      valueCost: 0
+    }]
+  }))
+}
+
+
+ 
+ 
+
+  if(fase===0){
+      //adição de canais e impostos (início do base zero)
+    return(
+      <div id="tabela">
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Body>  
+
+              {controlCategoria 
+              ?
+              <>
+              <div class="text-center text-muted">
+                <h4 class="font-weight-bold" >Adicionar canal de distribuição</h4>
               </div>
-           
-              <a id="save" onClick={calcularImpostos} 
-                 class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
-                 href="#"
-                 role="button">Salvar
-              </a>
+                <div class="container" id="container-central">
+                  <div class="row mb-4">
+                      <div class="col-12 text-center">
+                        <span class="texto-cinza mr-2">Canal de distribuição:</span>
+                          <input onChange={e => setDescription(e.target.value)} 
+                          class="text-dark texto-cinza px-5 py-2 rounded" 
+                          id="nome-canal" 
+                          placeholder="Digite o nome do canal" 
+                          type="text" 
+                          name="canal"
+                          />
+                      </div>
+
+                      <div class="col-12 text-center">
+                      {produto.it.map((p)=>(
+                        <p>{p.name}</p>
+                        
+                      ))}
+                      </div>
+                      <a id="save"
+                        class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                        role="button"
+                        onClick={categoriaProd}>Incluir categoria de produtos
+                      </a>
+
+                      <a id="save"
+                        class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                        role="button"
+                        onClick={adicionarCanal}>Salvar
+                      </a>
+                  </div>
+              </div>
+              </>
+              :
+              <>
+              <div class="text-center text-muted">
+                <h4 class="font-weight-bold" >Adicionar categoria de produto</h4>
+              </div>
+                <div class="container" id="container-central">
+                  <div class="row mb-6">
+                  <div class="col-6 text-center">
+                          <span class="titulo-caixa">Nome da<br/>categoria<br/>do produto</span>
+                          <input onChange={w => setNameCategoria(w.target.value)} 
+                          class="text-dark texto-cinza px-5 py-2 rounded" 
+                          id="nome-categoria" 
+                          placeholder="Digite o nome da categoria" 
+                          type="text" 
+                          name="categoria"
+                          />
+                      </div>
+                      <div class="col-6 text-center">
+                        <span class="titulo-caixa">Tipo de<br/>custo</span>
+                            <select value={tipoCusto} onChange={s => setTipoCusto(s.target.value)}>
+                                <option value="0" class="titulo-caixa">CPV</option>
+                                <option value="1" class="titulo-caixa" >CMM</option>
+                                <option value="2" class="titulo-caixa" >CSV</option>
+                            </select>
+                      </div>
+
+                      <div class="col-6 text-center">
+                        <span class="titulo-caixa">Tipo de<br/>valor de venda</span>
+                            <select value={tipoVenda} onChange={s => setTipoVenda(s.target.value)}>
+                                <option value="0" class="titulo-caixa">Valor Total</option>
+                                <option value="1" class="titulo-caixa" >Valor Unitário</option>
+                            </select>
+                      </div>
+                      <div class="col-6 text-center">
+                          <span class="titulo-caixa">Valor total<br/>de venda</span>
+                          <input onChange={e => setValorVenda(e.target.value)} 
+                          class="text-dark texto-cinza px-5 py-2 rounded" 
+                          id="nome-canal" 
+                          placeholder="R$" 
+                          type="text" 
+                          name=""
+                          />
+                      </div>
+
+                      {tipoVenda 
+                      ?
+                      <div class="col-6 text-center">
+                          <span class="titulo-caixa">Quantidade</span>
+                          <input onChange={e => setValorVenda(e.target.value)} 
+                          class="text-dark texto-cinza px-5 py-2 rounded" 
+                          id="nome-canal" 
+                          placeholder="R$" 
+                          type="text" 
+                          name=""
+                          />
+                      </div>
+                      :
+                      ''}
+
+                      <a id="save"
+                        class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                        role="button"
+                        onClick={
+                          distribuicao
+                          }>Salvar
+                      </a>
+                  </div>
+              </div>
+              </>}
+            
+            </Modal.Body>
+          </Modal>
+  
+        <MaterialTable tableRef={props.tableRef}
+            title="Detalhando os dados da receita bruta"
+            columns={state.columns}
+            data={state.data}
+            localization={{
+              body:{
+                
+              }
+            }}
+            icons={{
+              add: props => (
+                <div>
+                    {calculado ?     
+                      <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
+                      (+) Adicionar Canal
+                      </Button>
+                      : ''}
+                </div>
+              ),
+            }}
+            actions={[
+              
+              {
+                icon: () => calculado ?     
+                <Button id="btn_add_Canal" variant="primary" onClick={handleShow}>
+                    (+) Adicionar Canal
+                  </Button>
+              : '',
+                isFreeAction: true,
+                onClick: (event) => handleShow()
+              }
+            ]}
+            options={{
+              actionsColumnIndex: -1,
+              search: false,
+              paging:false,
+              rowStyle: rowData => ({
+                backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
+                color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
+              }),
+              headerStyle: {
+                backgroundColor: '#6a6af8',
+                color: '#FFF',
+                fontSize: 12,
+                paddingLeft:1
+              }
+            }}
+            
+            editable={{
+              isEditable: rowData => {{
+                let pos = state.data.length;
+                if(rowData.tableData.id === 0){  
+                    console.log(rowData.tableData.edittingw)       
+                  return false
+                }else{
+                  return true
+                }
+              
+              }},
+              // only name(a) rows would be editable
+              isDeletable: rowData => {{
+                if(rowData.tableData.id === 0){
+                  return false
+                }else{
+                  return true
+                }
+
+              }}, 
+              // only name(a) rows would be deletable
+              
+              onRowUpdate: (newData, oldData) =>
+                
+                new Promise(resolve => {
+                  setTimeout(() => {
+                    resolve();
+                    if (oldData) {
+                      if(oldData == state.data[1]){
+                        //Aqui deve ocorrer o ajuste do campo um para o campo de renda bruta.
+                      }
+                      newData.count = (parseInt(newData.mouth1)
+                                      +parseInt(newData.mouth2)
+                                      +parseInt(newData.mouth3)
+                                      +parseInt(newData.mouth4)
+                                      +parseInt(newData.mouth5)
+                                      +parseInt(newData.mouth6)
+                                      +parseInt(newData.mouth7)
+                                      +parseInt(newData.mouth8)
+                                      +parseInt(newData.mouth9)
+                                      +parseInt(newData.mouth10)
+                                      +parseInt(newData.mouth11)
+                                      +parseInt(newData.mouth12));
+
+                        if(parseInt(newData.mouth1)>parseInt(oldData.mouth1)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth1) - parseInt(oldData.mouth1))
+                          console.log(diff)
+                          var valor = parseInt(state.data[0].mouth1);
+                          state.data[0].mouth1 = valor + diff;
+                          console.log('valor depois: '+ state.data[0].mouth1)
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth1) - parseInt(newData.mouth1))
+                          console.log(diff)
+                          var valor = parseInt(state.data[0].mouth1);
+                          state.data[0].mouth1 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mout2)>parseInt(oldData.mouth2)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth2) - parseInt(oldData.mouth2))
+                          var valor = parseInt(state.data[0].mouth2);
+                          state.data[0].mouth2 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth2) - parseInt(newData.mouth2))
+                          var valor = parseInt(state.data[0].mouth2);
+                          state.data[0].mouth2 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth3)>parseInt(oldData.mouth3)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth3) - parseInt(oldData.mouth3))
+                          var valor = parseInt(state.data[0].mouth3);
+                          state.data[0].mouth3 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth3) - parseInt(newData.mouth3))
+                          var valor = parseInt(state.data[0].mouth3);
+                          state.data[0].mouth3 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth4)>parseInt(oldData.mouth4)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth4) - parseInt(oldData.mouth4))
+                          var valor = parseInt(state.data[0].mouth4);
+                          state.data[0].mouth4 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth4) - parseInt(newData.mouth4))
+                          var valor = parseInt(state.data[0].mouth4);
+                          state.data[0].mouth4 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth5)>parseInt(oldData.mouth5)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth5) - parseInt(oldData.mouth5))
+                          var valor = parseInt(state.data[0].mouth5);
+                          state.data[0].mouth5 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth5) - parseInt(newData.mouth5))
+                          var valor = parseInt(state.data[0].mouth5);
+                          state.data[0].mouth5 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth6)>parseInt(oldData.mouth6)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth6) - parseInt(oldData.mouth6))
+                          var valor = parseInt(state.data[0].mouth6);
+                          state.data[0].mouth6 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth6) - parseInt(newData.mouth6))
+                          var valor = parseInt(state.data[0].mouth6);
+                          state.data[0].mouth6 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth7)>parseInt(oldData.mouth7)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth7) - parseInt(oldData.mouth7))
+                          var valor = parseInt(state.data[0].mouth7);
+                          state.data[0].mouth7 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth7) - parseInt(newData.mouth7))
+                          var valor = parseInt(state.data[0].mouth7);
+                          state.data[0].mouth7 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth8)>parseInt(oldData.mouth8)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth8) - parseInt(oldData.mouth8))
+                          var valor = parseInt(state.data[0].mouth8);
+                          state.data[0].mouth8 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth8) - parseInt(newData.mouth8))
+                          var valor = parseInt(state.data[0].mouth8);
+                          state.data[0].mouth8 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth10)>parseInt(oldData.mouth10)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth10) - parseInt(oldData.mouth10))
+                          var valor = parseInt(state.data[0].mouth10);
+                          state.data[0].mouth10 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth10) - parseInt(newData.mouth10))
+                          var valor = parseInt(state.data[0].mouth10);
+                          state.data[0].mouth10 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth11)>parseInt(oldData.mouth11)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth11) - parseInt(oldData.mouth11))
+                          var valor = parseInt(state.data[0].mouth11);
+                          state.data[0].mouth11 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth11) - parseInt(newData.mouth11))
+                          var valor = parseInt(state.data[0].mouth11);
+                          state.data[0].mouth11 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth12)>parseInt(oldData.mouth12)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth12) - parseInt(oldData.mouth12))
+                          var valor = parseInt(state.data[0].mouth12);
+                          state.data[0].mouth12 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth12) - parseInt(newData.mouth12))
+                          var valor = parseInt(state.data[0].mouth12);
+                          state.data[0].mouth12 = valor - diff;
+                        }
+
+                        if(parseInt(newData.mouth9)>parseInt(oldData.mouth9)){
+                          console.log('add')
+                          var diff = (parseInt(newData.mouth9) - parseInt(oldData.mouth9))
+                          var valor = parseInt(state.data[0].mouth9);
+                          state.data[0].mouth9 = valor + diff;
+                        }else{
+                          console.log('remove')
+                          var diff = (parseInt(oldData.mouth9) - parseInt(newData.mouth9))
+                          var valor = parseInt(state.data[0].mouth9);
+                          state.data[0].mouth9 = valor - diff;
+                        }
+
+                        state.data[0].count =  
+                        (parseInt(state.data[0].mouth1)
+                        +parseInt(state.data[0].mouth2)
+                        +parseInt(state.data[0].mouth3)
+                        +parseInt(state.data[0].mouth4)
+                        +parseInt(state.data[0].mouth5)
+                        +parseInt(state.data[0].mouth6)
+                        +parseInt(state.data[0].mouth7)
+                        +parseInt(state.data[0].mouth8)
+                        +parseInt(state.data[0].mouth9)
+                        +parseInt(state.data[0].mouth10)
+                        +parseInt(state.data[0].mouth11)
+                        +parseInt(state.data[0].mouth12));
+
+                        setRenda2(state.data[0].count)
+                      
+                      setState(prevState => {
+                        const data = [...prevState.data];
+                        data[data.indexOf(oldData)] = newData;
+                        return { ...prevState, data };
+                      });
+                    
+                      if(!calculado){
+                        calcularImpostos()
+                      }
+
+                    }
+                  }, 600);
+                }),
+              onRowDelete: oldData =>
+                new Promise(resolve => {
+                  setTimeout(() => {
+                    resolve();
+                    setState(prevState => {
+                      const data = [...prevState.data];
+                      data.splice(data.indexOf(oldData), 1);
+                      return { ...prevState, data };
+                    });
+                  }, 600);
+                }),
+            }}
+        />
+
+      <div class="card-body">
+
+        {calculado 
+        ? 
+        <div class="row justify-content-center">
+        <div class="col-2">
+        <Button id="btn_save" variant="primary" onClick={handleShow2}>
+          Salvar
+        </Button>
+          </div>   </div>
+        :  
+        ''
+        }
+
+        <Modal show={show2} onHide={handleClose2}>
+          <Modal.Body>
+            <div class="text-center text-muted">
+              <h4 class="font-weight-bold" >Adicionar imposto médio</h4>
+            </div>
+
+            <div class="container" id="container-central">
+              <div class="row mb-4">
+                <div class="col-6 text-center">
+                  <span class="texto-cinza mr-2">Nome do Imposto:</span>
+                  <input 
+                  onChange={r => setNameTax(r.target.value)}
+                  class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do imposto" type="text" name=""/>
+                </div>
+
+                <div class="col-6 text-center">
+                  <span class="texto-cinza mr-2">Imposto médio:</span>
+                  <input onChange={e => setTax(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-do-canal" placeholder="Digite a porcentagem" type="number" name=""/>
+                </div>
+
+                <a id="save" onClick={calcularImpostos} 
+                  class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
+                  href="#"
+                  role="button">Salvar
+                </a>
+            </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+
+      </div>
+    </div>
+      
+    );
+  }else if(fase===1){
+      //Adição dos custos de CPV...
+    return(
+      <div id="tabela">
+
+        <Modal show={showProduto} onHide={handleCloseProduto}>
+          <Modal.Body>            
+            <>
+            <div class="text-center text-muted">
+              <h4 class="font-weight-bold" >Adicionar custo do produto</h4>
+            </div>
+              <div class="container" id="container-central">
+                <div class="row mb-4">
+                    <div class="col-12 text-center">
+                      <span class="texto-cinza mr-2">Canal de distribuição:</span>
+                        <input onChange={e => setDescription(e.target.value)} 
+                        class="text-dark texto-cinza px-5 py-2 rounded" 
+                        id="nome-canal" 
+                        placeholder="Digite o nome do canal" 
+                        type="text" 
+                        name="canal"
+                        />
+                    </div>
+
+                    <div class="col-12 text-center">
+                    {produto.it.map((p)=>(
+                      <p>{p.name}</p>
+                      
+                    ))}
+                    </div>
+
+                    <a id="save"
+                      class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                      role="button"
+                      onClick={custoProduto}>Salvar
+                    </a>
+                </div>
+            </div>
+            </>
+          
+          </Modal.Body>
+        </Modal>
+
+  
+      <MaterialTable tableRef={props.tableRef}
+          title="Detalhando (CPV, CMS e CSV)"
+          columns={state.columns}
+          data={state.data}
+          localization={{
+            body:{
+              
+            }
+          }}
+          icons={{
+            add: props => (
+              <div>
+                  {calculado ?     
+                    <Button id="btn_add_Canal" variant="primary" onClick={handleShowProduto}>
+                    (+) Adicionar (CPV, CMS e CSV)
+                    </Button>
+                    : ''}
+              </div>
+            ),
+          }}
+          actions={[
+            
+            {
+              icon: () => calculado ?     
+              <Button id="btn_add_CPV" variant="primary" onClick={handleShowProduto}>
+                    (+) Adicionar (CPV, CMS e CSV)
+                </Button>
+            : '',
+              isFreeAction: true,
+              onClick: (event) => handleShow()
+            }
+          ]}
+          options={{
+            actionsColumnIndex: -1,
+            search: false,
+            paging:false,
+            rowStyle: rowData => ({
+              backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
+              color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
+            }),
+            headerStyle: {
+              backgroundColor: '#6a6af8',
+              color: '#FFF',
+              fontSize: 12,
+              paddingLeft:1
+            }
+          }}
+          
+          editable={{
+            isEditable: rowData => {{
+              let pos = state.data.length;
+              if(rowData.tableData.id === 0){  
+                  console.log(rowData.tableData.edittingw)       
+                return false
+              }else{
+                return true
+              }
+            
+            }},
+            // only name(a) rows would be editable
+            isDeletable: rowData => {{
+              if(rowData.tableData.id === 0){
+                return false
+              }else{
+                return true
+              }
+
+            }}, 
+            // only name(a) rows would be deletable
+            
+            onRowUpdate: (newData, oldData) =>
+              
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  if (oldData) {
+                    if(oldData == state.data[1]){
+                      //Aqui deve ocorrer o ajuste do campo um para o campo de renda bruta.
+                    }
+                    newData.count = (parseInt(newData.mouth1)
+                                    +parseInt(newData.mouth2)
+                                    +parseInt(newData.mouth3)
+                                    +parseInt(newData.mouth4)
+                                    +parseInt(newData.mouth5)
+                                    +parseInt(newData.mouth6)
+                                    +parseInt(newData.mouth7)
+                                    +parseInt(newData.mouth8)
+                                    +parseInt(newData.mouth9)
+                                    +parseInt(newData.mouth10)
+                                    +parseInt(newData.mouth11)
+                                    +parseInt(newData.mouth12));
+
+                      if(parseInt(newData.mouth1)>parseInt(oldData.mouth1)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth1) - parseInt(oldData.mouth1))
+                        console.log(diff)
+                        var valor = parseInt(state.data[0].mouth1);
+                        state.data[0].mouth1 = valor + diff;
+                        console.log('valor depois: '+ state.data[0].mouth1)
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth1) - parseInt(newData.mouth1))
+                        console.log(diff)
+                        var valor = parseInt(state.data[0].mouth1);
+                        state.data[0].mouth1 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mout2)>parseInt(oldData.mouth2)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth2) - parseInt(oldData.mouth2))
+                        var valor = parseInt(state.data[0].mouth2);
+                        state.data[0].mouth2 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth2) - parseInt(newData.mouth2))
+                        var valor = parseInt(state.data[0].mouth2);
+                        state.data[0].mouth2 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth3)>parseInt(oldData.mouth3)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth3) - parseInt(oldData.mouth3))
+                        var valor = parseInt(state.data[0].mouth3);
+                        state.data[0].mouth3 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth3) - parseInt(newData.mouth3))
+                        var valor = parseInt(state.data[0].mouth3);
+                        state.data[0].mouth3 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth4)>parseInt(oldData.mouth4)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth4) - parseInt(oldData.mouth4))
+                        var valor = parseInt(state.data[0].mouth4);
+                        state.data[0].mouth4 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth4) - parseInt(newData.mouth4))
+                        var valor = parseInt(state.data[0].mouth4);
+                        state.data[0].mouth4 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth5)>parseInt(oldData.mouth5)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth5) - parseInt(oldData.mouth5))
+                        var valor = parseInt(state.data[0].mouth5);
+                        state.data[0].mouth5 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth5) - parseInt(newData.mouth5))
+                        var valor = parseInt(state.data[0].mouth5);
+                        state.data[0].mouth5 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth6)>parseInt(oldData.mouth6)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth6) - parseInt(oldData.mouth6))
+                        var valor = parseInt(state.data[0].mouth6);
+                        state.data[0].mouth6 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth6) - parseInt(newData.mouth6))
+                        var valor = parseInt(state.data[0].mouth6);
+                        state.data[0].mouth6 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth7)>parseInt(oldData.mouth7)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth7) - parseInt(oldData.mouth7))
+                        var valor = parseInt(state.data[0].mouth7);
+                        state.data[0].mouth7 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth7) - parseInt(newData.mouth7))
+                        var valor = parseInt(state.data[0].mouth7);
+                        state.data[0].mouth7 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth8)>parseInt(oldData.mouth8)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth8) - parseInt(oldData.mouth8))
+                        var valor = parseInt(state.data[0].mouth8);
+                        state.data[0].mouth8 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth8) - parseInt(newData.mouth8))
+                        var valor = parseInt(state.data[0].mouth8);
+                        state.data[0].mouth8 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth10)>parseInt(oldData.mouth10)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth10) - parseInt(oldData.mouth10))
+                        var valor = parseInt(state.data[0].mouth10);
+                        state.data[0].mouth10 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth10) - parseInt(newData.mouth10))
+                        var valor = parseInt(state.data[0].mouth10);
+                        state.data[0].mouth10 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth11)>parseInt(oldData.mouth11)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth11) - parseInt(oldData.mouth11))
+                        var valor = parseInt(state.data[0].mouth11);
+                        state.data[0].mouth11 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth11) - parseInt(newData.mouth11))
+                        var valor = parseInt(state.data[0].mouth11);
+                        state.data[0].mouth11 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth12)>parseInt(oldData.mouth12)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth12) - parseInt(oldData.mouth12))
+                        var valor = parseInt(state.data[0].mouth12);
+                        state.data[0].mouth12 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth12) - parseInt(newData.mouth12))
+                        var valor = parseInt(state.data[0].mouth12);
+                        state.data[0].mouth12 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth9)>parseInt(oldData.mouth9)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth9) - parseInt(oldData.mouth9))
+                        var valor = parseInt(state.data[0].mouth9);
+                        state.data[0].mouth9 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth9) - parseInt(newData.mouth9))
+                        var valor = parseInt(state.data[0].mouth9);
+                        state.data[0].mouth9 = valor - diff;
+                      }
+
+                      state.data[0].count =  
+                      (parseInt(state.data[0].mouth1)
+                      +parseInt(state.data[0].mouth2)
+                      +parseInt(state.data[0].mouth3)
+                      +parseInt(state.data[0].mouth4)
+                      +parseInt(state.data[0].mouth5)
+                      +parseInt(state.data[0].mouth6)
+                      +parseInt(state.data[0].mouth7)
+                      +parseInt(state.data[0].mouth8)
+                      +parseInt(state.data[0].mouth9)
+                      +parseInt(state.data[0].mouth10)
+                      +parseInt(state.data[0].mouth11)
+                      +parseInt(state.data[0].mouth12));
+
+                      setRenda2(state.data[0].count)
+                    
+                    setState(prevState => {
+                      const data = [...prevState.data];
+                      data[data.indexOf(oldData)] = newData;
+                      return { ...prevState, data };
+                    });
+                  
+                    if(!calculado){
+                      calcularImpostos()
+                    }
+
+                  }
+                }, 600);
+              }),
+            onRowDelete: oldData =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  setState(prevState => {
+                    const data = [...prevState.data];
+                    data.splice(data.indexOf(oldData), 1);
+                    return { ...prevState, data };
+                  });
+                }, 600);
+              }),
+          }}
+      />
+ 
+    </div>
+      
+    );
+  }else if(fase===2){
+    //Adição de custos variáveis
+    return(
+      <div id="tabela">
+      <Modal show={showVariavel} onHide={handleCloseVariavel}>
+        <Modal.Body>      
+          <>
+          <div class="text-center text-muted">
+            <h4 class="font-weight-bold" >Adicionar custos variáveis</h4>
           </div>
+          <div class="container" id="container-central">
+              {itemsCost.items.map((i, ind) =>
+                <div key={ind}>
+                  <div class="row mb-4">
+                    <div class="col-4 text-center">
+                          <span class="titulo-caixa">Nome da<br/>despesa</span>
+                          <input onChange={w => setNameCost(w.target.value)} 
+                          class="text-dark texto-cinza px-5 py-2 rounded" 
+                          id="nome-categoria" 
+                          placeholder="Digite o nome da despesa" 
+                          type="text" 
+                          name=""
+                          />
+                      </div>
+                      <div class="col-4 text-center">
+                        <span class="titulo-caixa">Tipo de<br/>custo</span>
+                            <select value={typeCost} onChange={s => setTypeCost(s.target.value)}>
+                                <option value="0" class="titulo-caixa">Valor da despesa</option>
+                                <option value="1" class="titulo-caixa" >% da despesa</option>
+                            </select>
+                      </div>
+                      {
+                      typeCost == 0
+                      ?
+                      <div class="col-4 text-center">
+                        <span class="titulo-caixa">Valor<br/>de despesa</span>
+                        <input onChange={e => setValueCost(e.target.value)} 
+                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              id="nome-canal" 
+                              placeholder="R$" 
+                              type="text" 
+                              name=""
+                        />
+                      </div>
+                      :
+                      <div class="col-4 text-center">
+                        <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
+                        <input onChange={e => setValueCost(e.target.value)} 
+                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              id="nome-canal" 
+                              placeholder="%" 
+                              type="text" 
+                              name=""
+                        />
+                      </div>
+                      }
+                  </div>
+
+                </div>              
+              )
+              }
+
+                  <a id="save"
+                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                    role="button"
+                    onClick={
+                      addOutrasDespesas
+                      }>Add
+                  </a>
+
+
+                  <a id="save"
+                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                    role="button"
+                    onClick={
+                      outrasDespesas
+                      }>Salvar
+                  </a>
+             
           </div>
+          </>
+        
         </Modal.Body>
       </Modal>
 
+      
+
+  
+      <MaterialTable tableRef={props.tableRef}
+          title="Detalhando os custos variáveis"
+          columns={state.columns}
+          data={state.data}
+          localization={{
+            body:{
+              
+            }
+          }}
+          icons={{
+            add: props => (
+              <div>
+                  {calculado ?     
+                    <Button id="btn_add_Canal" variant="primary" onClick={handleShowVariavel}>
+                    (+) Adicionar Canal
+                    </Button>
+                    : ''}
+              </div>
+            ),
+          }}
+          actions={[
+            
+            {
+              icon: () => calculado ?     
+              <Button id="btn_add_Variable" variant="primary" onClick={handleShowVariavel}>
+                  (+) Adicionar Custos Variáveis
+                </Button>
+            : '',
+              isFreeAction: true,
+              onClick: (event) => handleShow()
+            }
+          ]}
+          options={{
+            actionsColumnIndex: -1,
+            search: false,
+            paging:false,
+            rowStyle: rowData => ({
+              backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
+              color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
+            }),
+            headerStyle: {
+              backgroundColor: '#6a6af8',
+              color: '#FFF',
+              fontSize: 12,
+              paddingLeft:1
+            }
+          }}
+          
+          editable={{
+            isEditable: rowData => {{
+              let pos = state.data.length;
+              if(rowData.tableData.id === 0){  
+                  console.log(rowData.tableData.edittingw)       
+                return false
+              }else{
+                return true
+              }
+            
+            }},
+            // only name(a) rows would be editable
+            isDeletable: rowData => {{
+              if(rowData.tableData.id === 0){
+                return false
+              }else{
+                return true
+              }
+
+            }}, 
+            // only name(a) rows would be deletable
+            
+            onRowUpdate: (newData, oldData) =>
+              
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  if (oldData) {
+                    if(oldData == state.data[1]){
+                      //Aqui deve ocorrer o ajuste do campo um para o campo de renda bruta.
+                    }
+                    newData.count = (parseInt(newData.mouth1)
+                                    +parseInt(newData.mouth2)
+                                    +parseInt(newData.mouth3)
+                                    +parseInt(newData.mouth4)
+                                    +parseInt(newData.mouth5)
+                                    +parseInt(newData.mouth6)
+                                    +parseInt(newData.mouth7)
+                                    +parseInt(newData.mouth8)
+                                    +parseInt(newData.mouth9)
+                                    +parseInt(newData.mouth10)
+                                    +parseInt(newData.mouth11)
+                                    +parseInt(newData.mouth12));
+
+                      if(parseInt(newData.mouth1)>parseInt(oldData.mouth1)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth1) - parseInt(oldData.mouth1))
+                        console.log(diff)
+                        var valor = parseInt(state.data[0].mouth1);
+                        state.data[0].mouth1 = valor + diff;
+                        console.log('valor depois: '+ state.data[0].mouth1)
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth1) - parseInt(newData.mouth1))
+                        console.log(diff)
+                        var valor = parseInt(state.data[0].mouth1);
+                        state.data[0].mouth1 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mout2)>parseInt(oldData.mouth2)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth2) - parseInt(oldData.mouth2))
+                        var valor = parseInt(state.data[0].mouth2);
+                        state.data[0].mouth2 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth2) - parseInt(newData.mouth2))
+                        var valor = parseInt(state.data[0].mouth2);
+                        state.data[0].mouth2 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth3)>parseInt(oldData.mouth3)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth3) - parseInt(oldData.mouth3))
+                        var valor = parseInt(state.data[0].mouth3);
+                        state.data[0].mouth3 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth3) - parseInt(newData.mouth3))
+                        var valor = parseInt(state.data[0].mouth3);
+                        state.data[0].mouth3 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth4)>parseInt(oldData.mouth4)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth4) - parseInt(oldData.mouth4))
+                        var valor = parseInt(state.data[0].mouth4);
+                        state.data[0].mouth4 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth4) - parseInt(newData.mouth4))
+                        var valor = parseInt(state.data[0].mouth4);
+                        state.data[0].mouth4 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth5)>parseInt(oldData.mouth5)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth5) - parseInt(oldData.mouth5))
+                        var valor = parseInt(state.data[0].mouth5);
+                        state.data[0].mouth5 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth5) - parseInt(newData.mouth5))
+                        var valor = parseInt(state.data[0].mouth5);
+                        state.data[0].mouth5 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth6)>parseInt(oldData.mouth6)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth6) - parseInt(oldData.mouth6))
+                        var valor = parseInt(state.data[0].mouth6);
+                        state.data[0].mouth6 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth6) - parseInt(newData.mouth6))
+                        var valor = parseInt(state.data[0].mouth6);
+                        state.data[0].mouth6 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth7)>parseInt(oldData.mouth7)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth7) - parseInt(oldData.mouth7))
+                        var valor = parseInt(state.data[0].mouth7);
+                        state.data[0].mouth7 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth7) - parseInt(newData.mouth7))
+                        var valor = parseInt(state.data[0].mouth7);
+                        state.data[0].mouth7 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth8)>parseInt(oldData.mouth8)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth8) - parseInt(oldData.mouth8))
+                        var valor = parseInt(state.data[0].mouth8);
+                        state.data[0].mouth8 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth8) - parseInt(newData.mouth8))
+                        var valor = parseInt(state.data[0].mouth8);
+                        state.data[0].mouth8 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth10)>parseInt(oldData.mouth10)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth10) - parseInt(oldData.mouth10))
+                        var valor = parseInt(state.data[0].mouth10);
+                        state.data[0].mouth10 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth10) - parseInt(newData.mouth10))
+                        var valor = parseInt(state.data[0].mouth10);
+                        state.data[0].mouth10 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth11)>parseInt(oldData.mouth11)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth11) - parseInt(oldData.mouth11))
+                        var valor = parseInt(state.data[0].mouth11);
+                        state.data[0].mouth11 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth11) - parseInt(newData.mouth11))
+                        var valor = parseInt(state.data[0].mouth11);
+                        state.data[0].mouth11 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth12)>parseInt(oldData.mouth12)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth12) - parseInt(oldData.mouth12))
+                        var valor = parseInt(state.data[0].mouth12);
+                        state.data[0].mouth12 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth12) - parseInt(newData.mouth12))
+                        var valor = parseInt(state.data[0].mouth12);
+                        state.data[0].mouth12 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth9)>parseInt(oldData.mouth9)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth9) - parseInt(oldData.mouth9))
+                        var valor = parseInt(state.data[0].mouth9);
+                        state.data[0].mouth9 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth9) - parseInt(newData.mouth9))
+                        var valor = parseInt(state.data[0].mouth9);
+                        state.data[0].mouth9 = valor - diff;
+                      }
+
+                      state.data[0].count =  
+                      (parseInt(state.data[0].mouth1)
+                      +parseInt(state.data[0].mouth2)
+                      +parseInt(state.data[0].mouth3)
+                      +parseInt(state.data[0].mouth4)
+                      +parseInt(state.data[0].mouth5)
+                      +parseInt(state.data[0].mouth6)
+                      +parseInt(state.data[0].mouth7)
+                      +parseInt(state.data[0].mouth8)
+                      +parseInt(state.data[0].mouth9)
+                      +parseInt(state.data[0].mouth10)
+                      +parseInt(state.data[0].mouth11)
+                      +parseInt(state.data[0].mouth12));
+
+                      setRenda2(state.data[0].count)
+                    
+                    setState(prevState => {
+                      const data = [...prevState.data];
+                      data[data.indexOf(oldData)] = newData;
+                      return { ...prevState, data };
+                    });
+                  
+                    if(!calculado){
+                      calcularImpostos()
+                    }
+
+                  }
+                }, 600);
+              }),
+            onRowDelete: oldData =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  setState(prevState => {
+                    const data = [...prevState.data];
+                    data.splice(data.indexOf(oldData), 1);
+                    return { ...prevState, data };
+                  });
+                }, 600);
+              }),
+          }}
+      />
+
+ 
     </div>
-  </div>
-    
-  );
+      
+    );
+  }else if(fase===3){
+    //Adição dos salários
+    return(
+      <div id="tabela">
+      <Modal show={showSalario} onHide={handleCloseSalario}>
+        <Modal.Body>  
+          <>
+          <div class="text-center text-muted">
+            <h4 class="font-weight-bold" >Adicionar salário</h4>
+          </div>
+            <div class="container" id="container-central">
+              <div class="row mb-6">
+              <div class="col-6 text-center">
+                      <span class="titulo-caixa">Valor mensal dos salários</span>
+                      <input onChange={w => setSalary(w.target.value)} 
+                      class="text-dark texto-cinza px-5 py-2 rounded" 
+                      id="nome-categoria" 
+                      placeholder="R$" 
+                      type="text" 
+                      name="categoria"
+                      />
+                  </div>
+
+                  <a id="save"
+                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                    role="button"
+                    onClick={
+                      custoSalario
+                      }>Salvar
+                  </a>
+              </div>
+          </div>
+          </>
+        
+        </Modal.Body>
+      </Modal>
+
+      
+  
+      <MaterialTable tableRef={props.tableRef}
+          title="Detalhando salários"
+          columns={state.columns}
+          data={state.data}
+          localization={{
+            body:{
+              
+            }
+          }}
+          icons={{
+            add: props => (
+              <div>
+                  {calculado ?     
+                    <Button id="btn_add_Canal" variant="primary" onClick={handleShowSalario}>
+                    (+) Adicionar Canal
+                    </Button>
+                    : ''}
+              </div>
+            ),
+          }}
+          actions={[
+            
+            {
+              icon: () => calculado ?     
+              <Button id="btn_add_Canal" variant="primary" onClick={handleShowSalario}>
+                  (+) Adicionar Salários
+                </Button>
+            : '',
+              isFreeAction: true,
+              onClick: (event) => handleShow()
+            }
+          ]}
+          options={{
+            actionsColumnIndex: -1,
+            search: false,
+            paging:false,
+            rowStyle: rowData => ({
+              backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
+              color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
+            }),
+            headerStyle: {
+              backgroundColor: '#6a6af8',
+              color: '#FFF',
+              fontSize: 12,
+              paddingLeft:1
+            }
+          }}
+          
+          editable={{
+            isEditable: rowData => {{
+              let pos = state.data.length;
+              if(rowData.tableData.id === 0){  
+                  console.log(rowData.tableData.edittingw)       
+                return false
+              }else{
+                return true
+              }
+            
+            }},
+            // only name(a) rows would be editable
+            isDeletable: rowData => {{
+              if(rowData.tableData.id === 0){
+                return false
+              }else{
+                return true
+              }
+
+            }}, 
+            // only name(a) rows would be deletable
+            
+            onRowUpdate: (newData, oldData) =>
+              
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  if (oldData) {
+                    if(oldData == state.data[1]){
+                      //Aqui deve ocorrer o ajuste do campo um para o campo de renda bruta.
+                    }
+                    newData.count = (parseInt(newData.mouth1)
+                                    +parseInt(newData.mouth2)
+                                    +parseInt(newData.mouth3)
+                                    +parseInt(newData.mouth4)
+                                    +parseInt(newData.mouth5)
+                                    +parseInt(newData.mouth6)
+                                    +parseInt(newData.mouth7)
+                                    +parseInt(newData.mouth8)
+                                    +parseInt(newData.mouth9)
+                                    +parseInt(newData.mouth10)
+                                    +parseInt(newData.mouth11)
+                                    +parseInt(newData.mouth12));
+
+                      if(parseInt(newData.mouth1)>parseInt(oldData.mouth1)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth1) - parseInt(oldData.mouth1))
+                        console.log(diff)
+                        var valor = parseInt(state.data[0].mouth1);
+                        state.data[0].mouth1 = valor + diff;
+                        console.log('valor depois: '+ state.data[0].mouth1)
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth1) - parseInt(newData.mouth1))
+                        console.log(diff)
+                        var valor = parseInt(state.data[0].mouth1);
+                        state.data[0].mouth1 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mout2)>parseInt(oldData.mouth2)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth2) - parseInt(oldData.mouth2))
+                        var valor = parseInt(state.data[0].mouth2);
+                        state.data[0].mouth2 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth2) - parseInt(newData.mouth2))
+                        var valor = parseInt(state.data[0].mouth2);
+                        state.data[0].mouth2 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth3)>parseInt(oldData.mouth3)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth3) - parseInt(oldData.mouth3))
+                        var valor = parseInt(state.data[0].mouth3);
+                        state.data[0].mouth3 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth3) - parseInt(newData.mouth3))
+                        var valor = parseInt(state.data[0].mouth3);
+                        state.data[0].mouth3 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth4)>parseInt(oldData.mouth4)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth4) - parseInt(oldData.mouth4))
+                        var valor = parseInt(state.data[0].mouth4);
+                        state.data[0].mouth4 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth4) - parseInt(newData.mouth4))
+                        var valor = parseInt(state.data[0].mouth4);
+                        state.data[0].mouth4 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth5)>parseInt(oldData.mouth5)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth5) - parseInt(oldData.mouth5))
+                        var valor = parseInt(state.data[0].mouth5);
+                        state.data[0].mouth5 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth5) - parseInt(newData.mouth5))
+                        var valor = parseInt(state.data[0].mouth5);
+                        state.data[0].mouth5 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth6)>parseInt(oldData.mouth6)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth6) - parseInt(oldData.mouth6))
+                        var valor = parseInt(state.data[0].mouth6);
+                        state.data[0].mouth6 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth6) - parseInt(newData.mouth6))
+                        var valor = parseInt(state.data[0].mouth6);
+                        state.data[0].mouth6 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth7)>parseInt(oldData.mouth7)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth7) - parseInt(oldData.mouth7))
+                        var valor = parseInt(state.data[0].mouth7);
+                        state.data[0].mouth7 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth7) - parseInt(newData.mouth7))
+                        var valor = parseInt(state.data[0].mouth7);
+                        state.data[0].mouth7 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth8)>parseInt(oldData.mouth8)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth8) - parseInt(oldData.mouth8))
+                        var valor = parseInt(state.data[0].mouth8);
+                        state.data[0].mouth8 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth8) - parseInt(newData.mouth8))
+                        var valor = parseInt(state.data[0].mouth8);
+                        state.data[0].mouth8 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth10)>parseInt(oldData.mouth10)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth10) - parseInt(oldData.mouth10))
+                        var valor = parseInt(state.data[0].mouth10);
+                        state.data[0].mouth10 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth10) - parseInt(newData.mouth10))
+                        var valor = parseInt(state.data[0].mouth10);
+                        state.data[0].mouth10 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth11)>parseInt(oldData.mouth11)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth11) - parseInt(oldData.mouth11))
+                        var valor = parseInt(state.data[0].mouth11);
+                        state.data[0].mouth11 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth11) - parseInt(newData.mouth11))
+                        var valor = parseInt(state.data[0].mouth11);
+                        state.data[0].mouth11 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth12)>parseInt(oldData.mouth12)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth12) - parseInt(oldData.mouth12))
+                        var valor = parseInt(state.data[0].mouth12);
+                        state.data[0].mouth12 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth12) - parseInt(newData.mouth12))
+                        var valor = parseInt(state.data[0].mouth12);
+                        state.data[0].mouth12 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth9)>parseInt(oldData.mouth9)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth9) - parseInt(oldData.mouth9))
+                        var valor = parseInt(state.data[0].mouth9);
+                        state.data[0].mouth9 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth9) - parseInt(newData.mouth9))
+                        var valor = parseInt(state.data[0].mouth9);
+                        state.data[0].mouth9 = valor - diff;
+                      }
+
+                      state.data[0].count =  
+                      (parseInt(state.data[0].mouth1)
+                      +parseInt(state.data[0].mouth2)
+                      +parseInt(state.data[0].mouth3)
+                      +parseInt(state.data[0].mouth4)
+                      +parseInt(state.data[0].mouth5)
+                      +parseInt(state.data[0].mouth6)
+                      +parseInt(state.data[0].mouth7)
+                      +parseInt(state.data[0].mouth8)
+                      +parseInt(state.data[0].mouth9)
+                      +parseInt(state.data[0].mouth10)
+                      +parseInt(state.data[0].mouth11)
+                      +parseInt(state.data[0].mouth12));
+
+                      setRenda2(state.data[0].count)
+                    
+                    setState(prevState => {
+                      const data = [...prevState.data];
+                      data[data.indexOf(oldData)] = newData;
+                      return { ...prevState, data };
+                    });
+                  
+                    if(!calculado){
+                      calcularImpostos()
+                    }
+
+                  }
+                }, 600);
+              }),
+            onRowDelete: oldData =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  setState(prevState => {
+                    const data = [...prevState.data];
+                    data.splice(data.indexOf(oldData), 1);
+                    return { ...prevState, data };
+                  });
+                }, 600);
+              }),
+          }}
+      />
+    </div>
+      
+    );
+  }else if(fase===4){
+    //Adição de outras despesas
+    return(
+      <div id="tabela">
+      <Modal show={showDespesas} onHide={handleCloseDespesas}>
+        <Modal.Body>  
+          <>
+          <div class="text-center text-muted">
+            <h4 class="font-weight-bold" >Adicionar outras despesas</h4>
+          </div>
+            <div class="container" id="container-central">
+              {itemsCost.items.map((i, ind) =>
+                <div key={ind}>
+                  <div class="row mb-4">
+                    <div class="col-4 text-center">
+                          <span class="titulo-caixa">Nome da<br/>despesa</span>
+                          <input onChange={w => setNameCost(w.target.value)} 
+                          class="text-dark texto-cinza px-5 py-2 rounded" 
+                          id="nome-categoria" 
+                          placeholder="Digite o nome da despesa" 
+                          type="text" 
+                          name=""
+                          />
+                      </div>
+                      <div class="col-4 text-center">
+                        <span class="titulo-caixa">Tipo de<br/>custo</span>
+                            <select value={typeCost} onChange={s => setTypeCost(s.target.value)}>
+                                <option value="0" class="titulo-caixa">Valor da despesa</option>
+                                <option value="1" class="titulo-caixa" >% da despesa</option>
+                            </select>
+                      </div>
+                      {
+                      typeCost == 0
+                      ?
+                      <div class="col-4 text-center">
+                        <span class="titulo-caixa">Valor<br/>de despesa</span>
+                        <input onChange={e => setValueCost(e.target.value)} 
+                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              id="nome-canal" 
+                              placeholder="R$" 
+                              type="text" 
+                              name=""
+                        />
+                      </div>
+                      :
+                      <div class="col-4 text-center">
+                        <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
+                        <input onChange={e => setValueCost(e.target.value)} 
+                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              id="nome-canal" 
+                              placeholder="%" 
+                              type="text" 
+                              name=""
+                        />
+                      </div>
+                      }
+                  </div>
+
+                </div>              
+              )
+              }
+
+                  <a id="save"
+                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                    role="button"
+                    onClick={
+                      addOutrasDespesas
+                      }>Add
+                  </a>
+
+
+                  <a id="save"
+                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                    role="button"
+                    onClick={
+                      outrasDespesas
+                      }>Salvar
+                  </a>
+             
+          </div>
+          </>
+        
+        </Modal.Body>
+      </Modal>
+
+      
+
+  
+      <MaterialTable tableRef={props.tableRef}
+          title="Detalhando outras despesas"
+          columns={state.columns}
+          data={state.data}
+          localization={{
+            body:{
+              
+            }
+          }}
+          icons={{
+            add: props => (
+              <div>
+                  {calculado ?     
+                    <Button id="btn_add_Canal" variant="primary" onClick={handleShowDespesas}>
+                    (+) Adicionar Canal
+                    </Button>
+                    : ''}
+              </div>
+            ),
+          }}
+          actions={[
+            
+            {
+              icon: () => calculado ?     
+              <Button id="btn_add_Canal" variant="primary" onClick={handleShowDespesas}>
+                  (+) Adicionar Despesa
+                </Button>
+            : '',
+              isFreeAction: true,
+              onClick: (event) => handleShow()
+            }
+          ]}
+          options={{
+            actionsColumnIndex: -1,
+            search: false,
+            paging:false,
+            rowStyle: rowData => ({
+              backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
+              color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
+            }),
+            headerStyle: {
+              backgroundColor: '#6a6af8',
+              color: '#FFF',
+              fontSize: 12,
+              paddingLeft:1
+            }
+          }}
+          
+          editable={{
+            isEditable: rowData => {{
+              let pos = state.data.length;
+              if(rowData.tableData.id === 0){  
+                  console.log(rowData.tableData.edittingw)       
+                return false
+              }else{
+                return true
+              }
+            
+            }},
+            // only name(a) rows would be editable
+            isDeletable: rowData => {{
+              if(rowData.tableData.id === 0){
+                return false
+              }else{
+                return true
+              }
+
+            }}, 
+            // only name(a) rows would be deletable
+            
+            onRowUpdate: (newData, oldData) =>
+              
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  if (oldData) {
+                    if(oldData == state.data[1]){
+                      //Aqui deve ocorrer o ajuste do campo um para o campo de renda bruta.
+                    }
+                    newData.count = (parseInt(newData.mouth1)
+                                    +parseInt(newData.mouth2)
+                                    +parseInt(newData.mouth3)
+                                    +parseInt(newData.mouth4)
+                                    +parseInt(newData.mouth5)
+                                    +parseInt(newData.mouth6)
+                                    +parseInt(newData.mouth7)
+                                    +parseInt(newData.mouth8)
+                                    +parseInt(newData.mouth9)
+                                    +parseInt(newData.mouth10)
+                                    +parseInt(newData.mouth11)
+                                    +parseInt(newData.mouth12));
+
+                      if(parseInt(newData.mouth1)>parseInt(oldData.mouth1)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth1) - parseInt(oldData.mouth1))
+                        console.log(diff)
+                        var valor = parseInt(state.data[0].mouth1);
+                        state.data[0].mouth1 = valor + diff;
+                        console.log('valor depois: '+ state.data[0].mouth1)
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth1) - parseInt(newData.mouth1))
+                        console.log(diff)
+                        var valor = parseInt(state.data[0].mouth1);
+                        state.data[0].mouth1 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mout2)>parseInt(oldData.mouth2)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth2) - parseInt(oldData.mouth2))
+                        var valor = parseInt(state.data[0].mouth2);
+                        state.data[0].mouth2 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth2) - parseInt(newData.mouth2))
+                        var valor = parseInt(state.data[0].mouth2);
+                        state.data[0].mouth2 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth3)>parseInt(oldData.mouth3)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth3) - parseInt(oldData.mouth3))
+                        var valor = parseInt(state.data[0].mouth3);
+                        state.data[0].mouth3 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth3) - parseInt(newData.mouth3))
+                        var valor = parseInt(state.data[0].mouth3);
+                        state.data[0].mouth3 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth4)>parseInt(oldData.mouth4)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth4) - parseInt(oldData.mouth4))
+                        var valor = parseInt(state.data[0].mouth4);
+                        state.data[0].mouth4 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth4) - parseInt(newData.mouth4))
+                        var valor = parseInt(state.data[0].mouth4);
+                        state.data[0].mouth4 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth5)>parseInt(oldData.mouth5)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth5) - parseInt(oldData.mouth5))
+                        var valor = parseInt(state.data[0].mouth5);
+                        state.data[0].mouth5 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth5) - parseInt(newData.mouth5))
+                        var valor = parseInt(state.data[0].mouth5);
+                        state.data[0].mouth5 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth6)>parseInt(oldData.mouth6)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth6) - parseInt(oldData.mouth6))
+                        var valor = parseInt(state.data[0].mouth6);
+                        state.data[0].mouth6 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth6) - parseInt(newData.mouth6))
+                        var valor = parseInt(state.data[0].mouth6);
+                        state.data[0].mouth6 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth7)>parseInt(oldData.mouth7)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth7) - parseInt(oldData.mouth7))
+                        var valor = parseInt(state.data[0].mouth7);
+                        state.data[0].mouth7 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth7) - parseInt(newData.mouth7))
+                        var valor = parseInt(state.data[0].mouth7);
+                        state.data[0].mouth7 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth8)>parseInt(oldData.mouth8)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth8) - parseInt(oldData.mouth8))
+                        var valor = parseInt(state.data[0].mouth8);
+                        state.data[0].mouth8 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth8) - parseInt(newData.mouth8))
+                        var valor = parseInt(state.data[0].mouth8);
+                        state.data[0].mouth8 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth10)>parseInt(oldData.mouth10)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth10) - parseInt(oldData.mouth10))
+                        var valor = parseInt(state.data[0].mouth10);
+                        state.data[0].mouth10 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth10) - parseInt(newData.mouth10))
+                        var valor = parseInt(state.data[0].mouth10);
+                        state.data[0].mouth10 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth11)>parseInt(oldData.mouth11)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth11) - parseInt(oldData.mouth11))
+                        var valor = parseInt(state.data[0].mouth11);
+                        state.data[0].mouth11 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth11) - parseInt(newData.mouth11))
+                        var valor = parseInt(state.data[0].mouth11);
+                        state.data[0].mouth11 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth12)>parseInt(oldData.mouth12)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth12) - parseInt(oldData.mouth12))
+                        var valor = parseInt(state.data[0].mouth12);
+                        state.data[0].mouth12 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth12) - parseInt(newData.mouth12))
+                        var valor = parseInt(state.data[0].mouth12);
+                        state.data[0].mouth12 = valor - diff;
+                      }
+
+                      if(parseInt(newData.mouth9)>parseInt(oldData.mouth9)){
+                        console.log('add')
+                        var diff = (parseInt(newData.mouth9) - parseInt(oldData.mouth9))
+                        var valor = parseInt(state.data[0].mouth9);
+                        state.data[0].mouth9 = valor + diff;
+                      }else{
+                        console.log('remove')
+                        var diff = (parseInt(oldData.mouth9) - parseInt(newData.mouth9))
+                        var valor = parseInt(state.data[0].mouth9);
+                        state.data[0].mouth9 = valor - diff;
+                      }
+
+                      state.data[0].count =  
+                      (parseInt(state.data[0].mouth1)
+                      +parseInt(state.data[0].mouth2)
+                      +parseInt(state.data[0].mouth3)
+                      +parseInt(state.data[0].mouth4)
+                      +parseInt(state.data[0].mouth5)
+                      +parseInt(state.data[0].mouth6)
+                      +parseInt(state.data[0].mouth7)
+                      +parseInt(state.data[0].mouth8)
+                      +parseInt(state.data[0].mouth9)
+                      +parseInt(state.data[0].mouth10)
+                      +parseInt(state.data[0].mouth11)
+                      +parseInt(state.data[0].mouth12));
+
+                      setRenda2(state.data[0].count)
+                    
+                    setState(prevState => {
+                      const data = [...prevState.data];
+                      data[data.indexOf(oldData)] = newData;
+                      return { ...prevState, data };
+                    });
+                  
+                    if(!calculado){
+                      calcularImpostos()
+                    }
+
+                  }
+                }, 600);
+              }),
+            onRowDelete: oldData =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  setState(prevState => {
+                    const data = [...prevState.data];
+                    data.splice(data.indexOf(oldData), 1);
+                    return { ...prevState, data };
+                  });
+                }, 600);
+              }),
+          }}
+      />
+    </div>
+      
+    );
+  }else if(fase===5){
+    //Tela Final
+    return(
+      <div id="tabela">
+      <MaterialTable 
+        ref={tableRef}
+        title="Orçamento Base Zero"
+        columns={state.columns}
+        data={state.data}
+        localization={{
+          body:{
+            
+          }
+        }}
+        options={{
+          actionsColumnIndex: -1,
+          search: false,
+          paging:false,
+          rowStyle: rowData => ({
+            backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
+            color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
+          }),
+          headerStyle: {
+            backgroundColor: '#6a6af8',
+            color: '#FFF',
+            fontSize: 12,
+            paddingLeft:1
+          }
+        }} 
+      />
+
+    </div>
+      
+    );
+  }
 }
 
 

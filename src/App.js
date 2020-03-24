@@ -40,6 +40,7 @@ export default class App extends Component {
 
 
     this.state = {
+      base_zero_id: 0,
       renda: 12,
       imposto: 0,
       parcelaImposto: 0,
@@ -128,7 +129,7 @@ export default class App extends Component {
     this.setState({ show3: true });
   }
 
-    tableData(){
+  tableData(){
       const proxyurl = "https://cors-anywhere.herokuapp.com/";
       axios.get(proxyurl + 'http://34.70.109.4/projection', {
         headers: {
@@ -147,24 +148,22 @@ export default class App extends Component {
           })
         })
         
-    }
-
+  }
      
-    handleClose() {
+  handleClose() {
       if(this.state.valor_crescimento!='' && this.state.valor_crescimento > ''){
         this.setState({ show: false });
       }else{
         alert('Para iniciar no Base Zero, informe os dados abaixo!')
       }
   
-    }
+  }
   
-    handleShow() {
+  handleShow() {
       this.setState({ show: true });
-    }
+  }
 
-    saveInDB() {
-      ////console..log(this.state)
+  saveInDB() {
       this.setState({renda: this.state.valor_crescimento})
       const proxyurl = "https://cors-anywhere.herokuapp.com/";  
       axios.post(proxyurl + 'http://34.70.109.4/projection', {
@@ -175,7 +174,8 @@ export default class App extends Component {
         meta_ebitda: this.state.meta_ebitda,
         crescimento_ebitda: this.state.valor_meta_ebitda,
         porcento_crescimento_ebitda: this.state.porcento_ebitda
-      }, {
+      }, 
+      {
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Headers': '*'
@@ -184,15 +184,18 @@ export default class App extends Component {
           host: '34.70.109.4',
           port: 8080
         }
-        }).then(function (response) {
-          //console..log('response is : ' + response.data);
-          
-        }).catch(function (err){
-          //console..log(err)
+        }).then(res => {
+          this.setState({
+            base_zero_id:res.data.resultado
+          })
+          console.log(res.data.resultado)
+        }
+
+        ).catch(function (err){
+          console.log(err)
         })
 
         const valor = (this.state.valor_crescimento / 12)
-        //console..log(valor)
         this.setState({
           tabela:
             {description:'(+) Receita Bruta',
@@ -214,16 +217,14 @@ export default class App extends Component {
         })
 
       this.setState({ show: false });
-    }
+  }
 
-
-    handleChange_Renda_Ano(event) {
+  handleChange_Renda_Ano(event) {
         this.setState({renda_ano_passado: event.target.value});
         //console..log(this.state.renda_ano_passado)
-    }
+  }
 
-
-    handleChange_Tipo_Crescimento(event) {
+  handleChange_Tipo_Crescimento(event) {
       if(this.state.renda_ano_passado ==""){
         alert('Insira os dados da Renda do Ano Passado')
       }else{
@@ -244,10 +245,9 @@ export default class App extends Component {
 
         }
       }
-    }
+  }
 
-
-    handleChange_Valor_Crescimento(event) {
+  handleChange_Valor_Crescimento(event) {
       if(this.state.renda_ano_passado ==""){
         alert('Insira os dados da Renda do Ano Passado')
       }else{
@@ -255,20 +255,18 @@ export default class App extends Component {
         this.setState({valor_crescimento: event.target.value});
 
       }
-    }
+  }
 
-
-    handleChange_Porcento_Crescimento(event) {
+  handleChange_Porcento_Crescimento(event) {
       if(this.state.renda_ano_passado ==""){
         alert('Insira os dados da Renda do Ano Passado')
       }else{
         this.setState({porcento_crescimento: event.target.value});
         //console..log('esse é o valor: '+this.state.porcento_crescimento)
       }  
-    }
+  }
 
-
-    handleChange_Meta_Ebitda(event) {
+  handleChange_Meta_Ebitda(event) {
       if(this.state.renda_ano_passado ==""){
         alert('Insira os dados da Renda do Ano Passado')
       }else{
@@ -290,9 +288,9 @@ export default class App extends Component {
       }
     
 
-    }
+  }
 
-    handleChange_Valor_Meta_Ebitda(event) {
+  handleChange_Valor_Meta_Ebitda(event) {
       if(this.state.renda_ano_passado ==""){
         alert('Insira os dados da Renda do Ano Passado')
       }else{
@@ -301,20 +299,18 @@ export default class App extends Component {
       }
 
 
-    }
+  }
 
-
-    handleChange_Porcento_Ebitda(event) {
+  handleChange_Porcento_Ebitda(event) {
       if(this.state.renda_ano_passado ==""){
         alert('Insira os dados da Renda do Ano Passado')
       }else{
         this.setState({porcento_ebitda: event.target.value});
 
       }
-    }
+  }
 
-
-    componentDidUpdate(prevProps, prevState){  
+  componentDidUpdate(prevProps, prevState){  
       //valor de crescimento
         //console.info('Esse é o valor: '+this.tableRef.current.state.lastEditingRow)
 
@@ -411,7 +407,7 @@ export default class App extends Component {
       }  
 
 
-    }
+  }
 
   render() {
     return (
@@ -426,153 +422,139 @@ export default class App extends Component {
           </a>
           <hr class="sidebar-divider my-0"/>
           <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span><img src={LogoPessoa} alt="" /></span>
-        </a>
-      </li>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+              <i class="fas fa-fw fa-cog"></i>
+              <span><img src={LogoPessoa} alt="" /></span>
+            </a>
+          </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span><img src={LogoIcone1} alt="" /></span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span><img src={LogoIcone2} alt="" /></span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span><img src={LogoIcone3} alt="" /></span>
-        </a>
-        
-      </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span><img src={LogoIcone4} alt="" /></span>
-        </a>
-      </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+              <i class="fas fa-fw fa-cog"></i>
+              <span><img src={LogoIcone1} alt="" /></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+              <i class="fas fa-fw fa-cog"></i>
+              <span><img src={LogoIcone2} alt="" /></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+              <i class="fas fa-fw fa-cog"></i>
+              <span><img src={LogoIcone3} alt="" /></span>
+            </a>            
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+              <i class="fas fa-fw fa-cog"></i>
+              <span><img src={LogoIcone4} alt="" /></span>
+            </a>
+          </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span><img src={LogoIcone5} alt="" /></span>
-        </a>
-      </li>
-
-
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+              <i class="fas fa-fw fa-cog"></i>
+              <span><img src={LogoIcone5} alt="" /></span>
+            </a>
+          </li>
         </ul>
-
-
 
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="contentA">
             <div>
                 <Modal className="modal-container" id="staticBackdrop"  show={this.state.show} onHide={this.handleClose}>
                   <Modal.Body>
-                    <div class="text-center text-muted">
-                      <h4 class="font-weight-bold ">Base zero</h4>
-                      <p class="subTitle">Para iniciar as projeções precisamos preencher algumas informações básicas</p>
-                    </div>
+                      <div class="text-center text-muted">
+                        <h4 class="font-weight-bold ">Base zero</h4>
+                        <p class="subTitle">Para iniciar as projeções precisamos preencher algumas informações básicas</p>
+                      </div>
                       <div class="container text-muted " id="container-central">
 
                       <div class="row mb-4">
 
-                      <div class="col-4">
-
-                      <span  class="titulo-caixa">Renda bruta ano anterior:</span>
-                      <input 
-                          value={this.state.renda_ano_passado} 
-                          type="number" 
-                          onChange={this.handleChange_Renda_Ano} 
-                          placeholder="R$" 
-                          class="caixa texto-cinza" 
-                      />
-
-                  </div>
-                  <div class="col-4"></div>
-                  <div class="col-4"></div>
-
-                </div>
-                <div class="row mb-4 ">
-                  
-                  <div class="col-4">
-
-                    <span class="titulo-caixa">Tipo de<br/>crescimento</span>
-                      <select value={this.state.tipo_crescimento} onChange={this.handleChange_Tipo_Crescimento.bind(this)}>
-                        <option value="0" class="titulo-caixa">Valor Bruto</option>
-                        <option value="1" class="titulo-caixa" >% de Crescimento</option>
-                      </select>
-
-                  </div>
-                  <div className="col-4">
-                    <span class="titulo-caixa">Valor de<br/>crescimento:</span>
-                    <input class="btn dropdown-azul dropdown-toggle" value={this.state.valor_crescimento} 
-                          onChange={this.handleChange_Valor_Crescimento} 
-                          type="number" placeholder="R$" 
-                          class="caixa texto-cinza"
-                          disabled = {(this.state.item1)? "disabled" : ""}
-
-                    />
-                  </div>
-
-                  <div class="col-4">
-                    
-                    <span class="titulo-caixa">% de<br/>crescimento:</span>
-                    <input value={this.state.porcento_crescimento} 
-                          onChangeCapture={this.handleChange_Porcento_Crescimento} 
-                          type="number" placeholder="%" 
-                          class="caixa texto-cinza"
-                          disabled = {(this.state.item2)? "disabled" : ""}
+                        <div class="col-4">
+                          <span  class="titulo-caixa">Renda bruta ano anterior:</span>
+                          <input 
+                              value={this.state.renda_ano_passado} 
+                              type="number" 
+                              onChange={this.handleChange_Renda_Ano} 
+                              placeholder="R$" 
+                              class="caixa texto-cinza" 
                           />
+                        </div>
+                        <div class="col-4"></div>
+                        <div class="col-4"></div>
+                      </div>
+                      <div class="row mb-4 ">                  
+                        <div class="col-4">
+                          <span class="titulo-caixa">Tipo de<br/>crescimento</span>
+                            <select value={this.state.tipo_crescimento} onChange={this.handleChange_Tipo_Crescimento.bind(this)}>
+                              <option value="0" class="titulo-caixa">Valor Bruto</option>
+                              <option value="1" class="titulo-caixa" >% de Crescimento</option>
+                            </select>
+                        </div>
+                        <div className="col-4">
+                          <span class="titulo-caixa">Valor de<br/>crescimento:</span>
+                          <input class="btn dropdown-azul dropdown-toggle" value={this.state.valor_crescimento} 
+                                onChange={this.handleChange_Valor_Crescimento} 
+                                type="number" placeholder="R$" 
+                                class="caixa texto-cinza"
+                                disabled = {(this.state.item1)? "disabled" : ""}
+                          />
+                        </div>
 
-                  </div>
+                        <div class="col-4">                 
+                          <span class="titulo-caixa">% de<br/>crescimento:</span>
+                          <input value={this.state.porcento_crescimento} 
+                                onChangeCapture={this.handleChange_Porcento_Crescimento} 
+                                type="number" placeholder="%" 
+                                class="caixa texto-cinza"
+                                disabled = {(this.state.item2)? "disabled" : ""}
+                                />
+                        </div>
 
-                </div>
-                <div class="row mb-4">
-                  
-                  <div class="col-4">
+                        </div>
+                        <div class="row mb-4">
+                          
+                          <div class="col-4">
 
-                  <div class="dropdown">
-                    <span class="titulo-caixa">Tipo de<br/>crescimento</span>
-                      <select value={this.state.meta_ebitda} onChange={this.handleChange_Meta_Ebitda.bind(this)}>
-                        <option value="1" class="titulo-caixa">Meta do EBITDA</option>
-                        <option value="0" class="titulo-caixa" >% de EBITDA</option>
-                      </select>
-                    </div>
+                          <div class="dropdown">
+                            <span class="titulo-caixa">Tipo de<br/>crescimento</span>
+                              <select value={this.state.meta_ebitda} onChange={this.handleChange_Meta_Ebitda.bind(this)}>
+                                <option value="1" class="titulo-caixa">Meta do EBITDA</option>
+                                <option value="0" class="titulo-caixa" >% de EBITDA</option>
+                              </select>
+                            </div>
 
-                  </div>
-                  <div class="col-4">
-                    <span class="titulo-caixa">Meta do<br/>EBITDA: </span>
-                    <input value={this.state.valor_meta_ebitda} 
-                          onChange={this.handleChange_Valor_Meta_Ebitda} 
-                          type="number" 
-                          placeholder="R$" 
-                          class="caixa texto-cinza"
-                          disabled = {(this.state.item3)? "disabled" : ""}
-                    />
-                  </div>
-                  <div class="col-4">
-                    
-                    <span class="titulo-caixa">% do<br/>EBITDA:</span>
-                    <input value={this.state.porcento_ebitda} 
-                          onChange={this.handleChange_Porcento_Ebitda} 
-                          type="number" 
-                          placeholder="%" 
-                          class="caixa texto-cinza"
-                          disabled = {(this.state.item4)? "disabled" : ""}
-                    />
-                  </div>
+                          </div>
+                          <div class="col-4">
+                            <span class="titulo-caixa">Meta do<br/>EBITDA: </span>
+                            <input value={this.state.valor_meta_ebitda} 
+                                  onChange={this.handleChange_Valor_Meta_Ebitda} 
+                                  type="number" 
+                                  placeholder="R$" 
+                                  class="caixa texto-cinza"
+                                  disabled = {(this.state.item3)? "disabled" : ""}
+                            />
+                          </div>
+                          <div class="col-4">
+                            
+                            <span class="titulo-caixa">% do<br/>EBITDA:</span>
+                            <input value={this.state.porcento_ebitda} 
+                                  onChange={this.handleChange_Porcento_Ebitda} 
+                                  type="number" 
+                                  placeholder="%" 
+                                  class="caixa texto-cinza"
+                                  disabled = {(this.state.item4)? "disabled" : ""}
+                            />
+                          </div>
 
-                  <a id="saveBtn" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" onClick={this.saveInDB} role="button" >Salvar</a>
+                          <a id="saveBtn" class="btn mx-auto mt-5 text-white px-5 font-weight-bold" onClick={this.saveInDB} role="button" >Salvar</a>
 
-                </div>
-              </div>
+                        </div>
+                      </div>
               
                   </Modal.Body>
                 </Modal>
@@ -675,7 +657,7 @@ export default class App extends Component {
           </nav>
 
 
-  <Tabela tableRef={this.tableRef} info={this.state.tabela} base={this.state.valor_crescimento}/>
+  <Tabela tableRef={this.tableRef} info={this.state.tabela} base={this.state.valor_crescimento} base_zero_id={this.state.base_zero_id}/>
 
   
 

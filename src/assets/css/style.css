@@ -209,6 +209,20 @@
     background-color: rgb(106, 106, 248);
   }
 
+  #btn_add_CPV{
+    border-radius: 47px;
+    height: 38px;
+    width: 290px;
+    background-color: rgb(106, 106, 248);
+  }
+
+  #btn_add_Variable{
+    border-radius: 47px;
+    height: 38px;
+    width: 290px;
+    background-color: rgb(106, 106, 248);
+  }
+
 
   #tabela{
     margin-left: 25px;
