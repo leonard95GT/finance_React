@@ -264,7 +264,12 @@ function DashFinal(props) {
     
     }));
   
-  setControladorCategoria(true);
+    setNameCategoria('');
+    setTipoCusto(0);
+    setTipoVenda(0);
+    setValorVenda(0);
+    setQuantVenda(0);
+    setControladorCategoria(true);
   }
 
   function adicionarCanal(){
@@ -887,9 +892,17 @@ function addTax(){
                           />
                       </div>
 
-                      <div class="col-12 text-center">
-                      {produto.it.map((p)=>(
-                        <p>{p.name}</p>
+                      <div>
+                      {produto.it.map((p, i)=>(
+                        <div key={i} class="row">
+                          <div class="col-6">
+                            <span class="texto-cinza mr-2">Categoria do Produto:</span>
+                          </div>
+                          <div class="col-6">
+                            <p class="text-dark texto-cinza px-5 py-2 rounded">{p.name}</p>                            
+                          </div>
+
+                        </div>
                         
                       ))}
                       </div>
@@ -951,8 +964,10 @@ function addTax(){
                           />
                       </div>
 
-                      {tipoVenda 
+                      {tipoVenda === 0
                       ?
+                      ''
+                      :
                       <div class="col-6 text-center">
                           <span class="titulo-caixa">Quantidade</span>
                           <input onChange={e => setValorVenda(e.target.value)} 
@@ -963,8 +978,9 @@ function addTax(){
                           name=""
                           />
                       </div>
-                      :
-                      ''}
+                      
+                  
+                      }
 
                       <a id="save"
                         class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
