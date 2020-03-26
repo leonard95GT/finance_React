@@ -50,6 +50,9 @@ function DashFinal(props) {
     const [nameCostVariable, setNameCostVariable] = useState('');
     const [typeCostVariable, setTypeCostVariable] = useState(0);
     const [valueCostVariable, setValueCostVariable] = useState(0);
+    const [despesasTotal, setDespesasTotal] = useState(0);
+    const [custosTotal, setCustosTotal] = useState(0);
+    const [salario, setSalario] = useState(0)
 
     //Outras Despesas
     const [nameCostProduct, setNameCostProduct] = useState('');
@@ -61,9 +64,15 @@ function DashFinal(props) {
     const [bmargemBruta, setMargemBruta] = useState(0);
     const [lucroBruto, setLucroBruto] = useState(0);
     const [ebitda, setEbitda] = useState(0);
+    const [receitinha, setReceitinha] = useState(0);
+    const [receitaBruta, setReceitaBruta] = useState(0)
     const [percentEbitda, setPercentEbitda] = useState(0);
     const [lucroLiquido, setLucroLiquido] = useState(0);
 
+
+    const [receitaLiquida, setReceitaLiquida] = useState({
+      receita:[]
+    })
 
 
     //Modais: só aparecer se a tabela não estiver sendo editada
@@ -438,6 +447,7 @@ function DashFinal(props) {
 
     let valorImpostoParcela1 = ((resultadoParaImposto.mouth1 / 100) * impostos)
     let descontoImposto1 = resultadoParaImposto.mouth1 - valorImpostoParcela1
+    
 
     let valorImpostoParcela2 = ((resultadoParaImposto.mouth2 / 100) * impostos)
     let descontoImposto2 = resultadoParaImposto.mouth2 - valorImpostoParcela2
@@ -508,6 +518,7 @@ function DashFinal(props) {
         return { ...prevState, data };
       });
 
+
       for(let i = 0; i < itemsTax.items.length; i++){
         let valorAnual = (itemsTax.items[i].valueTax * 12)
         setState(prevState => {
@@ -556,32 +567,101 @@ function DashFinal(props) {
         });
         return { ...prevState, data };
       });
+      setReceitinha(Math.round(descontoGeral))
 
 
+      let percent1 = (state.data[0].mouth1 - Math.round(descontoImposto1));
+      let finalPercent1 = (100 * percent1);
+      let resultadoDaPorcentagem1 = (finalPercent1 / state.data[0].mouth1)    
+      receitaLiquida.receita.push(descontoImposto1)  
 
-      let percentGrossfit;
+      let percent2 = (state.data[0].mouth2 - Math.round(descontoImposto2));
+      let finalPercent2 = (100 * percent2);
+      let resultadoDaPorcentagem2 = (finalPercent2 / state.data[0].mouth2)      
+      receitaLiquida.receita.push(descontoImposto2)  
 
-      //ainda em ajuste
+      let percent3 = (state.data[0].mouth3 - Math.round(descontoImposto3));
+      let finalPercent3 = (100 * percent3);
+      let resultadoDaPorcentagem3 = (finalPercent3 / state.data[0].mouth3)      
+      receitaLiquida.receita.push(descontoImposto3)  
+
+      let percent4 = (state.data[0].mouth4 - Math.round(descontoImposto4));
+      let finalPercent4 = (100 * percent4);
+      let resultadoDaPorcentagem4 = (finalPercent4 / state.data[0].mouth4)      
+      receitaLiquida.receita.push(descontoImposto4)  
+
+      let percent5 = (state.data[0].mouth5 - Math.round(descontoImposto5));
+      let finalPercent5 = (100 * percent5);
+      let resultadoDaPorcentagem5 = (finalPercent5 / state.data[0].mouth5)      
+      receitaLiquida.receita.push(descontoImposto5)  
+
+      let percent6 = (state.data[0].mouth6 - Math.round(descontoImposto6));
+      let finalPercent6 = (100 * percent6);
+      let resultadoDaPorcentagem6 = (finalPercent6 / state.data[0].mouth6)      
+      receitaLiquida.receita.push(descontoImposto6)  
+
+      let percent7 = (state.data[0].mouth7 - Math.round(descontoImposto7));
+      let finalPercent7 = (100 * percent7);
+      let resultadoDaPorcentagem7 = (finalPercent7 / state.data[0].mouth7)      
+      receitaLiquida.receita.push(descontoImposto7)  
+
+      let percent8 = (state.data[0].mouth8 - Math.round(descontoImposto8));
+      let finalPercent8 = (100 * percent8);
+      let resultadoDaPorcentagem8 = (finalPercent8 / state.data[0].mouth8)      
+      receitaLiquida.receita.push(descontoImposto8)  
+
+      let percent9 = (state.data[0].mouth9 - Math.round(descontoImposto9));
+      let finalPercent9 = (100 * percent9);
+      let resultadoDaPorcentagem9 = (finalPercent9 / state.data[0].mouth9)      
+      receitaLiquida.receita.push(descontoImposto9)  
+
+      let percent10 = (state.data[0].mouth10 - Math.round(descontoImposto10));
+      let finalPercent10 = (100 * percent10);
+      let resultadoDaPorcentagem10 = (finalPercent10 / state.data[0].mouth10)      
+      receitaLiquida.receita.push(descontoImposto10)  
+
+      let percent11 = (state.data[0].mouth11 - Math.round(descontoImposto11));
+      let finalPercent11 = (100 * percent11);
+      let resultadoDaPorcentagem11 = (finalPercent11 / state.data[0].mouth11)      
+      receitaLiquida.receita.push(descontoImposto11)  
+
+      let percent12 = (state.data[0].mouth12 - Math.round(descontoImposto12));
+      let finalPercent12 = (100 * percent12);
+      let resultadoDaPorcentagem12 = (finalPercent12 / state.data[0].mouth12)      
+      receitaLiquida.receita.push(descontoImposto12)  
+
+      
+      let somaReceitaLiquida = 0;
+      for(let h = 0; h <=receitaLiquida.receita.length; h++){
+        somaReceitaLiquida = (parseInt(somaReceitaLiquida) + parseInt(receitaLiquida.receita[h]))
+      }
+
+      console.log('tudinho: ' + somaReceitaLiquida)
+
       setState(prevState => {
         const data = [...prevState.data];
         data.push({
             description: '% da Receita Bruta',
-            mouth1: Math.round(valorImpostoParcela1),
-            mouth2: Math.round(valorImpostoParcela2),
-            mouth3: Math.round(valorImpostoParcela3),
-            mouth4: Math.round(valorImpostoParcela4),
-            mouth5: Math.round(valorImpostoParcela5),
-            mouth6: Math.round(valorImpostoParcela6),
-            mouth7: Math.round(valorImpostoParcela7),
-            mouth8: Math.round(valorImpostoParcela8),
-            mouth9: Math.round(valorImpostoParcela9),
-            mouth10: Math.round(valorImpostoParcela10),
-            mouth11: Math.round(valorImpostoParcela11),
-            mouth12: Math.round(valorImpostoParcela12),
-            count: Math.round(valorGeral)
+            mouth1: resultadoDaPorcentagem1,
+            mouth2: resultadoDaPorcentagem2,
+            mouth3: resultadoDaPorcentagem3,
+            mouth4: resultadoDaPorcentagem4,
+            mouth5: resultadoDaPorcentagem5,
+            mouth6: resultadoDaPorcentagem6,
+            mouth7: resultadoDaPorcentagem7,
+            mouth8: resultadoDaPorcentagem8,
+            mouth9: resultadoDaPorcentagem9,
+            mouth10: resultadoDaPorcentagem10,
+            mouth11: resultadoDaPorcentagem11,
+            mouth12: resultadoDaPorcentagem12,
+            count: Math.round(descontoGeral )
         });
         return { ...prevState, data };
       });
+
+      
+
+  
     }else{
       console.log('é atualização')
       let pos = (state.data.length - 1)
@@ -641,14 +721,25 @@ function DashFinal(props) {
   }
 
  function custoProduto(){
+  let item = custosCPV.items[contadorFinal];
+
+  item.nomeDoCusto = nameCostProduct;
+  item.valorDoCusto = valueCostProduct;
+  item.tipoDoCusto = typeCostProduct;
+
+  custosCPV.items[contadorFinal] = item;
+
 
   for(let i = 0; i < custosCPV.items.length; i++){
+    console.log('ver se o for do custo está funcionando: ' + custosCPV.items.length)
       custosCPVFinal.items.push({
         nomeDoCusto: custosCPV.items[i].nomeDoCusto,
         tipoDoCusto: custosCPV.items[i].tipoDoCusto,
         valorDoCusto: custosCPV.items[i].valorDoCusto
       })
   }
+
+
 
   let numero = contador2;
 
@@ -657,6 +748,7 @@ function DashFinal(props) {
 
     for(var v = 0; v < custosCPVFinal.items.length; v++){
       valorTotalMes = (parseInt(valorTotalMes) + parseInt(custosCPVFinal.items[v].valorDoCusto))
+      console.log('ver se o for do custo Final está funcionando: ' + custosCPVFinal.items[v].valorDoCusto)
     }
 
     let valorTotalGeral = (valorTotalMes * 12)
@@ -708,12 +800,16 @@ function DashFinal(props) {
       });
     }
 
+    console.log('receita liquida: '+receitinha)
+    console.log('receita Bruta: '+props.base)
+    console.log('custo: '+valorTotalGeral)
 
     const proxyurl = "https://cors-anywhere.herokuapp.com/";  
-    axios.post(proxyurl + 'http://34.70.109.4/tax', {
+    axios.post(proxyurl + 'http://34.70.109.4/projection/gross', {
   
-    //name: itemsTax.items[i].nameTax,
-    //value: itemsTax.items[i].valueTax  
+      receitaLiquida: receitinha,
+      receitaBruta: props.base,
+      custo: valorTotalGeral
 
     },
     {
@@ -725,12 +821,62 @@ function DashFinal(props) {
         host: '34.70.109.4',
         port: 8080
       }
-      }).then(function (response) {
-        //console..log('response is : ' + response.data);
-        
+      }).then(res => {
+
+        setLucroBruto(res.data.resultadoProfit)
+        console.log(res.data.resultadoProfit)
+
+        setState(prevState => {
+          const data = [...prevState.data];
+          data.push({
+              description: 'Lucro Bruto',
+              mouth1: (res.data.resultadoProfit / 12),
+              mouth2: (res.data.resultadoProfit / 12),
+              mouth3: (res.data.resultadoProfit / 12),
+              mouth4: (res.data.resultadoProfit / 12),
+              mouth5: (res.data.resultadoProfit / 12),
+              mouth6: (res.data.resultadoProfit / 12),
+              mouth7: (res.data.resultadoProfit / 12),
+              mouth8: (res.data.resultadoProfit / 12),
+              mouth9: (res.data.resultadoProfit / 12),
+              mouth10: (res.data.resultadoProfit / 12),
+              mouth11: (res.data.resultadoProfit / 12),
+              mouth12: (res.data.resultadoProfit / 12),
+              count: (parseInt(res.data.resultadoProfit))
+          });
+          return { ...prevState, data };
+        });
+
+        setState(prevState => {
+          const data = [...prevState.data];
+          data.push({
+              description: 'Margem Bruta',
+              mouth1: (res.data.resultadoMargem ),
+              mouth2: (res.data.resultadoMargem ),
+              mouth3: (res.data.resultadoMargem ),
+              mouth4: (res.data.resultadoMargem ),
+              mouth5: (res.data.resultadoMargem ),
+              mouth6: (res.data.resultadoMargem ),
+              mouth7: (res.data.resultadoMargem ),
+              mouth8: (res.data.resultadoMargem ),
+              mouth9: (res.data.resultadoMargem ),
+              mouth10: (res.data.resultadoMargem ),
+              mouth11: (res.data.resultadoMargem ),
+              mouth12: (res.data.resultadoMargem ),
+              count: (parseInt(res.data.resultadoMargem))
+          });
+          return { ...prevState, data };
+        });
+
+  
+
       }).catch(function (err){
         //console..log(err)
       })
+
+
+
+
 
     setCustosCPV(limpa)
     handleCloseProduto()
@@ -823,6 +969,7 @@ function DashFinal(props) {
   
   }
 
+  setCustosTotal(valorMes)
   setFase(3)
   setContador2(0);
  }
@@ -851,6 +998,7 @@ function DashFinal(props) {
     return { ...prevState, data };
   });
 
+  setSalario(valorSalarioGeral)
 
   setFase(4)
  }
@@ -865,16 +1013,15 @@ function DashFinal(props) {
 
   itemsCost.items[contador2] = item;
 
-  
+  var valorMes = 0
   let valorGeral = 0;
 
   for(let i = 0; i < itemsCost.items.length; i++){
     valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
   }
 
-  console.log('Soma das despesas '+valorGeral)
 
-  let valorMes = (valorGeral * 12)
+  valorMes = (valorGeral * 12)
    
   setState(prevState => {
     const data = [...prevState.data];
@@ -896,6 +1043,7 @@ function DashFinal(props) {
     });
     return { ...prevState, data };
   });
+
 
 
   for(let i = 0; i < itemsCost.items.length; i++){
@@ -923,6 +1071,68 @@ function DashFinal(props) {
     });
   
   }
+
+  console.log('Soma das despesas '+valorGeral)
+
+  //ROL
+  //setDespesasTotal(valorGeral*12);
+
+  let soma = (valorGeral * 12)
+  console.log('despesas: '+soma);
+  console.log('custos: '+custosTotal);
+  console.log('salarios: '+salario);
+
+  let somaGeral = (soma + custosTotal + salario);
+
+  const proxyurl = "https://cors-anywhere.herokuapp.com/";  
+  axios.post(proxyurl + 'http://34.70.109.4/projection/rol', {
+
+    totalDespesa: somaGeral,
+    receitaLiquida: receitinha,
+
+  }, 
+  {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*'
+    },
+    proxy: {
+      host: '34.70.109.4',
+      port: 8080
+    }
+    }).then(res => {
+     
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: 'ROL',
+            mouth1: res.data.resultado + '%',
+            mouth2: res.data.resultado + '%',
+            mouth3: res.data.resultado + '%',
+            mouth4: res.data.resultado + '%',
+            mouth5: res.data.resultado + '%',
+            mouth6: res.data.resultado + '%',
+            mouth7: res.data.resultado + '%',
+            mouth8: res.data.resultado + '%',
+            mouth9: res.data.resultado + '%',
+            mouth10: res.data.resultado + '%',
+            mouth11: res.data.resultado + '%',
+            mouth12: res.data.resultado + '%',
+            count: res.data.resultado + '%'
+        });
+        return { ...prevState, data };
+      });
+    
+
+    }
+
+    ).catch(function (err){
+      console.log(err)
+    })
+
+
+  
+
 
   setFase(5)
  }
@@ -1027,7 +1237,6 @@ function addCusto(){
   }))
 
 }
-
  
 
   if(fase===0){
