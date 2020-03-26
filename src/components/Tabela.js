@@ -1095,7 +1095,9 @@ function addCusto(){
                   <div class="row mb-6">
                   <div class="col-6 text-center">
                           <span class="titulo-caixa">Nome da<br/>categoria<br/>do produto</span>
-                          <input onChange={w => setNameCategoria(w.target.value)} 
+                          <input 
+                          value={nameCategoria}
+                          onChange={w => setNameCategoria(w.target.value)} 
                           class="text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-categoria" 
                           placeholder="Digite o nome da categoria" 
