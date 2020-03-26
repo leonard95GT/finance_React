@@ -296,7 +296,6 @@ function DashFinal(props) {
     }));
   
     setNameCategoria('');
-    setDescription('')
     setTipoCusto(0);
     setTipoVenda(0);
     setValorVenda(0);
