@@ -56,6 +56,16 @@ function DashFinal(props) {
     const [typeCostProduct, setTypeCostProduct] = useState(0);
     const [valueCostProduct, setValueCostProduct] = useState(0);
 
+    //Valores recebidos do backend
+    const [rol, setRol] = useState(0);
+    const [bmargemBruta, setMargemBruta] = useState(0);
+    const [lucroBruto, setLucroBruto] = useState(0);
+    const [ebitda, setEbitda] = useState(0);
+    const [percentEbitda, setPercentEbitda] = useState(0);
+    const [lucroLiquido, setLucroLiquido] = useState(0);
+
+
+
     //Modais: só aparecer se a tabela não estiver sendo editada
     const handleClose = () => setShow(false);
     const handleShow = () => {
@@ -286,6 +296,7 @@ function DashFinal(props) {
     }));
   
     setNameCategoria('');
+    setDescription('')
     setTipoCusto(0);
     setTipoVenda(0);
     setValorVenda(0);
@@ -416,8 +427,6 @@ function DashFinal(props) {
         }).catch(function (err){
           //console..log(err)
         })
-
-
     }
 
     console.log('valor geral: '+valor)
@@ -549,10 +558,11 @@ function DashFinal(props) {
         return { ...prevState, data };
       });
 
-      
+
 
       let percentGrossfit;
 
+      //ainda em ajuste
       setState(prevState => {
         const data = [...prevState.data];
         data.push({
@@ -632,13 +642,6 @@ function DashFinal(props) {
   }
 
  function custoProduto(){
-  const item = custosCPV.items[contadorFinal];
-
-  item.nomeDoCusto = nameCostProduct;
-  item.valorDoCusto = valueCostProduct;
-  item.tipoDoCusto = typeCostProduct;
-
-  console.log('Tamanho para o For: '+custosCPV.items.length)  
 
   for(let i = 0; i < custosCPV.items.length; i++){
       custosCPVFinal.items.push({
@@ -706,6 +709,30 @@ function DashFinal(props) {
       });
     }
 
+
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";  
+    axios.post(proxyurl + 'http://34.70.109.4/tax', {
+  
+    //name: itemsTax.items[i].nameTax,
+    //value: itemsTax.items[i].valueTax  
+
+    },
+    {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*'
+      },
+      proxy: {
+        host: '34.70.109.4',
+        port: 8080
+      }
+      }).then(function (response) {
+        //console..log('response is : ' + response.data);
+        
+      }).catch(function (err){
+        //console..log(err)
+      })
+
     setCustosCPV(limpa)
     handleCloseProduto()
     setContador2(0)
@@ -727,7 +754,6 @@ function DashFinal(props) {
 
 
  }
-
 
  function custoVariavel(){
   const item = itemsCostVariable.items[contador2];
@@ -978,8 +1004,8 @@ function addTax(){
 }
 
 function addCusto(){
-  const item = custosCPV.items[contadorFinal];
-  const numero = contadorFinal;
+  let item = custosCPV.items[contadorFinal];
+  let numero = contadorFinal;
 
   item.nomeDoCusto = nameCostProduct;
   item.valorDoCusto = valueCostProduct;
@@ -1002,7 +1028,7 @@ function addCusto(){
   }))
 
 }
- 
+
  
 
   if(fase===0){
@@ -1021,7 +1047,9 @@ function addCusto(){
                   <div class="row mb-4">
                       <div class="col-12 text-center">
                         <span class="texto-cinza mr-2">Canal de distribuição:</span>
-                          <input onChange={e => setDescription(e.target.value)} 
+                          <input 
+                          value={description}
+                          onChange={e => setDescription(e.target.value)} 
                           class="text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-canal" 
                           placeholder="Digite o nome do canal" 
@@ -1079,7 +1107,7 @@ function addCusto(){
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
                             <select value={tipoCusto} onChange={s => setTipoCusto(s.target.value)}>
                                 <option value="0" class="titulo-caixa">CPV</option>
-                                <option value="1" class="titulo-caixa" >CMM</option>
+                                <option value="1" class="titulo-caixa" >CMV</option>
                                 <option value="2" class="titulo-caixa" >CSV</option>
                             </select>
                       </div>
