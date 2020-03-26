@@ -22,7 +22,7 @@ function DashFinal(props) {
     const [renda, setRenda] = useState(2000);
     const [contador, setContador] = useState(0);
     const [contador2, setContador2] = useState(0);
-    const [contadorFinal, setContadorFinal] = useState(20);
+    const [contadorFinal, setContadorFinal] = useState(0);
     const [renda2, setRenda2] = useState(0);
     const [valorInicial, setValorInicial] = useState(1000000000000)
     const [calculado, setCalculado] = useState(true)
@@ -50,6 +50,11 @@ function DashFinal(props) {
     const [nameCostVariable, setNameCostVariable] = useState('');
     const [typeCostVariable, setTypeCostVariable] = useState(0);
     const [valueCostVariable, setValueCostVariable] = useState(0);
+
+    //Outras Despesas
+    const [nameCostProduct, setNameCostProduct] = useState('');
+    const [typeCostProduct, setTypeCostProduct] = useState(0);
+    const [valueCostProduct, setValueCostProduct] = useState(0);
 
     //Modais: só aparecer se a tabela não estiver sendo editada
     const handleClose = () => setShow(false);
@@ -200,6 +205,22 @@ function DashFinal(props) {
           nameTax:'', 
           valueTax:0
         }
+      ]
+    })
+
+    const [custosCPV, setCustosCPV] = useState({
+      items:[
+        {nomeDoCusto: '', tipoDoCusto: 0, valorDoCusto:0}
+      ]
+    })
+
+    const [custosCPVFinal, setCustosCPVFinal] = useState({
+      items:[]
+    })
+
+    const [limpa, setLimpa] = useState({
+      items:[
+        {nomeDoCusto: '', tipoDoCusto: 0, valorDoCusto:0}
       ]
     })
 
@@ -360,34 +381,6 @@ function DashFinal(props) {
   }
   
   function calcularImpostos(){
-
-    
-    // const valor = contadorFinal;
-    // setContadorFinal(valor);
-
-    // const proxyurl = "https://cors-anywhere.herokuapp.com/";  
-    // axios.post(proxyurl + 'http://34.70.109.4/tax', {
-  
-    // name: nameTax,
-    // value: tax 
-
-    // },
-    // {
-    //   headers: {
-    //     'Access-Control-Allow-Origin': '*',
-    //     'Access-Control-Allow-Headers': '*'
-    //   },
-    //   proxy: {
-    //     host: '34.70.109.4',
-    //     port: 8080
-    //   }
-    //   }).then(function (response) {
-    //     //console..log('response is : ' + response.data);
-        
-    //   }).catch(function (err){
-    //     //console..log(err)
-    //   })
-
     const item = itemsTax.items[contador2];
   
     item.nameTax = nameTax;
@@ -531,6 +524,8 @@ function DashFinal(props) {
         });
   
       }
+
+
   
   
       setState(prevState => {
@@ -550,6 +545,31 @@ function DashFinal(props) {
             mouth11: Math.round(descontoImposto11),
             mouth12: Math.round(descontoImposto12),
             count: Math.round(descontoGeral )
+        });
+        return { ...prevState, data };
+      });
+
+      
+
+      let percentGrossfit;
+
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: '% da Receita Bruta',
+            mouth1: Math.round(valorImpostoParcela1),
+            mouth2: Math.round(valorImpostoParcela2),
+            mouth3: Math.round(valorImpostoParcela3),
+            mouth4: Math.round(valorImpostoParcela4),
+            mouth5: Math.round(valorImpostoParcela5),
+            mouth6: Math.round(valorImpostoParcela6),
+            mouth7: Math.round(valorImpostoParcela7),
+            mouth8: Math.round(valorImpostoParcela8),
+            mouth9: Math.round(valorImpostoParcela9),
+            mouth10: Math.round(valorImpostoParcela10),
+            mouth11: Math.round(valorImpostoParcela11),
+            mouth12: Math.round(valorImpostoParcela12),
+            count: Math.round(valorGeral)
         });
         return { ...prevState, data };
       });
@@ -612,8 +632,102 @@ function DashFinal(props) {
   }
 
  function custoProduto(){
-  setFase(2)
+  const item = custosCPV.items[contadorFinal];
+
+  item.nomeDoCusto = nameCostProduct;
+  item.valorDoCusto = valueCostProduct;
+  item.tipoDoCusto = typeCostProduct;
+
+  console.log('Tamanho para o For: '+custosCPV.items.length)  
+
+  for(let i = 0; i < custosCPV.items.length; i++){
+      custosCPVFinal.items.push({
+        nomeDoCusto: custosCPV.items[i].nomeDoCusto,
+        tipoDoCusto: custosCPV.items[i].tipoDoCusto,
+        valorDoCusto: custosCPV.items[i].valorDoCusto
+      })
+  }
+
+  let numero = contador2;
+
+  if(contador2 === (parseInt(produto.it.length) - 1)){
+    let valorTotalMes = 0; 
+
+    for(var v = 0; v < custosCPVFinal.items.length; v++){
+      valorTotalMes = (parseInt(valorTotalMes) + parseInt(custosCPVFinal.items[v].valorDoCusto))
+    }
+
+    let valorTotalGeral = (valorTotalMes * 12)
+
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: 'CPV/CSV/CMV',
+          mouth1: valorTotalMes,
+          mouth2: valorTotalMes,
+          mouth3: valorTotalMes,
+          mouth4: valorTotalMes,
+          mouth5: valorTotalMes,
+          mouth6: valorTotalMes,
+          mouth7: valorTotalMes,
+          mouth8: valorTotalMes,
+          mouth9: valorTotalMes,
+          mouth10: valorTotalMes,
+          mouth11: valorTotalMes,
+          mouth12: valorTotalMes,
+          count: valorTotalGeral
+      });
+      return { ...prevState, data };
+    });
+
+    for(let r = 0; r < custosCPVFinal.items.length; r++){
+      console.log('na variavel: '+ custosCPVFinal.items[r].nomeDoCusto);
+      setNameCostProduct(custosCPVFinal.items[r].nomeDoCusto)
+      console.log('no set', nameCostProduct)
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: custosCPVFinal.items[r].nomeDoCusto,
+            mouth1: custosCPVFinal.items[r].valorDoCusto,
+            mouth2: custosCPVFinal.items[r].valorDoCusto,
+            mouth3: custosCPVFinal.items[r].valorDoCusto,
+            mouth4: custosCPVFinal.items[r].valorDoCusto,
+            mouth5: custosCPVFinal.items[r].valorDoCusto,
+            mouth6: custosCPVFinal.items[r].valorDoCusto,
+            mouth7: custosCPVFinal.items[r].valorDoCusto,
+            mouth8: custosCPVFinal.items[r].valorDoCusto,
+            mouth9: custosCPVFinal.items[r].valorDoCusto,
+            mouth10: custosCPVFinal.items[r].valorDoCusto,
+            mouth11: custosCPVFinal.items[r].valorDoCusto,
+            mouth12: custosCPVFinal.items[r].valorDoCusto,
+            count: custosCPVFinal.items[r].valorDoCusto
+        });
+        return { ...prevState, data };
+      });
+    }
+
+    setCustosCPV(limpa)
+    handleCloseProduto()
+    setContador2(0)
+    setFase(2)
+
+
+  }else{
+
+
+    setContador2(numero + 1)
+    setCustosCPV(limpa)
+    handleCloseProduto()
+    console.log('não é')
+    setInterval(()=>{
+      setShowProduto(true)
+    }, 2000)
+
+  }
+
+
  }
+
 
  function custoVariavel(){
   const item = itemsCostVariable.items[contador2];
@@ -863,6 +977,31 @@ function addTax(){
 
 }
 
+function addCusto(){
+  const item = custosCPV.items[contadorFinal];
+  const numero = contadorFinal;
+
+  item.nomeDoCusto = nameCostProduct;
+  item.valorDoCusto = valueCostProduct;
+  item.tipoDoCusto = typeCostProduct;
+
+  custosCPV.items[contadorFinal] = item;
+  //console.log(itemsTax.items[contador2])
+
+  setContadorFinal(numero+1);
+  setNameCostProduct('');
+  setValueCostProduct('');
+  setTypeCost(0)
+  
+  setCustosCPV(prevItems => ({
+    items: [...prevItems.items, {
+      nomeDoCusto: '',
+      tipoDoCusto: 0,
+      valorDoCusto: 0
+    }]
+  }))
+
+}
  
  
 
@@ -872,7 +1011,6 @@ function addTax(){
       <div id="tabela">
           <Modal show={show} onHide={handleClose}>
             <Modal.Body>  
-
               {controlCategoria 
               ?
               <>
@@ -1351,11 +1489,13 @@ function addTax(){
             <div class="text-center text-muted">
               <h4 class="font-weight-bold" >Adicionar custo do produto</h4>
             </div>
+              
               <div class="container" id="container-central">
                 <div class="row mb-4">
-                    <div class="col-12 text-center">
-                      <span class="texto-cinza mr-2">Canal de distribuição:</span>
-                        <input onChange={e => setDescription(e.target.value)} 
+                    <div class="col-6 text-center">
+                      <span class="texto-cinza mr-2">Nome da Categoria do produto:</span>
+                        <input
+                        value={produto.it[contador2].name} 
                         class="text-dark texto-cinza px-5 py-2 rounded" 
                         id="nome-canal" 
                         placeholder="Digite o nome do canal" 
@@ -1363,20 +1503,112 @@ function addTax(){
                         name="canal"
                         />
                     </div>
-
-                    <div class="col-12 text-center">
-                    {produto.it.map((p)=>(
-                      <p>{p.name}</p>
-                      
-                    ))}
+                    
+                    <div class="col-6 text-center">
+                      <span class="texto-cinza mr-2">Tipo de Custo:</span>
+                        <input 
+                        value={produto.it[contador2].type_cost}  
+                        class="text-dark texto-cinza px-5 py-2 rounded" 
+                        id="nome-canal" 
+                        placeholder="Digite o nome do canal" 
+                        type="text" 
+                        name="canal"
+                        />
                     </div>
+                </div>
+
+                {produto.it[contador2].type_cost==0
+                ?
+                <>
+                  {custosCPV.items.map((e, i) =>
+                    <div key={i}>
+                          <div class="row mb-4">
+                            <div class="col-4 text-center">
+                              <span class="texto-cinza mr-2">Nome do Custo:</span>
+                                <input
+                                onChange={e => setNameCostProduct(e.target.value)}
+                                class="text-dark texto-cinza px-5 py-2 rounded" 
+                                id="nome-canal" 
+                                placeholder="Digite o nome do canal" 
+                                type="text" 
+                                name="canal"
+                                />
+                            </div>
+                            <div class="col-4 text-center">
+                              <span class="texto-cinza mr-2">Valor do Custo:</span>
+                                <input 
+                                onChange={e => setValueCostProduct(e.target.value)}
+                                class="text-dark texto-cinza px-5 py-2 rounded" 
+                                id="nome-canal" 
+                                placeholder="Digite o nome do canal" 
+                                type="text" 
+                                name="canal"
+                                />
+                            </div>
+                            <div class="col-4 text-center">
+                              <span class="titulo-caixa">Tipo do<br/>custo</span>
+                              <select value={tipoCusto} onChange={s => setTypeCostProduct(s.target.value)}>
+                                  <option value="0" class="titulo-caixa">Matéria Prima</option>
+                                  <option value="1" class="titulo-caixa" >Outros Custos</option>
+                                  <option value="2" class="titulo-caixa" >Mão de Obra</option>
+                              </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                  )}
+
+                    <a id="save"
+                      class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                      role="button"
+                      onClick={addCusto}>+
+                    </a>
+
+                </>
+                :
+                <div class="row mb-4">
+                            <div class="col-4 text-center">
+                              <span class="texto-cinza mr-2">Nome do Custo:</span>
+                                <input
+                                onChange={e => setNameCostProduct(e.target.value)}
+                                class="text-dark texto-cinza px-5 py-2 rounded" 
+                                id="nome-canal" 
+                                placeholder="Digite o nome do canal" 
+                                type="text" 
+                                name="canal"
+                                />
+                            </div>
+                            <div class="col-4 text-center">
+                              <span class="texto-cinza mr-2">Valor do Custo:</span>
+                                <input 
+                                onChange={e => setValueCostProduct(e.target.value)}
+                                class="text-dark texto-cinza px-5 py-2 rounded" 
+                                id="nome-canal" 
+                                placeholder="Digite o nome do canal" 
+                                type="text" 
+                                name="canal"
+                                />
+                            </div>
+                            <div class="col-4 text-center">
+                              <span class="titulo-caixa">Tipo do<br/>custo</span>
+                              <select value={typeCostProduct} onChange={s => setTypeCostProduct(s.target.value)}>
+                                  <option value="0" class="titulo-caixa">Matéria Prima</option>
+                                  <option value="1" class="titulo-caixa" >Outros Custos</option>
+                                  <option value="2" class="titulo-caixa" >Mão de Obra</option>
+                              </select>
+                            </div>
+            </div>
+                }
+
+
 
                     <a id="save"
                       class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                       role="button"
                       onClick={custoProduto}>Salvar
                     </a>
-                </div>
+                
             </div>
             </>
           
