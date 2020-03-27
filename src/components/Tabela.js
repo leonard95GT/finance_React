@@ -2717,8 +2717,8 @@ function teste(){
             <h4 class="font-weight-bold" >Adicionar salário</h4>
           </div>
             <div class="container" id="container-central">
-              <div class="row mb-6">
-                <div class="col-12 text-center">
+              <div class="row justify-content-center">
+                <div class="col-md-auto">
                       <span class="titulo-caixa">Valor mensal dos salários</span>
                       <input onChange={w => setSalary(w.target.value)} 
                       class="text-dark texto-cinza px-5 py-2 rounded" 
