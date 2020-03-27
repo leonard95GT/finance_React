@@ -1809,13 +1809,13 @@ function addCusto(){
         ''
         }
 
-        <Modal show={show2} onHide={handleClose2}>
+        <Modal class="containerzao" show={show2} onHide={handleClose2}>
           <Modal.Body>
             <div class="text-center text-muted">
               <h4 class="font-weight-bold" >Adicionar imposto médio</h4>
             </div>
 
-            <div class="container containerzao" id="container-central">
+            <div class="container " id="container-central">
             {itemsTax.items.map((i, e) => 
                       <div key={i}>
                         <div class="row mb-4">
