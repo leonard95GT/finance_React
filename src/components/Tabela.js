@@ -2692,7 +2692,7 @@ function addCusto(){
                   </div>
                 </div>
                 <div class="row justify-content-center">
-                  <div class="col-12">
+                  <div class="col-md-auto">
                       <a id="save"
                         class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                         role="button"
