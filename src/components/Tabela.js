@@ -1873,7 +1873,7 @@ function addCusto(){
               
               <div class="container" id="container-central">
                 <div class="row mb-4">
-                    <div class="col-6 text-center">
+                    <div class="col-6">
                       <span class="texto-cinza mr-2">Nome da Categoria do produto:</span>
                         <input
                         value={produto.it[contador2].name} 
@@ -1885,7 +1885,7 @@ function addCusto(){
                         />
                     </div>
                     
-                    <div class="col-4 text-center">
+                    <div class="col-4">
                       <span class="texto-cinza mr-2">Tipo de Custo:</span>
                         <input 
                         value={produto.it[contador2].type_cost}  
@@ -1904,29 +1904,29 @@ function addCusto(){
                   {custosCPV.items.map((e, i) =>
                     <div key={i}>
                           <div class="row mb-4">
-                            <div class="col-4 text-center">
-                              <span class="texto-cinza mr-2">Nome do Custo:</span>
+                            <div class="col-4">
+                              <span class="texto-cinza mr-2">Nome <br/>do Custo:</span>
                                 <input
                                 onChange={e => setNameCostProduct(e.target.value)}
                                 class="text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
-                                placeholder="Digite o nome do Custo" 
+                                placeholder="" 
                                 type="text" 
                                 name="canal"
                                 />
                             </div>
-                            <div class="col-4 text-center">
-                              <span class="texto-cinza mr-2">Valor do Custo:</span>
+                            <div class="col-4">
+                              <span class="texto-cinza mr-2">Valor do<br/> Custo:</span>
                                 <input 
                                 onChange={e => setValueCostProduct(e.target.value)}
                                 class="text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
-                                placeholder="Digite o valor do custo" 
+                                placeholder="R$" 
                                 type="number" 
                                 name="canal"
                                 />
                             </div>
-                            <div class="col-4 text-center">
+                            <div class="col-4">
                               <span class="titulo-caixa-a">Tipo do<br/>custo</span>
                               <select value={typeCostProduct} onChange={s => setTypeCostProduct(s.target.value)}>
                                   <option value="0" class="titulo-caixa">Matéria Prima</option>
@@ -1949,8 +1949,8 @@ function addCusto(){
                 </>
                 :
                 <div class="row mb-4">
-                            <div class="col-4 text-center">
-                              <span class="texto-cinza mr-2">Nome do Custo:</span>
+                            <div class="col-4">
+                              <span class="texto-cinza mr-2">Nome <br/>do Custo:</span>
                                 <input
                                 onChange={e => setNameCostProduct(e.target.value)}
                                 class="text-dark texto-cinza px-5 py-2 rounded" 
