@@ -1413,17 +1413,19 @@ function addCusto(){
                         
                       ))}
                       </div>
-                      <a id="save"
-                        class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
-                        role="button"
-                        onClick={categoriaProd}>Incluir categoria de produtos
-                      </a>
+                        <div class="row">
+                            <a id="save"
+                              class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                              role="button"
+                              onClick={categoriaProd}>Incluir categoria de produtos
+                            </a>
 
-                      <a id="save"
-                        class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
-                        role="button"
-                        onClick={adicionarCanal}>Salvar
-                      </a>
+                            <a id="save"
+                              class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                              role="button"
+                              onClick={adicionarCanal}>Salvar
+                            </a>
+                      </div>
                   </div>
               </div>
               </>
@@ -1454,43 +1456,48 @@ function addCusto(){
                                 <option value="2" class="titulo-caixa" >CSV</option>
                             </select>
                       </div>
+                    </div>
+                    <div class="row" id="spaceInput">
+                        <div class="col-6 text-center">
+                            <span class="titulo-caixa">Tipo de<br/>valor de venda</span>
+                                <select value={tipoVenda} onChange={s => setTipoVenda(s.target.value)}>
+                                    <option value="0" class="titulo-caixa">Valor Total</option>
+                                    <option value="1" class="titulo-caixa" >Valor Unitário</option>
+                                </select>
+                          </div>
+                          <div class="col-6 text-center">
+                              <span class="titulo-caixa">Valor total<br/>de venda</span>
+                              <input onChange={e => setValorVenda(e.target.value)} 
+                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              id="nome-canal" 
+                              placeholder="R$" 
+                              type="number" 
+                              name=""
+                              />
+                          </div>
 
-                      <div class="col-6 text-center">
-                        <span class="titulo-caixa">Tipo de<br/>valor de venda</span>
-                            <select value={tipoVenda} onChange={s => setTipoVenda(s.target.value)}>
-                                <option value="0" class="titulo-caixa">Valor Total</option>
-                                <option value="1" class="titulo-caixa" >Valor Unitário</option>
-                            </select>
-                      </div>
-                      <div class="col-6 text-center">
-                          <span class="titulo-caixa">Valor total<br/>de venda</span>
-                          <input onChange={e => setValorVenda(e.target.value)} 
-                          class="text-dark texto-cinza px-5 py-2 rounded" 
-                          id="nome-canal" 
-                          placeholder="R$" 
-                          type="number" 
-                          name=""
-                          />
-                      </div>
-
-                      {tipoVenda === 0
-                      ?
-                      ''
-                      :
-                      <div class="col-6 text-center">
-                          <span class="titulo-caixa">Quantidade</span>
-                          <input onChange={e => setValorVenda(e.target.value)} 
-                          class="text-dark texto-cinza px-5 py-2 rounded" 
-                          id="nome-canal" 
-                          placeholder="R$" 
-                          type="number" 
-                          name=""
-                          />
-                      </div>
+                          {tipoVenda === 0
+                          ?
+                          ''
+                          :
+                          <div class="col-6 text-center">
+                              <span class="titulo-caixa">Quantidade</span>
+                              <input onChange={e => setValorVenda(e.target.value)} 
+                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              id="nome-canal" 
+                              placeholder="R$" 
+                              type="number" 
+                              name=""
+                              />
+                          </div>
+                          
                       
-                  
-                      }
+                          }
+ 
+                    </div>      
 
+                  
+                  <div class="row">
                       <a id="save"
                         class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                         role="button"
@@ -1498,6 +1505,7 @@ function addCusto(){
                           distribuicao
                           }>Salvar
                       </a>
+
                   </div>
               </div>
               </>}
@@ -1917,7 +1925,7 @@ function addCusto(){
                                 />
                             </div>
                             <div class="col-4 text-center">
-                              <span class="titulo-caixa">Tipo do<br/>custo</span>
+                              <span class="titulo-caixa-a">Tipo do<br/>custo</span>
                               <select value={typeCostProduct} onChange={s => setTypeCostProduct(s.target.value)}>
                                   <option value="0" class="titulo-caixa">Matéria Prima</option>
                                   <option value="1" class="titulo-caixa" >Outros Custos</option>
@@ -1962,7 +1970,7 @@ function addCusto(){
                                 />
                             </div>
                             <div class="col-4 text-center">
-                              <span class="titulo-caixa">Tipo do<br/>custo</span>
+                              <span class="titulo-caixa-a">Tipo do<br/>custo</span>
                               <select value={typeCostProduct} onChange={s => setTypeCostProduct(s.target.value)}>
                                   <option value="0" class="titulo-caixa">Matéria Prima</option>
                                   <option value="1" class="titulo-caixa" >Outros Custos</option>
@@ -1972,14 +1980,15 @@ function addCusto(){
             </div>
                 }
 
-
-
+                <div class='row'>
                     <a id="save"
                       class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                       role="button"
                       onClick={custoProduto}>Salvar
-                    </a>
-                
+                    </a>                
+                </div>
+
+                    
             </div>
             </>
           
@@ -2312,7 +2321,7 @@ function addCusto(){
                               class="text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
-                              type="text" 
+                              type="number" 
                               name=""
                         />
                       </div>

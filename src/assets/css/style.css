@@ -235,7 +235,7 @@
   }
 
   #spaceInput{
-    margin-bottom: 50px;
+    margin-top: 50px;
   }
 
   #input-cinza{
@@ -10214,6 +10214,16 @@
     font-weight: bold;
     font-size: 0.9em;
     width: 100px;
+    display: inline-block;
+    float: left;
+    text-align: right;
+    margin-right: 4px;
+  }
+
+  .titulo-caixa-a{
+    font-weight: bold;
+    font-size: 0.9em;
+    width: 120px;
     display: inline-block;
     float: left;
     text-align: right;
