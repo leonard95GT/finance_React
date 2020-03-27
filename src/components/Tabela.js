@@ -1465,10 +1465,10 @@ function addCusto(){
                                     <option value="1" class="titulo-caixa" >Valor Unitário</option>
                                 </select>
                           </div>
-                          <div class="col-6 text-center">
+                          <div class="col-6">
                               <span class="titulo-caixa">Valor total<br/>de venda</span>
                               <input onChange={e => setValorVenda(e.target.value)} 
-                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
                               type="number" 
