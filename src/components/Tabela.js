@@ -1874,10 +1874,10 @@ function addCusto(){
               <div class="container" id="container-central">
                 <div class="row mb-4">
                     <div class="col-6 text-center">
-                      <span class="texto-cinza mr-2">Nome da<br/>Categoria<br/>do produto:</span>
+                      <span class="texto-cinza mr-2">Nome da Categoria do produto:</span>
                         <input
                         value={produto.it[contador2].name} 
-                        class="text-dark texto-cinza px-5 py-2 rounded" 
+                        class="input-azul text-dark texto-cinza px-5 py-2 rounded" 
                         id="nome-canal" 
                         placeholder="Digite o nome do canal" 
                         type="text" 
@@ -1885,11 +1885,11 @@ function addCusto(){
                         />
                     </div>
                     
-                    <div class="col-6 text-center">
+                    <div class="col-4 text-center">
                       <span class="texto-cinza mr-2">Tipo de Custo:</span>
                         <input 
                         value={produto.it[contador2].type_cost}  
-                        class="text-dark texto-cinza px-5 py-2 rounded" 
+                        class="input-azul text-dark texto-cinza px-5 py-2 rounded" 
                         id="nome-canal" 
                         placeholder="Digite o nome do canal" 
                         type="text" 

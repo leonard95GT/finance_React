@@ -242,6 +242,12 @@
     background: #ecf0f6;
     border: none;
   }
+
+  .input-azul{
+    background: #6dc4e6;
+    border: none;
+    width: 141px;
+  }
   
   svg {
     overflow: hidden;
