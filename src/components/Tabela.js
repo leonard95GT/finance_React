@@ -1413,7 +1413,7 @@ function addCusto(){
                         
                       ))}
                       </div>
-                        <div class="row">
+                        <div class="col-12 text-center">
                             <a id="save"
                               class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                               role="button"
@@ -1818,36 +1818,38 @@ function addCusto(){
             <div class="container" id="container-central">
             {itemsTax.items.map((i, e) => 
                       <div key={i}>
-                <div class="row mb-4">
-  
-                        <div class="col-6 text-center">
-                          <span class="texto-cinza mr-2">Nome do Imposto:</span>
-                          <input 
-                          onChange={r => setNameTax(r.target.value)}
-                          class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do imposto" type="text" name=""/>
-                        </div>
+                        <div class="row mb-4">
+          
+                                <div class="col-6 text-center">
+                                  <span class="texto-cinza mr-2">Nome do Imposto:</span>
+                                  <input 
+                                  onChange={r => setNameTax(r.target.value)}
+                                  class="text-dark texto-cinza px-5 py-2 rounded" id="nome-canal" placeholder="Digite o nome do imposto" type="text" name=""/>
+                                </div>
 
-                        <div class="col-6 text-center">
-                          <span class="texto-cinza mr-2">Imposto médio:</span>
-                          <input onChange={e => setTax(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-do-canal" placeholder="Digite a porcentagem" type="number" name=""/>
-                        </div>
-                      </div>
+                                <div class="col-6 text-center">
+                                  <span class="texto-cinza mr-2">Imposto médio:</span>
+                                  <input onChange={e => setTax(e.target.value)} class="text-dark texto-cinza px-5 py-2 rounded" id="nome-do-canal" placeholder="Digite a porcentagem" type="number" name=""/>
+                                </div>
+                              </div>
                       </div>
                     )}
 
-
-                  <a id="save" onClick={addTax} 
-                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
-                    href="#"
-                    role="button">+
-                  </a>
-
-
-                  <a id="save" onClick={calcularImpostos} 
+                 <div class="row">
+                    <a id="save" onClick={addTax} 
+                      class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
+                      href="#"
+                      role="button">+
+                    </a>
+                    <a id="save" onClick={calcularImpostos} 
                     class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
                     href="#"
                     role="button">Salvar
                   </a>
+
+                 </div>
+
+
               
             </div>
           </Modal.Body>
