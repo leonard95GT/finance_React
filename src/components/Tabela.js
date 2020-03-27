@@ -1368,6 +1368,42 @@ function addCusto(){
   }))
 
 }
+
+function teste(){
+  if(typeCostVariable === 0){
+    return (
+      <div class="col-4">
+    <span class="titulo-caixa">Valor<br/>de despesa</span>
+    <input onChange={e => setValueCostVariable(e.target.value)} 
+          class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+          id="nome-canal" 
+          placeholder="R$" 
+          type="number" 
+          name=""
+    />
+  </div>
+    )
+  }else{
+    return (
+      <div class="col-4">
+      <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
+      <input onChange={e => setValueCostVariable(e.target.value)} 
+            class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+            id="nome-canal" 
+            placeholder="%" 
+            type="number" 
+            name=""
+      />
+    </div>
+  
+    )
+  }
+
+
+
+
+
+}
  
 
   if(fase===0){
@@ -1412,7 +1448,7 @@ function addCusto(){
                       ))}
                       </div>
                         <div class="col-12 text-center">
-                            <a id="save"
+                            <a id="save-2"
                               class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                               role="button"
                               onClick={categoriaProd}>Incluir categoria de produtos
@@ -1876,24 +1912,63 @@ function addCusto(){
                         <input
                         value={produto.it[contador2].name} 
                         class="input-azul text-dark texto-cinza px-5 py-2 rounded" 
-                        id="nome-canal" 
+                        id="nome-canal-2" 
                         placeholder="Digite o nome do canal" 
                         type="text" 
                         name="canal"
+                        disabled
                         />
                     </div>
                     
+                    {
+                    produto.it[contador2].type_cost==0 
+                    ?
                     <div class="col-4">
                       <span class="texto-cinza mr-2">Tipo de Custo:</span>
                         <input 
-                        value={produto.it[contador2].type_cost}  
+                        
+                        value={'CPV'}  
                         class="input-azul text-dark texto-cinza px-5 py-2 rounded" 
-                        id="nome-canal" 
+                        id="nome-canal-2" 
                         placeholder="Digite o nome do canal" 
                         type="text" 
                         name="canal"
+                        disabled
                         />
                     </div>
+                    :
+                    (produto.it[contador2].type_cost==1
+                      ?
+                      <div class="col-4">
+                      <span class="texto-cinza mr-2">Tipo de Custo:</span>
+                        <input 
+                        
+                        value={'CMV'}  
+                        class="input-azul text-dark texto-cinza px-5 py-2 rounded" 
+                        id="nome-canal-2" 
+                        placeholder="Digite o nome do canal" 
+                        type="text" 
+                        name="canal"
+                        disabled
+                        />
+                    </div>
+                      :
+                      <div class="col-4">
+                      <span class="texto-cinza mr-2">Tipo de Custo:</span>
+                        <input 
+                        
+                        value={'CSV'}  
+                        class="input-azul text-dark texto-cinza px-5 py-2 rounded" 
+                        id="nome-canal-2" 
+                        placeholder="Digite o nome do canal" 
+                        type="text" 
+                        name="canal"
+                        disabled
+                        />
+                    </div>
+
+                      )
+                    }
                 </div>
 
                 {produto.it[contador2].type_cost==0
@@ -2322,29 +2397,7 @@ function addCusto(){
                             </select>
                       </div>
                       {
-                      typeCost == 0
-                      ?
-                      <div class="col-4">
-                        <span class="titulo-caixa">Valor<br/>de despesa</span>
-                        <input onChange={e => setValueCostVariable(e.target.value)} 
-                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-                              id="nome-canal" 
-                              placeholder="R$" 
-                              type="number" 
-                              name=""
-                        />
-                      </div>
-                      :
-                      <div class="col-4">
-                        <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
-                        <input onChange={e => setValueCostVariable(e.target.value)} 
-                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-                              id="nome-canal" 
-                              placeholder="%" 
-                              type="number" 
-                              name=""
-                        />
-                      </div>
+                        teste()
                       }
                   </div>
 
