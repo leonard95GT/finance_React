@@ -1940,11 +1940,7 @@ function addCusto(){
 
                   )}
 
-                    <a id="save"
-                      class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
-                      role="button"
-                      onClick={addCusto}>+
-                    </a>
+
 
                 </>
                 :
@@ -1983,6 +1979,19 @@ function addCusto(){
                 }
 
                 <div class='row'>
+                  {produto.it[contador2].type_cost==0
+                      ?
+                      <a id="save"
+                        class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                        role="button"
+                        onClick={addCusto}>+
+                      </a>
+
+                      :
+                      ""
+                      }
+
+
                     <a id="save"
                       class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                       role="button"
