@@ -1448,7 +1448,7 @@ function addCusto(){
                           name="categoria"
                           />
                       </div>
-                      <div class="col-6 text-center">
+                      <div class="col-6">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
                             <select value={tipoCusto} onChange={s => setTipoCusto(s.target.value)}>
                                 <option value="0" class="titulo-caixa">CPV</option>
@@ -1458,7 +1458,7 @@ function addCusto(){
                       </div>
                     </div>
                     <div class="row" id="spaceInput">
-                        <div class="col-6 text-center">
+                        <div class="col-6">
                             <span class="titulo-caixa">Tipo de<br/>valor de venda</span>
                                 <select value={tipoVenda} onChange={s => setTipoVenda(s.target.value)}>
                                     <option value="0" class="titulo-caixa">Valor Total</option>
@@ -1815,7 +1815,7 @@ function addCusto(){
               <h4 class="font-weight-bold" >Adicionar imposto médio</h4>
             </div>
 
-            <div class="container" id="container-central">
+            <div class="container containerzao" id="container-central">
             {itemsTax.items.map((i, e) => 
                       <div key={i}>
                         <div class="row mb-4">
