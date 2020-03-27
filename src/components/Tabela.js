@@ -1148,7 +1148,7 @@ function DashFinal(props) {
         port: 8080
       }
       }).then(res => {
-       
+        setEbitda(res.data.lucro)
         setState(prevState => {
           const data = [...prevState.data];
           data.push({
@@ -1197,6 +1197,74 @@ function DashFinal(props) {
       ).catch(function (err){
         console.log(err)
       })
+
+      axios.post(proxyurl + 'http://34.70.109.4/projection/liquidIncome', {
+
+        ebitda: ebitda,
+        receitaBruta: props.base,
+        
+     
+      }, 
+      {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': '*'
+        },
+        proxy: {
+          host: '34.70.109.4',
+          port: 8080
+        }
+        }).then(res => {
+          
+          this.setState({
+            tabela:
+              {description:'Lucro Líquido',
+              mouth1: res.data.lucroLiquido, 
+              mouth2: res.data.lucroLiquido,
+              mouth3: res.data.lucroLiquido, 
+              mouth4: res.data.lucroLiquido, 
+              mouth5: res.data.lucroLiquido, 
+              mouth6: res.data.lucroLiquido, 
+              mouth7: res.data.lucroLiquido, 
+              mouth8: res.data.lucroLiquido, 
+              mouth9: res.data.lucroLiquido, 
+              mouth10: res.data.lucroLiquido, 
+              mouth11: res.data.lucroLiquido, 
+              mouth12: res.data.lucroLiquido,
+              count: this.state.valor_crescimento
+            }  
+          })
+
+          this.setState({
+            tabela:
+              {description:'Lucro Líquido %',
+              mouth1: res.data.percentual, 
+              mouth2: res.data.percentual,
+              mouth3: res.data.percentual, 
+              mouth4: res.data.percentual, 
+              mouth5: res.data.percentual, 
+              mouth6: res.data.percentual, 
+              mouth7: res.data.percentual, 
+              mouth8: res.data.percentual, 
+              mouth9: res.data.percentual, 
+              mouth10: res.data.percentual, 
+              mouth11: res.data.percentual, 
+              mouth12: res.data.percentual,
+              count: this.state.valor_crescimento
+            }  
+          })
+  
+  
+
+        }
+
+        ).catch(function (err){
+          console.log(err)
+        })
+
+
+
+
 
 
   setFase(5)
