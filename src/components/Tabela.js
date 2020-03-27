@@ -1131,7 +1131,72 @@ function DashFinal(props) {
     })
 
 
+    axios.post(proxyurl + 'http://34.70.109.4/projection/ebitda', {
+
+      totalDespesa: somaGeral,
+      lucroBruto: lucroBruto,
+      receitaBruta: props.base
   
+    }, 
+    {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*'
+      },
+      proxy: {
+        host: '34.70.109.4',
+        port: 8080
+      }
+      }).then(res => {
+       
+        setState(prevState => {
+          const data = [...prevState.data];
+          data.push({
+              description: 'Lucro Operacional (Ebitda)',
+              mouth1: (res.data.lucro / 12) ,
+              mouth2: (res.data.lucro / 12) ,
+              mouth3: (res.data.lucro / 12) ,
+              mouth4: (res.data.lucro / 12) ,
+              mouth5: (res.data.lucro / 12) ,
+              mouth6: (res.data.lucro / 12) ,
+              mouth7: (res.data.lucro / 12) ,
+              mouth8: (res.data.lucro / 12) ,
+              mouth9: (res.data.lucro / 12) ,
+              mouth10: (res.data.lucro / 12) ,
+              mouth11: (res.data.lucro / 12) ,
+              mouth12: (res.data.lucro / 12) ,
+              count: res.data.resultado
+          });
+          return { ...prevState, data };
+        });
+
+        setState(prevState => {
+          const data = [...prevState.data];
+          data.push({
+              description: 'Margem Ebitda',
+              mouth1: res.data.margem ,
+              mouth2: res.data.margem ,
+              mouth3: res.data.margem ,
+              mouth4: res.data.margem ,
+              mouth5: res.data.margem ,
+              mouth6: res.data.margem ,
+              mouth7: res.data.margem ,
+              mouth8: res.data.margem ,
+              mouth9: res.data.margem ,
+              mouth10: res.data.margem ,
+              mouth11: res.data.margem ,
+              mouth12: res.data.margem ,
+              count: res.data.margem
+          });
+          return { ...prevState, data };
+        });
+
+  
+      }
+  
+      ).catch(function (err){
+        console.log(err)
+      })
 
 
   setFase(5)
