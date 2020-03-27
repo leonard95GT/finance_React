@@ -885,9 +885,8 @@ function DashFinal(props) {
 
 
   }else{
-
-
     setContador2(numero + 1)
+    setContadorFinal(0)
     setCustosCPV(limpa)
     handleCloseProduto()
     console.log('não é')
