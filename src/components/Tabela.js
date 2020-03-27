@@ -1353,7 +1353,6 @@ function addCusto(){
   item.tipoDoCusto = typeCostProduct;
 
   custosCPV.items[contadorFinal] = item;
-  //console.log(itemsTax.items[contador2])
 
   setContadorFinal(numero+1);
   setNameCostProduct('');
@@ -1926,7 +1925,7 @@ function addCusto(){
                                 />
                             </div>
                             <div class="col-4">
-                              <span class="titulo-caixa-a">Tipo do<br/>custo</span>
+                              <span class="texto-cinza mr-2">Tipo do<br/>custo</span>
                               <select value={typeCostProduct} onChange={s => setTypeCostProduct(s.target.value)}>
                                   <option value="0" class="titulo-caixa">Matéria Prima</option>
                                   <option value="1" class="titulo-caixa" >Outros Custos</option>
@@ -1967,7 +1966,7 @@ function addCusto(){
                                 />
                             </div>
                             <div class="col-4 text-center">
-                              <span class="titulo-caixa-a">Tipo do<br/>custo</span>
+                              <span class="texto-cinza mr-2">Tipo do<br/>custo</span>
                               <select value={typeCostProduct} onChange={s => setTypeCostProduct(s.target.value)}>
                                   <option value="0" class="titulo-caixa">Matéria Prima</option>
                                   <option value="1" class="titulo-caixa" >Outros Custos</option>
