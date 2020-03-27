@@ -10173,6 +10173,10 @@
     margin: 50px 10px;
   }
 
+  .campoNumero{
+    width: 140px;
+  }
+
   .containerzao{
     width: 109%;
   }

@@ -2300,14 +2300,14 @@ function addCusto(){
                     <div class="col-4 text-center">
                           <span class="titulo-caixa">Nome da<br/>despesa</span>
                           <input onChange={w => setNameCostVariable(w.target.value)} 
-                          class="text-dark texto-cinza px-5 py-2 rounded" 
+                          class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-categoria" 
                           placeholder="Digite o nome da despesa" 
                           type="text" 
                           name=""
                           />
                       </div>
-                      <div class="col-4 text-center">
+                      <div class="col-4">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
                             <select value={typeCostVariable} onChange={s => setTypeCostVariable(s.target.value)}>
                                 <option value="0" class="titulo-caixa">Valor da despesa</option>
@@ -2317,10 +2317,10 @@ function addCusto(){
                       {
                       typeCost == 0
                       ?
-                      <div class="col-4 text-center">
+                      <div class="col-4">
                         <span class="titulo-caixa">Valor<br/>de despesa</span>
                         <input onChange={e => setValueCostVariable(e.target.value)} 
-                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
                               type="number" 
@@ -2328,10 +2328,10 @@ function addCusto(){
                         />
                       </div>
                       :
-                      <div class="col-4 text-center">
+                      <div class="col-4">
                         <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
                         <input onChange={e => setValueCostVariable(e.target.value)} 
-                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="%" 
                               type="number" 
@@ -2350,7 +2350,7 @@ function addCusto(){
                     role="button"
                     onClick={
                       addOutrasDespesasVariaveis
-                      }>Add
+                      }>+
                   </a>
 
 
@@ -2996,18 +2996,18 @@ function addCusto(){
               {itemsCost.items.map((i, ind) =>
                 <div key={ind}>
                   <div class="row mb-4">
-                    <div class="col-4 text-center">
+                    <div class="col-4">
                           <span class="titulo-caixa">Nome da<br/>despesa</span>
                           <input
                           onChange={s => setNameCost(s.target.value)}
-                          class="text-dark texto-cinza px-5 py-2 rounded" 
+                          class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-categoria" 
                           placeholder="Digite o nome da despesa" 
                           type="text" 
                           name=""
                           />
                       </div>
-                      <div class="col-4 text-center">
+                      <div class="col-4">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
                             <select value={typeCost} onChange={s => setTypeCost(s.target.value)}>
                                 <option value="0" class="titulo-caixa">Valor da despesa</option>
@@ -3017,10 +3017,10 @@ function addCusto(){
                       {
                       typeCost == 0
                       ?
-                      <div class="col-4 text-center">
+                      <div class="col-4">
                         <span class="titulo-caixa">Valor<br/>de despesa</span>
                         <input onChange={e => setValueCost(e.target.value)} 
-                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
                               type="number" 
@@ -3050,7 +3050,7 @@ function addCusto(){
                     role="button"
                     onClick={
                       addOutrasDespesas
-                      }>Add
+                      }>+
                   </a>
 
 
