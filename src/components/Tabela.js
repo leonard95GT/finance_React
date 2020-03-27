@@ -1874,7 +1874,7 @@ function addCusto(){
               <div class="container" id="container-central">
                 <div class="row mb-4">
                     <div class="col-6 text-center">
-                      <span class="texto-cinza mr-2">Nome da <br/>Categoria do produto:</span>
+                      <span class="texto-cinza mr-2">Nome da<br/>Categoria<br/>do produto:</span>
                         <input
                         value={produto.it[contador2].name} 
                         class="text-dark texto-cinza px-5 py-2 rounded" 
