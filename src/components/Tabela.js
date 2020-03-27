@@ -18,6 +18,9 @@ function DashFinal(props) {
     const [tabela, setTabela] = useState('');
     const [description, setDescription] = useState('');
 
+    const [tituloOpcao, setTituloOpcao] = useState('Valor')
+    const [place, setPlace] = useState('R$')
+
     //Tela inicial
     const [renda, setRenda] = useState(2000);
     const [contador, setContador] = useState(0);
@@ -1370,38 +1373,11 @@ function addCusto(){
 }
 
 function teste(){
-  if(typeCostVariable === 0){
-    return (
-      <div class="col-4">
-    <span class="titulo-caixa">Valor<br/>de despesa</span>
-    <input onChange={e => setValueCostVariable(e.target.value)} 
-          class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-          id="nome-canal" 
-          placeholder="R$" 
-          type="number" 
-          name=""
-    />
-  </div>
-    )
+  if(typeCost === 0){
+    return console.log('oi')
   }else{
-    return (
-      <div class="col-4">
-      <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
-      <input onChange={e => setValueCostVariable(e.target.value)} 
-            class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-            id="nome-canal" 
-            placeholder="%" 
-            type="number" 
-            name=""
-      />
-    </div>
-  
-    )
+    return console.log('thau')
   }
-
-
-
-
 
 }
  
@@ -2396,9 +2372,20 @@ function teste(){
                                 <option value="1" class="titulo-caixa" >% da despesa</option>
                             </select>
                       </div>
-                      {
-                        teste()
-                      }
+                      
+                 
+
+                      <div class="col-4">
+                        <span class="titulo-caixa">{tituloOpcao}<br/>de despesa</span>
+                        <input onChange={e => setValueCostVariable(e.target.value)} 
+                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+                              id="nome-canal" 
+                              placeholder="R$" 
+                              type="number" 
+                              name=""
+                        />
+                      </div>
+                      
                   </div>
 
                 </div>              
