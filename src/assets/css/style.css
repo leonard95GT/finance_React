@@ -229,6 +229,19 @@
     margin-right: 25px;
     background-color: #ecf1f7;
   }
+
+  #containerDoContainer{
+    margin-top: 85px;
+  }
+
+  #spaceInput{
+    margin-bottom: 50px;
+  }
+
+  #input-cinza{
+    background: #ecf0f6;
+    border: none;
+  }
   
   svg {
     overflow: hidden;

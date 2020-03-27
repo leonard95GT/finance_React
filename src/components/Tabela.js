@@ -1434,13 +1434,13 @@ function addCusto(){
               </div>
                 <div class="container" id="container-central">
                   <div class="row mb-6">
-                  <div class="col-6 text-center">
+                      <div class="col-6 text-center">
                           <span class="titulo-caixa">Nome da<br/>categoria<br/>do produto</span>
                           <input 
                           value={nameCategoria}
                           onChange={w => setNameCategoria(w.target.value)} 
                           class="text-dark texto-cinza px-5 py-2 rounded" 
-                          id="nome-categoria" 
+                          id="nome-canal" 
                           placeholder="Digite o nome da categoria" 
                           type="text" 
                           name="categoria"
@@ -1468,7 +1468,7 @@ function addCusto(){
                           class="text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-canal" 
                           placeholder="R$" 
-                          type="text" 
+                          type="number" 
                           name=""
                           />
                       </div>
@@ -1483,7 +1483,7 @@ function addCusto(){
                           class="text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-canal" 
                           placeholder="R$" 
-                          type="text" 
+                          type="number" 
                           name=""
                           />
                       </div>
@@ -1900,7 +1900,7 @@ function addCusto(){
                                 onChange={e => setNameCostProduct(e.target.value)}
                                 class="text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
-                                placeholder="Digite o nome do canal" 
+                                placeholder="Digite o nome do Custo" 
                                 type="text" 
                                 name="canal"
                                 />
@@ -1911,14 +1911,14 @@ function addCusto(){
                                 onChange={e => setValueCostProduct(e.target.value)}
                                 class="text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
-                                placeholder="Digite o nome do canal" 
-                                type="text" 
+                                placeholder="Digite o valor do custo" 
+                                type="number" 
                                 name="canal"
                                 />
                             </div>
                             <div class="col-4 text-center">
                               <span class="titulo-caixa">Tipo do<br/>custo</span>
-                              <select value={tipoCusto} onChange={s => setTypeCostProduct(s.target.value)}>
+                              <select value={typeCostProduct} onChange={s => setTypeCostProduct(s.target.value)}>
                                   <option value="0" class="titulo-caixa">Matéria Prima</option>
                                   <option value="1" class="titulo-caixa" >Outros Custos</option>
                                   <option value="2" class="titulo-caixa" >Mão de Obra</option>
@@ -1945,7 +1945,7 @@ function addCusto(){
                                 onChange={e => setNameCostProduct(e.target.value)}
                                 class="text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
-                                placeholder="Digite o nome do canal" 
+                                placeholder="Digite o nome do Custo" 
                                 type="text" 
                                 name="canal"
                                 />
@@ -1956,8 +1956,8 @@ function addCusto(){
                                 onChange={e => setValueCostProduct(e.target.value)}
                                 class="text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
-                                placeholder="Digite o nome do canal" 
-                                type="text" 
+                                placeholder="Digite o valor do custo" 
+                                type="number" 
                                 name="canal"
                                 />
                             </div>
@@ -2298,7 +2298,7 @@ function addCusto(){
                       </div>
                       <div class="col-4 text-center">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
-                            <select value={typeCost} onChange={s => setTypeCostVariable(s.target.value)}>
+                            <select value={typeCostVariable} onChange={s => setTypeCostVariable(s.target.value)}>
                                 <option value="0" class="titulo-caixa">Valor da despesa</option>
                                 <option value="1" class="titulo-caixa" >% da despesa</option>
                             </select>
@@ -2323,7 +2323,7 @@ function addCusto(){
                               class="text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="%" 
-                              type="text" 
+                              type="number" 
                               name=""
                         />
                       </div>
@@ -2333,8 +2333,8 @@ function addCusto(){
                 </div>              
               )
               }
-
-                  <a id="save"
+              <div class="d-flex justify-content-center">
+              <a id="save"
                     class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                     role="button"
                     onClick={
@@ -2350,6 +2350,8 @@ function addCusto(){
                       custoVariavel
                       }>Salvar
                   </a>
+
+              </div>
              
           </div>
           </>
@@ -2664,7 +2666,7 @@ function addCusto(){
                       class="text-dark texto-cinza px-5 py-2 rounded" 
                       id="nome-categoria" 
                       placeholder="R$" 
-                      type="text" 
+                      type="number" 
                       name="categoria"
                       />
                   </div>
@@ -3010,7 +3012,7 @@ function addCusto(){
                               class="text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
-                              type="text" 
+                              type="number" 
                               name=""
                         />
                       </div>
@@ -3021,7 +3023,7 @@ function addCusto(){
                               class="text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="%" 
-                              type="text" 
+                              type="number" 
                               name=""
                         />
                       </div>
@@ -3031,6 +3033,7 @@ function addCusto(){
                 </div>              
               )
               }
+              <div class="d-flex justify-content-center">
                   <a id="save"
                     class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                     role="button"
@@ -3046,8 +3049,9 @@ function addCusto(){
                     onClick={
                       outrasDespesas
                       }>Salvar
-                  </a>
-             
+                  </a>             
+              </div>
+                  
           </div>
           </>
         
