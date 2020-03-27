@@ -903,77 +903,159 @@ function DashFinal(props) {
  }
 
  function custoVariavel(){
-  const item = itemsCostVariable.items[contador2];
-  const numero = contador2;
-
-  item.nameCost = nameCostVariable;
-  item.typeCost = typeCostVariable;
-  item.valueCost = valueCostVariable;
-
-  itemsCostVariable.items[contador2] = item;
-
+   if(typeCostVariable==0){
+    const item = itemsCostVariable.items[contador2];
+    const numero = contador2;
   
-  let valorGeral = 0;
-
-  for(let i = 0; i < itemsCostVariable.items.length; i++){
-    valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
-  }
-
-  console.log('Soma das despesas '+valorGeral)
-
-  let valorMes = (valorGeral * 12)
-   
-  setState(prevState => {
-    const data = [...prevState.data];
-    data.push({
-        description: 'Custos Variáveis  ',
-        mouth1: valorGeral,
-        mouth2: valorGeral,
-        mouth3: valorGeral,
-        mouth4: valorGeral,
-        mouth5: valorGeral,
-        mouth6: valorGeral,
-        mouth7: valorGeral,
-        mouth8: valorGeral,
-        mouth9: valorGeral,
-        mouth10: valorGeral,
-        mouth11: valorGeral,
-        mouth12: valorGeral,
-        count: valorMes
-    });
-    return { ...prevState, data };
-  });
-
-
-  for(let i = 0; i < itemsCostVariable.items.length; i++){
-    //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
-    let valor = (itemsCostVariable.items[i].valueCost * 12)
+    item.nameCost = nameCostVariable;
+    item.typeCost = typeCostVariable;
+    item.valueCost = valueCostVariable;
+  
+    itemsCostVariable.items[contador2] = item;
+  
+    
+    let valorGeral = 0; 
+  
+    for(let i = 0; i < itemsCostVariable.items.length; i++){
+      valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
+    }
+  
+    console.log('Soma das despesas '+valorGeral)
+    
+  
+    let valorMes = (valorGeral * 12)
+     
     setState(prevState => {
       const data = [...prevState.data];
       data.push({
-          description: itemsCostVariable.items[i].nameCost,
-          mouth1: itemsCostVariable.items[i].valueCost,
-          mouth2: itemsCostVariable.items[i].valueCost,
-          mouth3: itemsCostVariable.items[i].valueCost,
-          mouth4: itemsCostVariable.items[i].valueCost,
-          mouth5: itemsCostVariable.items[i].valueCost,
-          mouth6: itemsCostVariable.items[i].valueCost,
-          mouth7: itemsCostVariable.items[i].valueCost,
-          mouth8: itemsCostVariable.items[i].valueCost,
-          mouth9: itemsCostVariable.items[i].valueCost,
-          mouth10: itemsCostVariable.items[i].valueCost,
-          mouth11: itemsCostVariable.items[i].valueCost,
-          mouth12: itemsCostVariable.items[i].valueCost,
-          count: valor
+          description: 'Custos Variáveis  ',
+          mouth1: valorGeral,
+          mouth2: valorGeral,
+          mouth3: valorGeral,
+          mouth4: valorGeral,
+          mouth5: valorGeral,
+          mouth6: valorGeral,
+          mouth7: valorGeral,
+          mouth8: valorGeral,
+          mouth9: valorGeral,
+          mouth10: valorGeral,
+          mouth11: valorGeral,
+          mouth12: valorGeral,
+          count: valorMes
       });
       return { ...prevState, data };
     });
   
-  }
+  
+    for(let i = 0; i < itemsCostVariable.items.length; i++){
+      //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
+      let valor = (itemsCostVariable.items[i].valueCost * 12)
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: itemsCostVariable.items[i].nameCost,
+            mouth1: itemsCostVariable.items[i].valueCost,
+            mouth2: itemsCostVariable.items[i].valueCost,
+            mouth3: itemsCostVariable.items[i].valueCost,
+            mouth4: itemsCostVariable.items[i].valueCost,
+            mouth5: itemsCostVariable.items[i].valueCost,
+            mouth6: itemsCostVariable.items[i].valueCost,
+            mouth7: itemsCostVariable.items[i].valueCost,
+            mouth8: itemsCostVariable.items[i].valueCost,
+            mouth9: itemsCostVariable.items[i].valueCost,
+            mouth10: itemsCostVariable.items[i].valueCost,
+            mouth11: itemsCostVariable.items[i].valueCost,
+            mouth12: itemsCostVariable.items[i].valueCost,
+            count: valor
+        });
+        return { ...prevState, data };
+      });
+    
+    }
+  
+    setCustosTotal(valorMes)
+    setFase(3)
+    setContador2(0);
+  
+   }else{
+    const item = itemsCostVariable.items[contador2];
+    const numero = contador2;
+  
+    item.nameCost = nameCostVariable;
+    item.typeCost = typeCostVariable;
+    item.valueCost = valueCostVariable;
+  
+    itemsCostVariable.items[contador2] = item;
+  
+    
+    let valorGeral = 0; 
+  
+    for(let i = 0; i < itemsCostVariable.items.length; i++){
+      valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
+    }
+  
+    console.log('Soma das despesas '+valorGeral)
+    
+    
 
-  setCustosTotal(valorMes)
-  setFase(3)
-  setContador2(0);
+    let valorMes = (valorGeral * 12)
+
+    let porcentagemGeral = (( props.base / 100) * valorMes) 
+    //console.log('%%%' + porcentagemGeral)
+
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: 'Custos Variáveis  ',
+          mouth1: (porcentagemGeral / 12),
+          mouth2: (porcentagemGeral / 12),
+          mouth3: (porcentagemGeral / 12),
+          mouth4: (porcentagemGeral / 12),
+          mouth5: (porcentagemGeral / 12),
+          mouth6: (porcentagemGeral / 12),
+          mouth7: (porcentagemGeral / 12),
+          mouth8: (porcentagemGeral / 12),
+          mouth9: (porcentagemGeral / 12),
+          mouth10: (porcentagemGeral / 12),
+          mouth11: (porcentagemGeral / 12),
+          mouth12: (porcentagemGeral / 12),
+          count: porcentagemGeral
+      });
+      return { ...prevState, data };
+    });
+  
+  
+    for(let i = 0; i < itemsCostVariable.items.length; i++){
+      //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
+      let valor = (itemsCostVariable.items[i].valueCost * 12)
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: itemsCostVariable.items[i].nameCost,
+            mouth1: itemsCostVariable.items[i].valueCost,
+            mouth2: itemsCostVariable.items[i].valueCost,
+            mouth3: itemsCostVariable.items[i].valueCost,
+            mouth4: itemsCostVariable.items[i].valueCost,
+            mouth5: itemsCostVariable.items[i].valueCost,
+            mouth6: itemsCostVariable.items[i].valueCost,
+            mouth7: itemsCostVariable.items[i].valueCost,
+            mouth8: itemsCostVariable.items[i].valueCost,
+            mouth9: itemsCostVariable.items[i].valueCost,
+            mouth10: itemsCostVariable.items[i].valueCost,
+            mouth11: itemsCostVariable.items[i].valueCost,
+            mouth12: itemsCostVariable.items[i].valueCost,
+            count: valor
+        });
+        return { ...prevState, data };
+      });
+    
+    }
+  
+    setCustosTotal(valorMes)
+    setFase(3)
+    setContador2(0);
+
+   }
  }
 
  function custoSalario(){
@@ -1024,27 +1106,54 @@ function DashFinal(props) {
 
 
   valorMes = (valorGeral * 12)
-   
-  setState(prevState => {
-    const data = [...prevState.data];
-    data.push({
-        description: 'Outras despesas',
-        mouth1: valorGeral,
-        mouth2: valorGeral,
-        mouth3: valorGeral,
-        mouth4: valorGeral,
-        mouth5: valorGeral,
-        mouth6: valorGeral,
-        mouth7: valorGeral,
-        mouth8: valorGeral,
-        mouth9: valorGeral,
-        mouth10: valorGeral,
-        mouth11: valorGeral,
-        mouth12: valorGeral,
-        count: valorMes
+
+  let porcentagemGeral = (( props.base / 100) * valorMes) 
+
+  if(typeCost == 0){
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: 'Outras despesas',
+          mouth1: valorGeral,
+          mouth2: valorGeral,
+          mouth3: valorGeral,
+          mouth4: valorGeral,
+          mouth5: valorGeral,
+          mouth6: valorGeral,
+          mouth7: valorGeral,
+          mouth8: valorGeral,
+          mouth9: valorGeral,
+          mouth10: valorGeral,
+          mouth11: valorGeral,
+          mouth12: valorGeral,
+          count: valorMes
+      });
+      return { ...prevState, data };
     });
-    return { ...prevState, data };
-  });
+  
+  }else{
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: 'Outras despesas',
+          mouth1: (porcentagemGeral / 12),
+          mouth2: (porcentagemGeral / 12),
+          mouth3: (porcentagemGeral / 12),
+          mouth4: (porcentagemGeral / 12),
+          mouth5: (porcentagemGeral / 12),
+          mouth6: (porcentagemGeral / 12),
+          mouth7: (porcentagemGeral / 12),
+          mouth8: (porcentagemGeral / 12),
+          mouth9: (porcentagemGeral / 12),
+          mouth10: (porcentagemGeral / 12),
+          mouth11: (porcentagemGeral / 12),
+          mouth12: (porcentagemGeral / 12),
+          count: porcentagemGeral
+      });
+      return { ...prevState, data };
+    });
+    }
+   
 
 
 
@@ -2450,7 +2559,7 @@ function modalDespesa(){
                       ?
                       <div class="col-4">
                         <span class="titulo-caixa">Valor<br/>do custo</span>
-                        <input onChange={e => setValueCost(e.target.value)} 
+                        <input onChange={e => setValueCostVariable(e.target.value)} 
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
@@ -2461,7 +2570,7 @@ function modalDespesa(){
                       :
                       <div class="col-4 text-center">
                         <span class="titulo-caixa">Porcentagem<br/>do custo</span>
-                        <input onChange={e => setValueCost(e.target.value)} 
+                        <input onChange={e => setValueCostVariable(e.target.value)} 
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="%" 
