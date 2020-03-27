@@ -256,7 +256,7 @@ function DashFinal(props) {
     
     setTabela(props.info); 
     setRenda(props.base);
-    console.log(tipoCusto)
+    //console.log(tipoCusto)
 
     //console..log(props.info.mouth1)
     if(props.info.mouth1 == 0){
@@ -1373,14 +1373,112 @@ function addCusto(){
 }
 
 function teste(){
-  if(typeCost === 0){
-    return console.log('oi')
+  if(tipoVenda == 0){
+    return (
+      <div class="col-6">
+        <span class="titulo-caixa">Valor total<br/>de venda</span>
+        <input onChange={e => setValorVenda(e.target.value)} 
+              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+              id="nome-canal" 
+              placeholder="R$" 
+              type="number" 
+              name=""
+        />
+      </div>
+    )
   }else{
-    return console.log('thau')
+    return (
+      <>
+            <div class="col-4">
+        <span class="titulo-caixa">Valor Unitário<br/>de venda</span>
+        <input onChange={e => setValorVenda(e.target.value)} 
+              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+              id="nome-canal" 
+              placeholder="R$" 
+              type="number" 
+              name=""
+        />
+      </div>
+
+      <div class="col-4 text-center">
+        <span class="titulo-caixa">Quantidade</span>
+        <input onChange={e => setValorVenda(e.target.value)} 
+               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+               id="nome-canal" 
+               placeholder="R$" 
+               type="number" 
+               name=""
+        />
+      </div>
+      </>
+    )
   }
 
 }
  
+function modalCusto(){
+  console.log(typeCostVariable)
+  if(typeCostVariable  == 0){
+    return(
+      <div class="col-4">
+          <span class="titulo-caixa">Valor<br/>de despesa</span>
+          <input onChange={e => setValueCostVariable(e.target.value)} 
+                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+                id="nome-canal" 
+                placeholder="R$" 
+                type="number" 
+                name=""
+          />
+        </div>
+    )
+  }else{
+    return(
+      <div class="col-4">
+          <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
+          <input onChange={e => setValueCostVariable(e.target.value)} 
+                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+                id="nome-canal" 
+                placeholder="%" 
+                type="number" 
+                name=""
+          />
+        </div>
+
+    )
+  }
+
+}
+
+function modalDespesa(){
+  if(typeCostVariable == 0){
+    return(
+      <div class="col-4">
+          <span class="titulo-caixa">Valor<br/>de despesa</span>
+          <input onChange={e => setValueCostVariable(e.target.value)} 
+                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+                id="nome-canal" 
+                placeholder="R$" 
+                type="number" 
+                name=""
+          />
+        </div>
+    )
+  }else{
+    return(
+      <div class="col-4">
+          <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
+          <input onChange={e => setValueCostVariable(e.target.value)} 
+                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+                id="nome-canal" 
+                placeholder="%" 
+                type="number" 
+                name=""
+          />
+        </div>
+
+    )
+  }
+}
 
   if(fase===0){
       //adição de canais e impostos (início do base zero)
@@ -1475,34 +1573,8 @@ function teste(){
                                     <option value="1" class="titulo-caixa" >Valor Unitário</option>
                                 </select>
                           </div>
-                          <div class="col-6">
-                              <span class="titulo-caixa">Valor total<br/>de venda</span>
-                              <input onChange={e => setValorVenda(e.target.value)} 
-                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-                              id="nome-canal" 
-                              placeholder="R$" 
-                              type="number" 
-                              name=""
-                              />
-                          </div>
 
-                          {tipoVenda === 0
-                          ?
-                          ''
-                          :
-                          <div class="col-6 text-center">
-                              <span class="titulo-caixa">Quantidade</span>
-                              <input onChange={e => setValorVenda(e.target.value)} 
-                              class="text-dark texto-cinza px-5 py-2 rounded" 
-                              id="nome-canal" 
-                              placeholder="R$" 
-                              type="number" 
-                              name=""
-                              />
-                          </div>
-                          
-                      
-                          }
+                          {teste()}
  
                     </div>      
 
@@ -2360,7 +2432,7 @@ function teste(){
                           <input onChange={w => setNameCostVariable(w.target.value)} 
                           class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-categoria" 
-                          placeholder="Digite o nome da despesa" 
+                          placeholder="Digite o nome do custo" 
                           type="text" 
                           name=""
                           />
@@ -2373,11 +2445,12 @@ function teste(){
                             </select>
                       </div>
                       
-                 
-
+                      {
+                      typeCostVariable == 0
+                      ?
                       <div class="col-4">
-                        <span class="titulo-caixa">{tituloOpcao}<br/>de despesa</span>
-                        <input onChange={e => setValueCostVariable(e.target.value)} 
+                        <span class="titulo-caixa">Valor<br/>do custo</span>
+                        <input onChange={e => setValueCost(e.target.value)} 
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
@@ -2385,6 +2458,18 @@ function teste(){
                               name=""
                         />
                       </div>
+                      :
+                      <div class="col-4 text-center">
+                        <span class="titulo-caixa">Porcentagem<br/>do custo</span>
+                        <input onChange={e => setValueCost(e.target.value)} 
+                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
+                              id="nome-canal" 
+                              placeholder="%" 
+                              type="number" 
+                              name=""
+                        />
+                      </div>
+                      }
                       
                   </div>
 
@@ -3082,7 +3167,7 @@ function teste(){
                       <div class="col-4 text-center">
                         <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
                         <input onChange={e => setValueCost(e.target.value)} 
-                              class="text-dark texto-cinza px-5 py-2 rounded" 
+                              class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="%" 
                               type="number" 
