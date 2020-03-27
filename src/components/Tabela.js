@@ -2680,7 +2680,7 @@ function addCusto(){
           </div>
             <div class="container" id="container-central">
               <div class="row mb-6">
-              <div class="col-6 text-center">
+                <div class="col-12 text-center">
                       <span class="titulo-caixa">Valor mensal dos salários</span>
                       <input onChange={w => setSalary(w.target.value)} 
                       class="text-dark texto-cinza px-5 py-2 rounded" 
@@ -2690,15 +2690,19 @@ function addCusto(){
                       name="categoria"
                       />
                   </div>
-
-                  <a id="save"
-                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
-                    role="button"
-                    onClick={
-                      custoSalario
-                      }>Salvar
-                  </a>
-              </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-12">
+                      <a id="save"
+                        class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
+                        role="button"
+                        onClick={
+                          custoSalario
+                          }>Salvar
+                      </a>
+                  </div>
+                </div>
+              
           </div>
           </>
         
