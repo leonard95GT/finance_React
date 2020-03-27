@@ -1908,7 +1908,7 @@ function addCusto(){
                               <span class="texto-cinza mr-2">Nome <br/>do Custo:</span>
                                 <input
                                 onChange={e => setNameCostProduct(e.target.value)}
-                                class="text-dark texto-cinza px-5 py-2 rounded" 
+                                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
                                 placeholder="" 
                                 type="text" 
@@ -1919,7 +1919,7 @@ function addCusto(){
                               <span class="texto-cinza mr-2">Valor do<br/> Custo:</span>
                                 <input 
                                 onChange={e => setValueCostProduct(e.target.value)}
-                                class="text-dark texto-cinza px-5 py-2 rounded" 
+                                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
                                 placeholder="R$" 
                                 type="number" 
@@ -1949,7 +1949,7 @@ function addCusto(){
                               <span class="texto-cinza mr-2">Nome <br/>do Custo:</span>
                                 <input
                                 onChange={e => setNameCostProduct(e.target.value)}
-                                class="text-dark texto-cinza px-5 py-2 rounded" 
+                                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
                                 placeholder="Digite o nome do Custo" 
                                 type="text" 
@@ -1960,7 +1960,7 @@ function addCusto(){
                               <span class="texto-cinza mr-2">Valor do Custo:</span>
                                 <input 
                                 onChange={e => setValueCostProduct(e.target.value)}
-                                class="text-dark texto-cinza px-5 py-2 rounded" 
+                                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                                 id="nome-canal" 
                                 placeholder="Digite o valor do custo" 
                                 type="number" 
