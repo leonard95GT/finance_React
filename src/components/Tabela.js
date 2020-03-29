@@ -246,6 +246,9 @@ function DashFinal(props) {
       ]
     })
 
+    const [postitionBlock, setPositionBlock] = useState({
+      position: []
+    })
 
     //Referencia para tabela.
    const tableRef = useRef();   
@@ -661,9 +664,6 @@ function DashFinal(props) {
         });
         return { ...prevState, data };
       });
-
-      
-
   
     }else{
       console.log('é atualização')
@@ -716,7 +716,7 @@ function DashFinal(props) {
 
     }
     
-
+    
     
     setShow2(false);
     setContador2(0)
@@ -1524,70 +1524,7 @@ function teste(){
   }
 
 }
- 
-function modalCusto(){
-  console.log(typeCostVariable)
-  if(typeCostVariable  == 0){
-    return(
-      <div class="col-4">
-          <span class="titulo-caixa">Valor<br/>de despesa</span>
-          <input onChange={e => setValueCostVariable(e.target.value)} 
-                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-                id="nome-canal" 
-                placeholder="R$" 
-                type="number" 
-                name=""
-          />
-        </div>
-    )
-  }else{
-    return(
-      <div class="col-4">
-          <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
-          <input onChange={e => setValueCostVariable(e.target.value)} 
-                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-                id="nome-canal" 
-                placeholder="%" 
-                type="number" 
-                name=""
-          />
-        </div>
 
-    )
-  }
-
-}
-
-function modalDespesa(){
-  if(typeCostVariable == 0){
-    return(
-      <div class="col-4">
-          <span class="titulo-caixa">Valor<br/>de despesa</span>
-          <input onChange={e => setValueCostVariable(e.target.value)} 
-                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-                id="nome-canal" 
-                placeholder="R$" 
-                type="number" 
-                name=""
-          />
-        </div>
-    )
-  }else{
-    return(
-      <div class="col-4">
-          <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
-          <input onChange={e => setValueCostVariable(e.target.value)} 
-                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-                id="nome-canal" 
-                placeholder="%" 
-                type="number" 
-                name=""
-          />
-        </div>
-
-    )
-  }
-}
 
   if(fase===0){
       //adição de canais e impostos (início do base zero)
@@ -2287,28 +2224,79 @@ function modalDespesa(){
           
           editable={{
             isEditable: rowData => {{
-              let pos = state.data.length;
-              if(rowData.tableData.id === 0){  
-                  console.log(rowData.tableData.edittingw)       
-                return false
-              }else{
-                return true
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(-) Impostos s/ serviços' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'CPV/CSV/CMV' ||
+                   state.data[b].description === 'Lucro Bruto' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'Custos Variáveis' ||
+                   state.data[b].description === 'Outras despesas' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
               }
+              let a = rowData.tableData.id;
+
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){                      
+                if(rowData.tableData.id === pos[conta]){  
+                  resultado = false;
+                  break;
+                }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                  resultado = true;
+                  break;
+                }
+               }
+
+               return resultado;
             
             }},
             // only name(a) rows would be editable
             isDeletable: rowData => {{
-              if(rowData.tableData.id === 0){
-                return false
-              }else{
-                return true
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(-) Impostos s/ serviços' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'CPV/CSV/CMV' ||
+                   state.data[b].description === 'Lucro Bruto' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'Custos Variáveis' ||
+                   state.data[b].description === 'Outras despesas' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
               }
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){                      
+                if(rowData.tableData.id === pos[conta]){  
+                  resultado = false;
+                  break;
+                }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                  resultado = true;
+                  break;
+                }
+               }
+
+               return resultado;
 
             }}, 
             // only name(a) rows would be deletable
             
-            onRowUpdate: (newData, oldData) =>
-              
+            onRowUpdate: (newData, oldData) =>              
               new Promise(resolve => {
                 setTimeout(() => {
                   resolve();
@@ -2664,22 +2652,72 @@ function modalDespesa(){
           
           editable={{
             isEditable: rowData => {{
-              let pos = state.data.length;
-              if(rowData.tableData.id === 0){  
-                  console.log(rowData.tableData.edittingw)       
-                return false
-              }else{
-                return true
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(-) Impostos s/ serviços' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'CPV/CSV/CMV' ||
+                   state.data[b].description === 'Lucro Bruto' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'Custos Variáveis' ||
+                   state.data[b].description === 'Outras despesas' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
               }
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){                      
+                if(rowData.tableData.id === pos[conta]){  
+                  resultado = false;
+                  break;
+                }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                  resultado = true;
+                  break;
+                }
+               }
+
+               return resultado;
             
             }},
             // only name(a) rows would be editable
             isDeletable: rowData => {{
-              if(rowData.tableData.id === 0){
-                return false
-              }else{
-                return true
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(-) Impostos s/ serviços' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'CPV/CSV/CMV' ||
+                   state.data[b].description === 'Lucro Bruto' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'Custos Variáveis' ||
+                   state.data[b].description === 'Outras despesas' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
               }
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){                      
+                if(rowData.tableData.id === pos[conta]){  
+                  resultado = false;
+                  break;
+                }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                  resultado = true;
+                  break;
+                }
+               }
+
+               return resultado;
 
             }}, 
             // only name(a) rows would be deletable
@@ -2993,22 +3031,72 @@ function modalDespesa(){
           
           editable={{
             isEditable: rowData => {{
-              let pos = state.data.length;
-              if(rowData.tableData.id === 0){  
-                  console.log(rowData.tableData.edittingw)       
-                return false
-              }else{
-                return true
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(-) Impostos s/ serviços' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'CPV/CSV/CMV' ||
+                   state.data[b].description === 'Lucro Bruto' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'Custos Variáveis' ||
+                   state.data[b].description === 'Outras despesas' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
               }
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){                      
+                if(rowData.tableData.id === pos[conta]){  
+                  resultado = false;
+                  break;
+                }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                  resultado = true;
+                  break;
+                }
+               }
+
+               return resultado;
             
             }},
             // only name(a) rows would be editable
             isDeletable: rowData => {{
-              if(rowData.tableData.id === 0){
-                return false
-              }else{
-                return true
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(-) Impostos s/ serviços' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'CPV/CSV/CMV' ||
+                   state.data[b].description === 'Lucro Bruto' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'Custos Variáveis' ||
+                   state.data[b].description === 'Outras despesas' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
               }
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){                      
+                if(rowData.tableData.id === pos[conta]){  
+                  resultado = false;
+                  break;
+                }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                  resultado = true;
+                  break;
+                }
+               }
+
+               return resultado;
 
             }}, 
             // only name(a) rows would be deletable
@@ -3367,22 +3455,71 @@ function modalDespesa(){
           
           editable={{
             isEditable: rowData => {{
-              let pos = state.data.length;
-              if(rowData.tableData.id === 0){  
-                  console.log(rowData.tableData.edittingw)       
-                return false
-              }else{
-                return true
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(-) Impostos s/ serviços' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'CPV/CSV/CMV' ||
+                   state.data[b].description === 'Lucro Bruto' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'Custos Variáveis' ||
+                   state.data[b].description === 'Outras despesas' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
               }
-            
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){                      
+                if(rowData.tableData.id === pos[conta]){  
+                  resultado = false;
+                  break;
+                }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                  resultado = true;
+                  break;
+                }
+               }
+
+               return resultado;
             }},
             // only name(a) rows would be editable
             isDeletable: rowData => {{
-              if(rowData.tableData.id === 0){
-                return false
-              }else{
-                return true
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(-) Impostos s/ serviços' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'CPV/CSV/CMV' ||
+                   state.data[b].description === 'Lucro Bruto' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'Custos Variáveis' ||
+                   state.data[b].description === 'Outras despesas' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
               }
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){                      
+                if(rowData.tableData.id === pos[conta]){  
+                  resultado = false;
+                  break;
+                }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                  resultado = true;
+                  break;
+                }
+               }
+
+               return resultado;
 
             }}, 
             // only name(a) rows would be deletable
@@ -3630,6 +3767,290 @@ function modalDespesa(){
             paddingLeft:1
           }
         }} 
+        editable={{
+          isEditable: rowData => {{
+            let pos = [];
+            for(let b = 0; b < state.data.length; b++){
+              if(state.data[b].description === '(+) Receita Bruta' ||
+                 state.data[b].description === '(-) Impostos s/ serviços' ||
+                 state.data[b].description === '(=) Receita Líquida' ||
+                 state.data[b].description === '% da Receita Bruta' ||
+                 state.data[b].description === 'CPV/CSV/CMV' ||
+                 state.data[b].description === 'Lucro Bruto' ||
+                 state.data[b].description === 'Margem Bruta' ||
+                 state.data[b].description === 'Custos Variáveis' ||
+                 state.data[b].description === 'Salarios' ||
+                 state.data[b].description === 'Outras despesas' ||
+                 state.data[b].description === 'ROL' ||
+                 state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                 state.data[b].description === 'Margem Ebitda')
+                 {                    
+                  pos.push(b)
+                 }              
+            }
+            let resultado
+
+            for(let conta = 0; conta < pos.length; conta++){                      
+              if(rowData.tableData.id === pos[conta]){  
+                resultado = false;
+                break;
+              }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                resultado = true;
+                break;
+              }
+             }
+
+             return resultado;
+          }},
+          // only name(a) rows would be editable
+          isDeletable: rowData => {{
+            let pos = [];
+            for(let b = 0; b < state.data.length; b++){
+              if(state.data[b].description === '(+) Receita Bruta' ||
+                 state.data[b].description === '(-) Impostos s/ serviços' ||
+                 state.data[b].description === '(=) Receita Líquida' ||
+                 state.data[b].description === '% da Receita Bruta' ||
+                 state.data[b].description === 'CPV/CSV/CMV' ||
+                 state.data[b].description === 'Lucro Bruto' ||
+                 state.data[b].description === 'Margem Bruta' ||
+                 state.data[b].description === 'Custos Variáveis' ||
+                 state.data[b].description === 'Salarios' ||
+                 state.data[b].description === 'Outras despesas' ||
+                 state.data[b].description === 'ROL' ||
+                 state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                 state.data[b].description === 'Margem Ebitda')
+                 {                    
+                  pos.push(b)
+                 }              
+            }
+            let resultado
+
+            for(let conta = 0; conta < pos.length; conta++){                      
+              if(rowData.tableData.id === pos[conta]){  
+                resultado = false;
+                break;
+              }else if(rowData.tableData.id !== pos[conta] && conta == (pos.length-1)){
+                resultado = true;
+                break;
+              }
+             }
+
+             return resultado;
+
+          }}, 
+          // only name(a) rows would be deletable
+          
+          onRowUpdate: (newData, oldData) =>
+            
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                if (oldData) {
+                  if(oldData == state.data[1]){
+                    //Aqui deve ocorrer o ajuste do campo um para o campo de renda bruta.
+                  }
+                  newData.count = (parseInt(newData.mouth1)
+                                  +parseInt(newData.mouth2)
+                                  +parseInt(newData.mouth3)
+                                  +parseInt(newData.mouth4)
+                                  +parseInt(newData.mouth5)
+                                  +parseInt(newData.mouth6)
+                                  +parseInt(newData.mouth7)
+                                  +parseInt(newData.mouth8)
+                                  +parseInt(newData.mouth9)
+                                  +parseInt(newData.mouth10)
+                                  +parseInt(newData.mouth11)
+                                  +parseInt(newData.mouth12));
+
+                    if(parseInt(newData.mouth1)>parseInt(oldData.mouth1)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth1) - parseInt(oldData.mouth1))
+                      console.log(diff)
+                      var valor = parseInt(state.data[0].mouth1);
+                      state.data[0].mouth1 = valor + diff;
+                      console.log('valor depois: '+ state.data[0].mouth1)
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth1) - parseInt(newData.mouth1))
+                      console.log(diff)
+                      var valor = parseInt(state.data[0].mouth1);
+                      state.data[0].mouth1 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mout2)>parseInt(oldData.mouth2)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth2) - parseInt(oldData.mouth2))
+                      var valor = parseInt(state.data[0].mouth2);
+                      state.data[0].mouth2 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth2) - parseInt(newData.mouth2))
+                      var valor = parseInt(state.data[0].mouth2);
+                      state.data[0].mouth2 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth3)>parseInt(oldData.mouth3)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth3) - parseInt(oldData.mouth3))
+                      var valor = parseInt(state.data[0].mouth3);
+                      state.data[0].mouth3 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth3) - parseInt(newData.mouth3))
+                      var valor = parseInt(state.data[0].mouth3);
+                      state.data[0].mouth3 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth4)>parseInt(oldData.mouth4)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth4) - parseInt(oldData.mouth4))
+                      var valor = parseInt(state.data[0].mouth4);
+                      state.data[0].mouth4 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth4) - parseInt(newData.mouth4))
+                      var valor = parseInt(state.data[0].mouth4);
+                      state.data[0].mouth4 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth5)>parseInt(oldData.mouth5)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth5) - parseInt(oldData.mouth5))
+                      var valor = parseInt(state.data[0].mouth5);
+                      state.data[0].mouth5 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth5) - parseInt(newData.mouth5))
+                      var valor = parseInt(state.data[0].mouth5);
+                      state.data[0].mouth5 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth6)>parseInt(oldData.mouth6)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth6) - parseInt(oldData.mouth6))
+                      var valor = parseInt(state.data[0].mouth6);
+                      state.data[0].mouth6 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth6) - parseInt(newData.mouth6))
+                      var valor = parseInt(state.data[0].mouth6);
+                      state.data[0].mouth6 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth7)>parseInt(oldData.mouth7)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth7) - parseInt(oldData.mouth7))
+                      var valor = parseInt(state.data[0].mouth7);
+                      state.data[0].mouth7 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth7) - parseInt(newData.mouth7))
+                      var valor = parseInt(state.data[0].mouth7);
+                      state.data[0].mouth7 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth8)>parseInt(oldData.mouth8)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth8) - parseInt(oldData.mouth8))
+                      var valor = parseInt(state.data[0].mouth8);
+                      state.data[0].mouth8 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth8) - parseInt(newData.mouth8))
+                      var valor = parseInt(state.data[0].mouth8);
+                      state.data[0].mouth8 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth10)>parseInt(oldData.mouth10)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth10) - parseInt(oldData.mouth10))
+                      var valor = parseInt(state.data[0].mouth10);
+                      state.data[0].mouth10 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth10) - parseInt(newData.mouth10))
+                      var valor = parseInt(state.data[0].mouth10);
+                      state.data[0].mouth10 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth11)>parseInt(oldData.mouth11)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth11) - parseInt(oldData.mouth11))
+                      var valor = parseInt(state.data[0].mouth11);
+                      state.data[0].mouth11 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth11) - parseInt(newData.mouth11))
+                      var valor = parseInt(state.data[0].mouth11);
+                      state.data[0].mouth11 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth12)>parseInt(oldData.mouth12)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth12) - parseInt(oldData.mouth12))
+                      var valor = parseInt(state.data[0].mouth12);
+                      state.data[0].mouth12 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth12) - parseInt(newData.mouth12))
+                      var valor = parseInt(state.data[0].mouth12);
+                      state.data[0].mouth12 = valor - diff;
+                    }
+
+                    if(parseInt(newData.mouth9)>parseInt(oldData.mouth9)){
+                      console.log('add')
+                      var diff = (parseInt(newData.mouth9) - parseInt(oldData.mouth9))
+                      var valor = parseInt(state.data[0].mouth9);
+                      state.data[0].mouth9 = valor + diff;
+                    }else{
+                      console.log('remove')
+                      var diff = (parseInt(oldData.mouth9) - parseInt(newData.mouth9))
+                      var valor = parseInt(state.data[0].mouth9);
+                      state.data[0].mouth9 = valor - diff;
+                    }
+
+                    state.data[0].count =  
+                    (parseInt(state.data[0].mouth1)
+                    +parseInt(state.data[0].mouth2)
+                    +parseInt(state.data[0].mouth3)
+                    +parseInt(state.data[0].mouth4)
+                    +parseInt(state.data[0].mouth5)
+                    +parseInt(state.data[0].mouth6)
+                    +parseInt(state.data[0].mouth7)
+                    +parseInt(state.data[0].mouth8)
+                    +parseInt(state.data[0].mouth9)
+                    +parseInt(state.data[0].mouth10)
+                    +parseInt(state.data[0].mouth11)
+                    +parseInt(state.data[0].mouth12));
+
+                    setRenda2(state.data[0].count)
+                  
+                  setState(prevState => {
+                    const data = [...prevState.data];
+                    data[data.indexOf(oldData)] = newData;
+                    return { ...prevState, data };
+                  });
+                
+                  if(!calculado){
+                    calcularImpostos()
+                  }
+
+                }
+              }, 600);
+            }),
+          onRowDelete: oldData =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                setState(prevState => {
+                  const data = [...prevState.data];
+                  data.splice(data.indexOf(oldData), 1);
+                  return { ...prevState, data };
+                });
+              }, 600);
+            }),
+        }}
+
       />
 
     </div>
