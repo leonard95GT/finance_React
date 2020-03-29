@@ -52,7 +52,7 @@ function DashFinal(props) {
     //Despesas Variáveis
     const [nameCostVariable, setNameCostVariable] = useState('');
     const [typeCostVariable, setTypeCostVariable] = useState(0);
-    const [valueCostVariable, setValueCostVariable] = useState(0);
+    const [valueCostVariable, setValueCostVariable] = useState('');
     const [despesasTotal, setDespesasTotal] = useState(0);
     const [custosTotal, setCustosTotal] = useState(0);
     const [salario, setSalario] = useState(0)
@@ -79,7 +79,12 @@ function DashFinal(props) {
 
 
     //Modais: só aparecer se a tabela não estiver sendo editada
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+      produto2.it = [];
+      setDescription('');
+      setShow(false);
+    }
+
     const handleShow = () => {
       if (props.tableRef.current.state.lastEditingRow == undefined){
         setShow(true);
@@ -209,6 +214,11 @@ function DashFinal(props) {
       ]
     })
 
+    //Quebra galho até os valores desta variável, for para a variável produto.
+    const [produto2, setProduto2] = useState({
+      it:[]
+    })
+
     const [itemsCost, setItemsCost] = useState({
       items:[
         {nameCost:'', typeCost:0, valueCost:0}
@@ -244,10 +254,6 @@ function DashFinal(props) {
       items:[
         {nomeDoCusto: '', tipoDoCusto: 0, valorDoCusto:0}
       ]
-    })
-
-    const [postitionBlock, setPositionBlock] = useState({
-      position: []
     })
 
     //Referencia para tabela.
@@ -299,7 +305,7 @@ function DashFinal(props) {
 
    //Volta para a tela de Canal de distribuição, com a categoria já vinculada
    function distribuicao(){
-    setProduto(prevProduto => ({
+    setProduto2(prevProduto => ({
       it: [...prevProduto.it, {
         name: nameCategoria,
         type_cost: tipoCusto,
@@ -319,6 +325,9 @@ function DashFinal(props) {
   }
 
   function adicionarCanal(){
+
+    produto.it = produto2.it;
+
     //Insert into database
     const proxyurl = "https://cors-anywhere.herokuapp.com/";  
     axios.post(proxyurl + 'http://34.70.109.4/distribution', {
@@ -333,7 +342,6 @@ function DashFinal(props) {
       cpv_indirect_cost: 2,
       cpv_labor: 2,
       total_cost: 300,
-      
     },
     {
       headers: {
@@ -401,6 +409,8 @@ function DashFinal(props) {
       });
       }
 
+      produto2.it = [];
+      setDescription('');
 
     setShow(false)
   }
@@ -578,62 +588,62 @@ function DashFinal(props) {
 
       let percent1 = (state.data[0].mouth1 - Math.round(descontoImposto1));
       let finalPercent1 = (100 * percent1);
-      let resultadoDaPorcentagem1 = (finalPercent1 / state.data[0].mouth1)    
+      let resultadoDaPorcentagem1 = Math.round(finalPercent1 / state.data[0].mouth1)    
       receitaLiquida.receita.push(descontoImposto1)  
 
       let percent2 = (state.data[0].mouth2 - Math.round(descontoImposto2));
       let finalPercent2 = (100 * percent2);
-      let resultadoDaPorcentagem2 = (finalPercent2 / state.data[0].mouth2)      
+      let resultadoDaPorcentagem2 = Math.round(finalPercent2 / state.data[0].mouth2)      
       receitaLiquida.receita.push(descontoImposto2)  
 
       let percent3 = (state.data[0].mouth3 - Math.round(descontoImposto3));
       let finalPercent3 = (100 * percent3);
-      let resultadoDaPorcentagem3 = (finalPercent3 / state.data[0].mouth3)      
+      let resultadoDaPorcentagem3 = Math.round(finalPercent3 / state.data[0].mouth3)      
       receitaLiquida.receita.push(descontoImposto3)  
 
       let percent4 = (state.data[0].mouth4 - Math.round(descontoImposto4));
       let finalPercent4 = (100 * percent4);
-      let resultadoDaPorcentagem4 = (finalPercent4 / state.data[0].mouth4)      
+      let resultadoDaPorcentagem4 = Math.round(finalPercent4 / state.data[0].mouth4)      
       receitaLiquida.receita.push(descontoImposto4)  
 
       let percent5 = (state.data[0].mouth5 - Math.round(descontoImposto5));
       let finalPercent5 = (100 * percent5);
-      let resultadoDaPorcentagem5 = (finalPercent5 / state.data[0].mouth5)      
+      let resultadoDaPorcentagem5 = Math.round(finalPercent5 / state.data[0].mouth5)      
       receitaLiquida.receita.push(descontoImposto5)  
 
       let percent6 = (state.data[0].mouth6 - Math.round(descontoImposto6));
       let finalPercent6 = (100 * percent6);
-      let resultadoDaPorcentagem6 = (finalPercent6 / state.data[0].mouth6)      
+      let resultadoDaPorcentagem6 = Math.round(finalPercent6 / state.data[0].mouth6)      
       receitaLiquida.receita.push(descontoImposto6)  
 
       let percent7 = (state.data[0].mouth7 - Math.round(descontoImposto7));
       let finalPercent7 = (100 * percent7);
-      let resultadoDaPorcentagem7 = (finalPercent7 / state.data[0].mouth7)      
+      let resultadoDaPorcentagem7 = Math.round(finalPercent7 / state.data[0].mouth7)      
       receitaLiquida.receita.push(descontoImposto7)  
 
       let percent8 = (state.data[0].mouth8 - Math.round(descontoImposto8));
       let finalPercent8 = (100 * percent8);
-      let resultadoDaPorcentagem8 = (finalPercent8 / state.data[0].mouth8)      
+      let resultadoDaPorcentagem8 = Math.round(finalPercent8 / state.data[0].mouth8)      
       receitaLiquida.receita.push(descontoImposto8)  
 
       let percent9 = (state.data[0].mouth9 - Math.round(descontoImposto9));
       let finalPercent9 = (100 * percent9);
-      let resultadoDaPorcentagem9 = (finalPercent9 / state.data[0].mouth9)      
+      let resultadoDaPorcentagem9 = Math.round(finalPercent9 / state.data[0].mouth9)      
       receitaLiquida.receita.push(descontoImposto9)  
 
       let percent10 = (state.data[0].mouth10 - Math.round(descontoImposto10));
       let finalPercent10 = (100 * percent10);
-      let resultadoDaPorcentagem10 = (finalPercent10 / state.data[0].mouth10)      
+      let resultadoDaPorcentagem10 = Math.round(finalPercent10 / state.data[0].mouth10)      
       receitaLiquida.receita.push(descontoImposto10)  
 
       let percent11 = (state.data[0].mouth11 - Math.round(descontoImposto11));
       let finalPercent11 = (100 * percent11);
-      let resultadoDaPorcentagem11 = (finalPercent11 / state.data[0].mouth11)      
+      let resultadoDaPorcentagem11 = Math.round(finalPercent11 / state.data[0].mouth11)      
       receitaLiquida.receita.push(descontoImposto11)  
 
       let percent12 = (state.data[0].mouth12 - Math.round(descontoImposto12));
       let finalPercent12 = (100 * percent12);
-      let resultadoDaPorcentagem12 = (finalPercent12 / state.data[0].mouth12)      
+      let resultadoDaPorcentagem12 = Math.round(finalPercent12 / state.data[0].mouth12)      
       receitaLiquida.receita.push(descontoImposto12)  
 
       
@@ -1503,7 +1513,7 @@ function teste(){
         <input onChange={e => setValorVenda(e.target.value)} 
               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
               id="nome-canal" 
-              placeholder="R$" 
+              placeholder="" 
               type="number" 
               name=""
         />
@@ -1525,6 +1535,23 @@ function teste(){
 
 }
 
+function editarCustosGerais(e){
+  if(e > 100){
+    alert('valor inválido, Digite um valor com o % menor do que 100.')
+    setValueCostVariable('')    
+  }else{
+    setValueCostVariable(e)
+  }
+}
+
+function editarCustosGerais2(e){
+  if(e > 100){
+    alert('valor inválido, Digite um valor com o % menor do que 100.')
+    setValueCost('')    
+  }else{
+    setValueCost(e)
+  }
+}
 
   if(fase===0){
       //adição de canais e impostos (início do base zero)
@@ -1554,7 +1581,7 @@ function teste(){
                       </div>
 
                       <div>
-                      {produto.it.map((p, i)=>(
+                      {produto2.it.map((p, i)=>(
                         <div key={i} class="row">
                           <div class="col-6">
                             <span class="texto-cinza mr-2">Categoria do Produto:</span>
@@ -2558,7 +2585,8 @@ function teste(){
                       :
                       <div class="col-4 text-center">
                         <span class="titulo-caixa">Porcentagem<br/>do custo</span>
-                        <input onChange={e => setValueCostVariable(e.target.value)} 
+                        <input onChange={e => editarCustosGerais(e.target.value)} 
+                              value={valueCostVariable}
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="%" 
@@ -3363,7 +3391,8 @@ function teste(){
                       :
                       <div class="col-4 text-center">
                         <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
-                        <input onChange={e => setValueCost(e.target.value)} 
+                        <input onChange={e => editarCustosGerais2(e.target.value)} 
+                              value={valueCost}
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="%" 
