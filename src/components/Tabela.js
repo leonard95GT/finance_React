@@ -2568,7 +2568,7 @@ function editarCustosGerais2(e){
                           <span class="titulo-caixa">Nome da<br/>despesa</span>
                           <input onChange={w => setNameCostVariable(w.target.value)} 
                           class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-                          id="nome-categoria" 
+                          id="nome-canal" 
                           placeholder="Digite o nome do custo" 
                           type="text" 
                           name=""
