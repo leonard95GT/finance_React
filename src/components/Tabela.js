@@ -1596,12 +1596,12 @@ function editarCustosGerais2(e){
 
 
                       {produto2.it.map((p, i)=>(
-                        <div key={i} class="col-12 text-center">
-                          <div class="col-6">
+                        <div key={i} class="row justify-content-center">
+                          <div class="col-md-auto">
                             <span class="texto-cinza mr-2">Categoria do Produto:</span>
                           </div>
-                          <div class="col-6">
-                            <p class="text-dark texto-cinza px-5 py-2 rounded">{p.name}</p>                            
+                          <div class="col-md-auto">
+                            <p id="nome-canal-2" class="text-white texto-cinza px-5 py-2 rounded">{p.name}</p>                            
                           </div>
 
                         </div>
