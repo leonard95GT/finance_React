@@ -3388,7 +3388,7 @@ function editarCustosGerais2(e){
                 <div key={ind}>
                   <div class="row mb-4">
                     <div class="col-4">
-                          <span class="titulo-caixa">Nome da<br/>despesa</span>
+                          <span class="titulo-caixa-2">Nome da<br/>despesa</span>
                           <input
                           onChange={s => setNameCost(s.target.value)}
                           class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
@@ -3409,7 +3409,7 @@ function editarCustosGerais2(e){
                       typeCost == 0
                       ?
                       <div class="col-4">
-                        <span class="titulo-caixa">Valor<br/>de despesa</span>
+                        <span class="titulo-caixa-2">Valor<br/>de despesa</span>
                         <input onChange={e => setValueCost(e.target.value)} 
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
@@ -3417,7 +3417,7 @@ function editarCustosGerais2(e){
                               type="number" 
                               name=""
                         />
-                        <a id="save"
+                        <a id="add"
                           class="btn mx-auto mt-2 text-white font-weight-bold"
                           role="button"
                           onClick={
@@ -3428,7 +3428,7 @@ function editarCustosGerais2(e){
                       </div>
                       :
                       <div class="col-4 text-center">
-                        <span class="titulo-caixa">Porcentagem<br/>de despesa</span>
+                        <span class="titulo-caixa-2">Porcentagem<br/>de despesa</span>
                         <input onChange={e => editarCustosGerais2(e.target.value)} 
                               value={valueCost}
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
@@ -3437,7 +3437,7 @@ function editarCustosGerais2(e){
                               type="number" 
                               name=""
                         />
-                        <a id="save"
+                        <a id="add"
                           class="btn mx-auto mt-2 text-white font-weight-bold"
                           role="button"
                           onClick={
