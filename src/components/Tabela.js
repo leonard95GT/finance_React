@@ -2586,7 +2586,7 @@ function editarCustosGerais2(e){
                       typeCostVariable == 0
                       ?
                       <div class="col-3">
-                        <span class="titulo-caixa">Valor<br/>do custo</span>
+                        <span class="titulo-caixa-2">Valor<br/>do custo</span>
                         <input onChange={e => setValueCostVariable(e.target.value)} 
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
@@ -2595,7 +2595,7 @@ function editarCustosGerais2(e){
                               name=""
                         />
                         <a id="add"
-                            class="btn mx-auto mt-4 text-white font-weight-bold"
+                            class="btn mx-auto mt-2 text-white font-weight-bold"
                             role="button"
                             onClick={
                               addOutrasDespesasVariaveis
@@ -2605,7 +2605,7 @@ function editarCustosGerais2(e){
                       </div>
                       :
                       <div class="col-3 text-center">
-                        <span class="titulo-caixa">Porcentagem<br/>do custo</span>
+                        <span class="titulo-caixa-2">Porcentagem<br/>do custo</span>
                         <input onChange={e => editarCustosGerais(e.target.value)} 
                               value={valueCostVariable}
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
@@ -2615,7 +2615,7 @@ function editarCustosGerais2(e){
                               name=""
                         />
                         <a id="add"
-                            class="btn mx-auto mt-4 text-white font-weight-bold"
+                            class="btn mx-auto mt-2 text-white font-weight-bold"
                             role="button"
                             onClick={
                               addOutrasDespesasVariaveis

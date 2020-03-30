@@ -10242,6 +10242,16 @@
     margin-right: 4px;
   }
 
+  .titulo-caixa-2{
+    font-weight: bold;
+    font-size: 0.9em;
+    width: 61px;
+    display: inline-block;
+    float: left;
+    text-align: right;
+    margin-right: 4px;
+  }
+
   .titulo-caixa-a{
     font-weight: bold;
     font-size: 0.9em;
