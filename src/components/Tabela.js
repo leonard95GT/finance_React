@@ -18,9 +18,6 @@ function DashFinal(props) {
     const [tabela, setTabela] = useState('');
     const [description, setDescription] = useState('');
 
-    const [tituloOpcao, setTituloOpcao] = useState('Valor')
-    const [place, setPlace] = useState('R$')
-
     //Tela inicial
     const [renda, setRenda] = useState(2000);
     const [contador, setContador] = useState(0);
@@ -53,7 +50,6 @@ function DashFinal(props) {
     const [nameCostVariable, setNameCostVariable] = useState('');
     const [typeCostVariable, setTypeCostVariable] = useState(0);
     const [valueCostVariable, setValueCostVariable] = useState('');
-    const [despesasTotal, setDespesasTotal] = useState(0);
     const [custosTotal, setCustosTotal] = useState(0);
     const [salario, setSalario] = useState(0)
 
@@ -63,16 +59,10 @@ function DashFinal(props) {
     const [valueCostProduct, setValueCostProduct] = useState(0);
 
     //Valores recebidos do backend
-    const [rol, setRol] = useState(0);
-    const [bmargemBruta, setMargemBruta] = useState(0);
     const [lucroBruto, setLucroBruto] = useState(0);
     const [ebitda, setEbitda] = useState(0);
     const [receitinha, setReceitinha] = useState(0);
-    const [receitaBruta, setReceitaBruta] = useState(0)
-    const [percentEbitda, setPercentEbitda] = useState(0);
-    const [lucroLiquido, setLucroLiquido] = useState(0);
-
-
+    
     const [receitaLiquida, setReceitaLiquida] = useState({
       receita:[]
     })
@@ -144,10 +134,8 @@ function DashFinal(props) {
 
     }; 
 
-
     //Set controlador para telas de categoria de produto.
     const [controlCategoria, setControladorCategoria] = useState(true)
-
 
     //Dados da tabela, initial state.
     const [state, setState] = React.useState({
@@ -205,7 +193,6 @@ function DashFinal(props) {
 
     
     });
-
 
     //Dados de todas as categorias inclusas no sistema
     const [produto, setProduto] = useState({
@@ -304,115 +291,128 @@ function DashFinal(props) {
   }
 
    //Volta para a tela de Canal de distribuição, com a categoria já vinculada
-   function distribuicao(){
-    setProduto2(prevProduto => ({
-      it: [...prevProduto.it, {
-        name: nameCategoria,
-        type_cost: tipoCusto,
-        type_sale: tipoVenda,
-        value_sale: valorVenda,
-        quantity_items: quantVenda
-      }]
+  function distribuicao(){
+     if(nameCategoria ==''){
+       alert('Insira o nome da Categoria!')
+     }else if(valorVenda == 0){
+       alert('Informe o valor da venda ou preço')
+     }else{
+      setProduto2(prevProduto => ({
+        it: [...prevProduto.it, {
+          name: nameCategoria,
+          type_cost: tipoCusto,
+          type_sale: tipoVenda,
+          value_sale: valorVenda,
+          quantity_items: quantVenda
+        }]
+      
+      }));
     
-    }));
+      setNameCategoria('');
+      setTipoCusto(0);
+      setTipoVenda(0);
+      setValorVenda(0);
+      setQuantVenda(0);
+      setControladorCategoria(true);
   
-    setNameCategoria('');
-    setTipoCusto(0);
-    setTipoVenda(0);
-    setValorVenda(0);
-    setQuantVenda(0);
-    setControladorCategoria(true);
+     }
   }
 
   function adicionarCanal(){
 
-    produto.it = produto2.it;
+    if(description===''){
+      alert('Informe o nome do canal')
+    }else{
+          produto.it = produto2.it;
 
-    //Insert into database
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";  
-    axios.post(proxyurl + 'http://34.70.109.4/distribution', {
+          //Insert into database
+          const proxyurl = "https://cors-anywhere.herokuapp.com/";  
+          axios.post(proxyurl + 'http://34.70.109.4/distribution', {
+            
+            channelName: description,
+            categoryProduct: 'categoria',
+            salesQt: 2,
+            salesPrice: 2,
+            costType: 1,
+            projection_id: 1,
+            cpv_feedstock: 2,
+            cpv_indirect_cost: 2,
+            cpv_labor: 2,
+            total_cost: 300,
+          },
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers': '*'
+            },
+            proxy: {
+              host: '34.70.109.4',
+              port: 8080
+            }
+            }).then(function (response) {
+              //console..log('response is : ' + response.data);
+              
+            }).catch(function (err){
+              //console..log(err)
+            })
       
-      channelName: description,
-      categoryProduct: 'categoria',
-      salesQt: 2,
-      salesPrice: 2,
-      costType: 1,
-      projection_id: 1,
-      cpv_feedstock: 2,
-      cpv_indirect_cost: 2,
-      cpv_labor: 2,
-      total_cost: 300,
-    },
-    {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*'
-      },
-      proxy: {
-        host: '34.70.109.4',
-        port: 8080
-      }
-      }).then(function (response) {
-        //console..log('response is : ' + response.data);
+      
+          const valor = contador;
+          setContador(valor+2);
+          setRenda2(state.data[0].count)
+          if(state.data[1]){
+            setState(prevState => {
+              const data = [...prevState.data];
+              data.push({
+                  description: description,
+                  mouth1: 0,
+                  mouth2: 0,
+                  mouth3: 0,
+                  mouth4: 0,
+                  mouth5: 0,
+                  mouth6: 0,
+                  mouth7: 0,
+                  mouth8: 0,
+                  mouth9: 0,
+                  mouth10: 0,
+                  mouth11: 0,
+                  mouth12: 0,
+                  count: 0
         
-      }).catch(function (err){
-        //console..log(err)
-      })
+              });
+              return { ...prevState, data };
+            });
+            }else{
+            setState(prevState => {
+              const data = [...prevState.data];
+              data.push({
+                  description: description,
+                  mouth1: state.data[0].mouth1,
+                  mouth2: state.data[0].mouth2,
+                  mouth3: state.data[0].mouth3,
+                  mouth4: state.data[0].mouth4,
+                  mouth5: state.data[0].mouth5,
+                  mouth6: state.data[0].mouth6,
+                  mouth7: state.data[0].mouth7,
+                  mouth8: state.data[0].mouth8,
+                  mouth9: state.data[0].mouth9,
+                  mouth10: state.data[0].mouth10,
+                  mouth11: state.data[0].mouth11,
+                  mouth12: state.data[0].mouth12,
+                  count: renda
+        
+              });
+              return { ...prevState, data };
+            });
+            }
+      
+            produto2.it = [];
+            setDescription('');
+      
+          setShow(false)
+    }
 
-
-    const valor = contador;
-    setContador(valor+2);
-    setRenda2(state.data[0].count)
-    if(state.data[1]){
-      setState(prevState => {
-        const data = [...prevState.data];
-        data.push({
-            description: description,
-            mouth1: 0,
-            mouth2: 0,
-            mouth3: 0,
-            mouth4: 0,
-            mouth5: 0,
-            mouth6: 0,
-            mouth7: 0,
-            mouth8: 0,
-            mouth9: 0,
-            mouth10: 0,
-            mouth11: 0,
-            mouth12: 0,
-            count: 0
-  
-        });
-        return { ...prevState, data };
-      });
-      }else{
-      setState(prevState => {
-        const data = [...prevState.data];
-        data.push({
-            description: description,
-            mouth1: state.data[0].mouth1,
-            mouth2: state.data[0].mouth2,
-            mouth3: state.data[0].mouth3,
-            mouth4: state.data[0].mouth4,
-            mouth5: state.data[0].mouth5,
-            mouth6: state.data[0].mouth6,
-            mouth7: state.data[0].mouth7,
-            mouth8: state.data[0].mouth8,
-            mouth9: state.data[0].mouth9,
-            mouth10: state.data[0].mouth10,
-            mouth11: state.data[0].mouth11,
-            mouth12: state.data[0].mouth12,
-            count: renda
-  
-        });
-        return { ...prevState, data };
-      });
-      }
-
-      produto2.it = [];
-      setDescription('');
-
-    setShow(false)
+    
   }
   
   function calcularImpostos(){
@@ -536,23 +536,26 @@ function DashFinal(props) {
 
 
       for(let i = 0; i < itemsTax.items.length; i++){
-        let valorAnual = (itemsTax.items[i].valueTax * 12)
+        let rendaBrutaMensal = (props.base / 12)
+        let valorMensal = ((rendaBrutaMensal / 100) * itemsTax.items[i].valueTax)
+        let valorAnual = (valorMensal * 12)
+
         setState(prevState => {
           const data = [...prevState.data];
           data.push({
               description: itemsTax.items[i].nameTax,
-              mouth1: itemsTax.items[i].valueTax,
-              mouth2: itemsTax.items[i].valueTax,
-              mouth3: itemsTax.items[i].valueTax,
-              mouth4: itemsTax.items[i].valueTax,
-              mouth5: itemsTax.items[i].valueTax,
-              mouth6: itemsTax.items[i].valueTax,
-              mouth7: itemsTax.items[i].valueTax,
-              mouth8: itemsTax.items[i].valueTax,
-              mouth9: itemsTax.items[i].valueTax,
-              mouth10: itemsTax.items[i].valueTax,
-              mouth11: itemsTax.items[i].valueTax,
-              mouth12: itemsTax.items[i].valueTax,
+              mouth1: valorMensal,
+              mouth2: valorMensal,
+              mouth3: valorMensal,
+              mouth4: valorMensal,
+              mouth5: valorMensal,
+              mouth6: valorMensal,
+              mouth7: valorMensal,
+              mouth8: valorMensal,
+              mouth9: valorMensal,
+              mouth10: valorMensal,
+              mouth11: valorMensal,
+              mouth12: valorMensal,
               count: valorAnual
           });
           return { ...prevState, data };
@@ -730,8 +733,12 @@ function DashFinal(props) {
     
     setShow2(false);
     setContador2(0)
-    setFase(1)
-  }
+    if(produto.it[0] == null){
+      setFase(2)
+    }else{
+      setFase(1)
+    }
+  } 
 
  function custoProduto(){
   let item = custosCPV.items[contadorFinal];
@@ -913,350 +920,312 @@ function DashFinal(props) {
  }
 
  function custoVariavel(){
-   if(typeCostVariable==0){
-    const item = itemsCostVariable.items[contador2];
-    const numero = contador2;
-  
-    item.nameCost = nameCostVariable;
-    item.typeCost = typeCostVariable;
-    item.valueCost = valueCostVariable;
-  
-    itemsCostVariable.items[contador2] = item;
-  
-    
-    let valorGeral = 0; 
-  
-    for(let i = 0; i < itemsCostVariable.items.length; i++){
-      valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
-    }
-  
-    console.log('Soma das despesas '+valorGeral)
-    
-  
-    let valorMes = (valorGeral * 12)
-     
-    setState(prevState => {
-      const data = [...prevState.data];
-      data.push({
-          description: 'Custos Variáveis  ',
-          mouth1: valorGeral,
-          mouth2: valorGeral,
-          mouth3: valorGeral,
-          mouth4: valorGeral,
-          mouth5: valorGeral,
-          mouth6: valorGeral,
-          mouth7: valorGeral,
-          mouth8: valorGeral,
-          mouth9: valorGeral,
-          mouth10: valorGeral,
-          mouth11: valorGeral,
-          mouth12: valorGeral,
-          count: valorMes
-      });
-      return { ...prevState, data };
-    });
-  
-  
-    for(let i = 0; i < itemsCostVariable.items.length; i++){
-      //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
-      let valor = (itemsCostVariable.items[i].valueCost * 12)
-      setState(prevState => {
-        const data = [...prevState.data];
-        data.push({
-            description: itemsCostVariable.items[i].nameCost,
-            mouth1: itemsCostVariable.items[i].valueCost,
-            mouth2: itemsCostVariable.items[i].valueCost,
-            mouth3: itemsCostVariable.items[i].valueCost,
-            mouth4: itemsCostVariable.items[i].valueCost,
-            mouth5: itemsCostVariable.items[i].valueCost,
-            mouth6: itemsCostVariable.items[i].valueCost,
-            mouth7: itemsCostVariable.items[i].valueCost,
-            mouth8: itemsCostVariable.items[i].valueCost,
-            mouth9: itemsCostVariable.items[i].valueCost,
-            mouth10: itemsCostVariable.items[i].valueCost,
-            mouth11: itemsCostVariable.items[i].valueCost,
-            mouth12: itemsCostVariable.items[i].valueCost,
-            count: valor
-        });
-        return { ...prevState, data };
-      });
-    
-    }
-  
-    setCustosTotal(valorMes)
-    setFase(3)
-    setContador2(0);
-  
+   if(nameCostVariable === ""){
+    alert( 'Informe o nome do custo')
+   }else if(valueCostVariable == "" || valueCostVariable == 0){
+    alert( 'Informe o valor do custo')
    }else{
-    const item = itemsCostVariable.items[contador2];
-    const numero = contador2;
-  
-    item.nameCost = nameCostVariable;
-    item.typeCost = typeCostVariable;
-    item.valueCost = valueCostVariable;
-  
-    itemsCostVariable.items[contador2] = item;
-  
+    if(typeCostVariable==0){
+      const item = itemsCostVariable.items[contador2];
+      const numero = contador2;
     
-    let valorGeral = 0; 
-  
-    for(let i = 0; i < itemsCostVariable.items.length; i++){
-      valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
-    }
-  
-    console.log('Soma das despesas '+valorGeral)
+      item.nameCost = nameCostVariable;
+      item.typeCost = typeCostVariable;
+      item.valueCost = valueCostVariable;
     
+      itemsCostVariable.items[contador2] = item;
     
-
-    let valorMes = (valorGeral * 12)
-
-    let porcentagemGeral = (( props.base / 100) * valorMes) 
-    //console.log('%%%' + porcentagemGeral)
-
-    setState(prevState => {
-      const data = [...prevState.data];
-      data.push({
-          description: 'Custos Variáveis  ',
-          mouth1: (porcentagemGeral / 12),
-          mouth2: (porcentagemGeral / 12),
-          mouth3: (porcentagemGeral / 12),
-          mouth4: (porcentagemGeral / 12),
-          mouth5: (porcentagemGeral / 12),
-          mouth6: (porcentagemGeral / 12),
-          mouth7: (porcentagemGeral / 12),
-          mouth8: (porcentagemGeral / 12),
-          mouth9: (porcentagemGeral / 12),
-          mouth10: (porcentagemGeral / 12),
-          mouth11: (porcentagemGeral / 12),
-          mouth12: (porcentagemGeral / 12),
-          count: porcentagemGeral
-      });
-      return { ...prevState, data };
-    });
-  
-  
-    for(let i = 0; i < itemsCostVariable.items.length; i++){
-      //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
-      let valor = (itemsCostVariable.items[i].valueCost * 12)
+      
+      let valorGeral = 0; 
+    
+      for(let i = 0; i < itemsCostVariable.items.length; i++){
+        valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
+      }
+    
+      console.log('Soma das despesas '+valorGeral)
+      
+    
+      let valorMes = (valorGeral * 12)
+       
       setState(prevState => {
         const data = [...prevState.data];
         data.push({
-            description: itemsCostVariable.items[i].nameCost,
-            mouth1: itemsCostVariable.items[i].valueCost,
-            mouth2: itemsCostVariable.items[i].valueCost,
-            mouth3: itemsCostVariable.items[i].valueCost,
-            mouth4: itemsCostVariable.items[i].valueCost,
-            mouth5: itemsCostVariable.items[i].valueCost,
-            mouth6: itemsCostVariable.items[i].valueCost,
-            mouth7: itemsCostVariable.items[i].valueCost,
-            mouth8: itemsCostVariable.items[i].valueCost,
-            mouth9: itemsCostVariable.items[i].valueCost,
-            mouth10: itemsCostVariable.items[i].valueCost,
-            mouth11: itemsCostVariable.items[i].valueCost,
-            mouth12: itemsCostVariable.items[i].valueCost,
-            count: valor
+            description: 'Custos Variáveis  ',
+            mouth1: valorGeral,
+            mouth2: valorGeral,
+            mouth3: valorGeral,
+            mouth4: valorGeral,
+            mouth5: valorGeral,
+            mouth6: valorGeral,
+            mouth7: valorGeral,
+            mouth8: valorGeral,
+            mouth9: valorGeral,
+            mouth10: valorGeral,
+            mouth11: valorGeral,
+            mouth12: valorGeral,
+            count: valorMes
         });
         return { ...prevState, data };
       });
     
-    }
+    
+      for(let i = 0; i < itemsCostVariable.items.length; i++){
+        //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
+        let valor = (itemsCostVariable.items[i].valueCost * 12)
+        setState(prevState => {
+          const data = [...prevState.data];
+          data.push({
+              description: itemsCostVariable.items[i].nameCost,
+              mouth1: itemsCostVariable.items[i].valueCost,
+              mouth2: itemsCostVariable.items[i].valueCost,
+              mouth3: itemsCostVariable.items[i].valueCost,
+              mouth4: itemsCostVariable.items[i].valueCost,
+              mouth5: itemsCostVariable.items[i].valueCost,
+              mouth6: itemsCostVariable.items[i].valueCost,
+              mouth7: itemsCostVariable.items[i].valueCost,
+              mouth8: itemsCostVariable.items[i].valueCost,
+              mouth9: itemsCostVariable.items[i].valueCost,
+              mouth10: itemsCostVariable.items[i].valueCost,
+              mouth11: itemsCostVariable.items[i].valueCost,
+              mouth12: itemsCostVariable.items[i].valueCost,
+              count: valor
+          });
+          return { ...prevState, data };
+        });
+      
+      }
+    
+      setCustosTotal(valorMes)
+      setFase(3)
+      setContador2(0);
+    
+     }else{
+      const item = itemsCostVariable.items[contador2];
+      const numero = contador2;
+    
+      item.nameCost = nameCostVariable;
+      item.typeCost = typeCostVariable;
+      item.valueCost = valueCostVariable;
+    
+      itemsCostVariable.items[contador2] = item;
+    
+      
+      let valorGeral = 0; 
+    
+      for(let i = 0; i < itemsCostVariable.items.length; i++){
+        valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
+      }
+    
+      console.log('Soma das despesas '+valorGeral)
+      
+      
   
-    setCustosTotal(valorMes)
-    setFase(3)
-    setContador2(0);
-
+      let valorMes = (valorGeral * 12)
+  
+      let porcentagemGeral = (( props.base / 100) * valorMes) 
+      //console.log('%%%' + porcentagemGeral)
+  
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: 'Custos Variáveis  ',
+            mouth1: (porcentagemGeral / 12),
+            mouth2: (porcentagemGeral / 12),
+            mouth3: (porcentagemGeral / 12),
+            mouth4: (porcentagemGeral / 12),
+            mouth5: (porcentagemGeral / 12),
+            mouth6: (porcentagemGeral / 12),
+            mouth7: (porcentagemGeral / 12),
+            mouth8: (porcentagemGeral / 12),
+            mouth9: (porcentagemGeral / 12),
+            mouth10: (porcentagemGeral / 12),
+            mouth11: (porcentagemGeral / 12),
+            mouth12: (porcentagemGeral / 12),
+            count: porcentagemGeral
+        });
+        return { ...prevState, data };
+      });
+    
+    
+      for(let i = 0; i < itemsCostVariable.items.length; i++){
+        //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
+        let valor = (itemsCostVariable.items[i].valueCost * 12)
+        setState(prevState => {
+          const data = [...prevState.data];
+          data.push({
+              description: itemsCostVariable.items[i].nameCost,
+              mouth1: itemsCostVariable.items[i].valueCost,
+              mouth2: itemsCostVariable.items[i].valueCost,
+              mouth3: itemsCostVariable.items[i].valueCost,
+              mouth4: itemsCostVariable.items[i].valueCost,
+              mouth5: itemsCostVariable.items[i].valueCost,
+              mouth6: itemsCostVariable.items[i].valueCost,
+              mouth7: itemsCostVariable.items[i].valueCost,
+              mouth8: itemsCostVariable.items[i].valueCost,
+              mouth9: itemsCostVariable.items[i].valueCost,
+              mouth10: itemsCostVariable.items[i].valueCost,
+              mouth11: itemsCostVariable.items[i].valueCost,
+              mouth12: itemsCostVariable.items[i].valueCost,
+              count: valor
+          });
+          return { ...prevState, data };
+        });
+      
+      }
+    
+      setCustosTotal(valorMes)
+      setFase(3)
+      setContador2(0);
+  
+     }
+  
    }
  }
 
  function custoSalario(){
-  let valorSalarioGeral = (parseInt(salary) * 12)
+  if(salary != ''){
+    let valorSalarioGeral = (parseInt(salary) * 12)
 
-  setState(prevState => {
-    const data = [...prevState.data];
-    data.push({
-        description: 'Salarios',
-        mouth1: salary,
-        mouth2: salary,
-        mouth3: salary,
-        mouth4: salary,
-        mouth5: salary,
-        mouth6: salary,
-        mouth7: salary,
-        mouth8: salary,
-        mouth9: salary,
-        mouth10: salary,
-        mouth11: salary,
-        mouth12: salary,
-        count: valorSalarioGeral
+    setState(prevState => {
+      const data = [...prevState.data];
+      data.push({
+          description: 'Salarios',
+          mouth1: salary,
+          mouth2: salary,
+          mouth3: salary,
+          mouth4: salary,
+          mouth5: salary,
+          mouth6: salary,
+          mouth7: salary,
+          mouth8: salary,
+          mouth9: salary,
+          mouth10: salary,
+          mouth11: salary,
+          mouth12: salary,
+          count: valorSalarioGeral
+      });
+      return { ...prevState, data };
     });
-    return { ...prevState, data };
-  });
-
-  setSalario(valorSalarioGeral)
-
-  setFase(4)
+    setSalario(valorSalarioGeral)
+  
+    setFase(4)  
+  }else{
+    alert('Informe o valor dos salários pag')
+  }
  }
 
  function outrasDespesas(){
-  const item = itemsCost.items[contador2];
-  const numero = contador2;
-
-  item.nameCost = nameCost;
-  item.typeCost = typeCost;
-  item.valueCost = valueCost;
-
-  itemsCost.items[contador2] = item;
-
-  var valorMes = 0
-  let valorGeral = 0;
-
-  for(let i = 0; i < itemsCost.items.length; i++){
-    valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
-  }
-
-
-  valorMes = (valorGeral * 12)
-
-  let porcentagemGeral = (( props.base / 100) * valorMes) 
-
-  if(typeCost == 0){
-    setState(prevState => {
-      const data = [...prevState.data];
-      data.push({
-          description: 'Outras despesas',
-          mouth1: valorGeral,
-          mouth2: valorGeral,
-          mouth3: valorGeral,
-          mouth4: valorGeral,
-          mouth5: valorGeral,
-          mouth6: valorGeral,
-          mouth7: valorGeral,
-          mouth8: valorGeral,
-          mouth9: valorGeral,
-          mouth10: valorGeral,
-          mouth11: valorGeral,
-          mouth12: valorGeral,
-          count: valorMes
-      });
-      return { ...prevState, data };
-    });
+   if(nameCost == ''){
+     alert('Informe o nome da despesa')
+   }else if(valueCost == ''){
+    alert('Informe o valor da despesa')
+   }else{
+    const item = itemsCost.items[contador2];
+    const numero = contador2;
   
-  }else{
-    setState(prevState => {
-      const data = [...prevState.data];
-      data.push({
-          description: 'Outras despesas',
-          mouth1: (porcentagemGeral / 12),
-          mouth2: (porcentagemGeral / 12),
-          mouth3: (porcentagemGeral / 12),
-          mouth4: (porcentagemGeral / 12),
-          mouth5: (porcentagemGeral / 12),
-          mouth6: (porcentagemGeral / 12),
-          mouth7: (porcentagemGeral / 12),
-          mouth8: (porcentagemGeral / 12),
-          mouth9: (porcentagemGeral / 12),
-          mouth10: (porcentagemGeral / 12),
-          mouth11: (porcentagemGeral / 12),
-          mouth12: (porcentagemGeral / 12),
-          count: porcentagemGeral
-      });
-      return { ...prevState, data };
-    });
-    }
-   
-
-
-
-  for(let i = 0; i < itemsCost.items.length; i++){
-    //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
-    let valor = (itemsCost.items[i].valueCost * 12)
-    setState(prevState => {
-      const data = [...prevState.data];
-      data.push({
-          description: itemsCost.items[i].nameCost,
-          mouth1: itemsCost.items[i].valueCost,
-          mouth2: itemsCost.items[i].valueCost,
-          mouth3: itemsCost.items[i].valueCost,
-          mouth4: itemsCost.items[i].valueCost,
-          mouth5: itemsCost.items[i].valueCost,
-          mouth6: itemsCost.items[i].valueCost,
-          mouth7: itemsCost.items[i].valueCost,
-          mouth8: itemsCost.items[i].valueCost,
-          mouth9: itemsCost.items[i].valueCost,
-          mouth10: itemsCost.items[i].valueCost,
-          mouth11: itemsCost.items[i].valueCost,
-          mouth12: itemsCost.items[i].valueCost,
-          count: valor
-      });
-      return { ...prevState, data };
-    });
+    item.nameCost = nameCost;
+    item.typeCost = typeCost;
+    item.valueCost = valueCost;
   
-  }
-
-  console.log('Soma das despesas '+valorGeral)
-
-  //ROL
-  //setDespesasTotal(valorGeral*12);
-
-  let soma = (valorGeral * 12)
-  console.log('despesas: '+soma);
-  console.log('custos: '+custosTotal);
-  console.log('salarios: '+salario);
-
-  let somaGeral = (soma + custosTotal + salario);
-
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";  
-  axios.post(proxyurl + 'http://34.70.109.4/projection/rol', {
-
-    totalDespesa: somaGeral,
-    receitaLiquida: receitinha,
-
-  }, 
-  {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': '*'
-    },
-    proxy: {
-      host: '34.70.109.4',
-      port: 8080
+    itemsCost.items[contador2] = item;
+  
+    var valorMes = 0
+    let valorGeral = 0;
+  
+    for(let i = 0; i < itemsCost.items.length; i++){
+      valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
     }
-    }).then(res => {
-     
+  
+  
+    valorMes = (valorGeral * 12)
+  
+    let porcentagemGeral = (( props.base / 100) * valorMes) 
+  
+    if(typeCost == 0){
       setState(prevState => {
         const data = [...prevState.data];
         data.push({
-            description: 'ROL',
-            mouth1: res.data.resultado + '%',
-            mouth2: res.data.resultado + '%',
-            mouth3: res.data.resultado + '%',
-            mouth4: res.data.resultado + '%',
-            mouth5: res.data.resultado + '%',
-            mouth6: res.data.resultado + '%',
-            mouth7: res.data.resultado + '%',
-            mouth8: res.data.resultado + '%',
-            mouth9: res.data.resultado + '%',
-            mouth10: res.data.resultado + '%',
-            mouth11: res.data.resultado + '%',
-            mouth12: res.data.resultado + '%',
-            count: res.data.resultado + '%'
+            description: 'Outras despesas',
+            mouth1: valorGeral,
+            mouth2: valorGeral,
+            mouth3: valorGeral,
+            mouth4: valorGeral,
+            mouth5: valorGeral,
+            mouth6: valorGeral,
+            mouth7: valorGeral,
+            mouth8: valorGeral,
+            mouth9: valorGeral,
+            mouth10: valorGeral,
+            mouth11: valorGeral,
+            mouth12: valorGeral,
+            count: valorMes
         });
         return { ...prevState, data };
       });
     
-
+    }else{
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: 'Outras despesas',
+            mouth1: (porcentagemGeral / 12),
+            mouth2: (porcentagemGeral / 12),
+            mouth3: (porcentagemGeral / 12),
+            mouth4: (porcentagemGeral / 12),
+            mouth5: (porcentagemGeral / 12),
+            mouth6: (porcentagemGeral / 12),
+            mouth7: (porcentagemGeral / 12),
+            mouth8: (porcentagemGeral / 12),
+            mouth9: (porcentagemGeral / 12),
+            mouth10: (porcentagemGeral / 12),
+            mouth11: (porcentagemGeral / 12),
+            mouth12: (porcentagemGeral / 12),
+            count: porcentagemGeral
+        });
+        return { ...prevState, data };
+      });
+      }
+  
+    for(let i = 0; i < itemsCost.items.length; i++){
+      let valor = (itemsCost.items[i].valueCost * 12)
+      setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+            description: itemsCost.items[i].nameCost,
+            mouth1: itemsCost.items[i].valueCost,
+            mouth2: itemsCost.items[i].valueCost,
+            mouth3: itemsCost.items[i].valueCost,
+            mouth4: itemsCost.items[i].valueCost,
+            mouth5: itemsCost.items[i].valueCost,
+            mouth6: itemsCost.items[i].valueCost,
+            mouth7: itemsCost.items[i].valueCost,
+            mouth8: itemsCost.items[i].valueCost,
+            mouth9: itemsCost.items[i].valueCost,
+            mouth10: itemsCost.items[i].valueCost,
+            mouth11: itemsCost.items[i].valueCost,
+            mouth12: itemsCost.items[i].valueCost,
+            count: valor
+        });
+        return { ...prevState, data };
+      });
+    
     }
-
-    ).catch(function (err){
-      console.log(err)
-    })
-
-
-    axios.post(proxyurl + 'http://34.70.109.4/projection/ebitda', {
-
+  
+    console.log('Soma das despesas '+valorGeral)
+  
+    //ROL  
+    let soma = (valorGeral * 12)
+    console.log('despesas: '+soma);
+    console.log('custos: '+custosTotal);
+    console.log('salarios: '+salario);
+  
+    let somaGeral = (soma + custosTotal + salario);
+  
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";  
+    axios.post(proxyurl + 'http://34.70.109.4/projection/rol', {
+  
       totalDespesa: somaGeral,
-      lucroBruto: lucroBruto,
-      receitaBruta: props.base
+      receitaLiquida: receitinha,
   
     }, 
     {
@@ -1269,62 +1238,42 @@ function DashFinal(props) {
         port: 8080
       }
       }).then(res => {
-        setEbitda(res.data.lucro)
+       
         setState(prevState => {
           const data = [...prevState.data];
           data.push({
-              description: 'Lucro Operacional (Ebitda)',
-              mouth1: (res.data.lucro / 12) ,
-              mouth2: (res.data.lucro / 12) ,
-              mouth3: (res.data.lucro / 12) ,
-              mouth4: (res.data.lucro / 12) ,
-              mouth5: (res.data.lucro / 12) ,
-              mouth6: (res.data.lucro / 12) ,
-              mouth7: (res.data.lucro / 12) ,
-              mouth8: (res.data.lucro / 12) ,
-              mouth9: (res.data.lucro / 12) ,
-              mouth10: (res.data.lucro / 12) ,
-              mouth11: (res.data.lucro / 12) ,
-              mouth12: (res.data.lucro / 12) ,
-              count: res.data.resultado
+              description: 'ROL',
+              mouth1: res.data.resultado + '%',
+              mouth2: res.data.resultado + '%',
+              mouth3: res.data.resultado + '%',
+              mouth4: res.data.resultado + '%',
+              mouth5: res.data.resultado + '%',
+              mouth6: res.data.resultado + '%',
+              mouth7: res.data.resultado + '%',
+              mouth8: res.data.resultado + '%',
+              mouth9: res.data.resultado + '%',
+              mouth10: res.data.resultado + '%',
+              mouth11: res.data.resultado + '%',
+              mouth12: res.data.resultado + '%',
+              count: res.data.resultado + '%'
           });
           return { ...prevState, data };
         });
-
-        setState(prevState => {
-          const data = [...prevState.data];
-          data.push({
-              description: 'Margem Ebitda',
-              mouth1: res.data.margem ,
-              mouth2: res.data.margem ,
-              mouth3: res.data.margem ,
-              mouth4: res.data.margem ,
-              mouth5: res.data.margem ,
-              mouth6: res.data.margem ,
-              mouth7: res.data.margem ,
-              mouth8: res.data.margem ,
-              mouth9: res.data.margem ,
-              mouth10: res.data.margem ,
-              mouth11: res.data.margem ,
-              mouth12: res.data.margem ,
-              count: res.data.margem
-          });
-          return { ...prevState, data };
-        });
-
+      
   
       }
   
       ).catch(function (err){
         console.log(err)
       })
-
-      axios.post(proxyurl + 'http://34.70.109.4/projection/liquidIncome', {
-
-        ebitda: ebitda,
-        receitaBruta: props.base,
-        
-     
+  
+  
+      axios.post(proxyurl + 'http://34.70.109.4/projection/ebitda', {
+  
+        totalDespesa: somaGeral,
+        lucroBruto: lucroBruto,
+        receitaBruta: props.base
+    
       }, 
       {
         headers: {
@@ -1336,59 +1285,119 @@ function DashFinal(props) {
           port: 8080
         }
         }).then(res => {
-          
-          this.setState({
-            tabela:
-              {description:'Lucro Líquido',
-              mouth1: res.data.lucroLiquido, 
-              mouth2: res.data.lucroLiquido,
-              mouth3: res.data.lucroLiquido, 
-              mouth4: res.data.lucroLiquido, 
-              mouth5: res.data.lucroLiquido, 
-              mouth6: res.data.lucroLiquido, 
-              mouth7: res.data.lucroLiquido, 
-              mouth8: res.data.lucroLiquido, 
-              mouth9: res.data.lucroLiquido, 
-              mouth10: res.data.lucroLiquido, 
-              mouth11: res.data.lucroLiquido, 
-              mouth12: res.data.lucroLiquido,
-              count: this.state.valor_crescimento
-            }  
-          })
-
-          this.setState({
-            tabela:
-              {description:'Lucro Líquido %',
-              mouth1: res.data.percentual, 
-              mouth2: res.data.percentual,
-              mouth3: res.data.percentual, 
-              mouth4: res.data.percentual, 
-              mouth5: res.data.percentual, 
-              mouth6: res.data.percentual, 
-              mouth7: res.data.percentual, 
-              mouth8: res.data.percentual, 
-              mouth9: res.data.percentual, 
-              mouth10: res.data.percentual, 
-              mouth11: res.data.percentual, 
-              mouth12: res.data.percentual,
-              count: this.state.valor_crescimento
-            }  
-          })
+          setEbitda(res.data.lucro)
+          setState(prevState => {
+            const data = [...prevState.data];
+            data.push({
+                description: 'Lucro Operacional (Ebitda)',
+                mouth1: (res.data.lucro / 12) ,
+                mouth2: (res.data.lucro / 12) ,
+                mouth3: (res.data.lucro / 12) ,
+                mouth4: (res.data.lucro / 12) ,
+                mouth5: (res.data.lucro / 12) ,
+                mouth6: (res.data.lucro / 12) ,
+                mouth7: (res.data.lucro / 12) ,
+                mouth8: (res.data.lucro / 12) ,
+                mouth9: (res.data.lucro / 12) ,
+                mouth10: (res.data.lucro / 12) ,
+                mouth11: (res.data.lucro / 12) ,
+                mouth12: (res.data.lucro / 12) ,
+                count: res.data.resultado
+            });
+            return { ...prevState, data };
+          });
   
+          setState(prevState => {
+            const data = [...prevState.data];
+            data.push({
+                description: 'Margem Ebitda',
+                mouth1: res.data.margem ,
+                mouth2: res.data.margem ,
+                mouth3: res.data.margem ,
+                mouth4: res.data.margem ,
+                mouth5: res.data.margem ,
+                mouth6: res.data.margem ,
+                mouth7: res.data.margem ,
+                mouth8: res.data.margem ,
+                mouth9: res.data.margem ,
+                mouth10: res.data.margem ,
+                mouth11: res.data.margem ,
+                mouth12: res.data.margem ,
+                count: res.data.margem
+            });
+            return { ...prevState, data };
+          });
   
-
+    
         }
-
+    
         ).catch(function (err){
           console.log(err)
         })
-
-
-
-
-
-
-  setFase(5)
+  
+        axios.post(proxyurl + 'http://34.70.109.4/projection/liquidIncome', {
+  
+          ebitda: ebitda,
+          receitaBruta: props.base,
+          
+       
+        }, 
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*'
+          },
+          proxy: {
+            host: '34.70.109.4',
+            port: 8080
+          }
+          }).then(res => {
+            
+            this.setState({
+              tabela:
+                {description:'Lucro Líquido',
+                mouth1: res.data.lucroLiquido, 
+                mouth2: res.data.lucroLiquido,
+                mouth3: res.data.lucroLiquido, 
+                mouth4: res.data.lucroLiquido, 
+                mouth5: res.data.lucroLiquido, 
+                mouth6: res.data.lucroLiquido, 
+                mouth7: res.data.lucroLiquido, 
+                mouth8: res.data.lucroLiquido, 
+                mouth9: res.data.lucroLiquido, 
+                mouth10: res.data.lucroLiquido, 
+                mouth11: res.data.lucroLiquido, 
+                mouth12: res.data.lucroLiquido,
+                count: this.state.valor_crescimento
+              }  
+            })
+  
+            this.setState({
+              tabela:
+                {description:'Lucro Líquido %',
+                mouth1: res.data.percentual, 
+                mouth2: res.data.percentual,
+                mouth3: res.data.percentual, 
+                mouth4: res.data.percentual, 
+                mouth5: res.data.percentual, 
+                mouth6: res.data.percentual, 
+                mouth7: res.data.percentual, 
+                mouth8: res.data.percentual, 
+                mouth9: res.data.percentual, 
+                mouth10: res.data.percentual, 
+                mouth11: res.data.percentual, 
+                mouth12: res.data.percentual,
+                count: this.state.valor_crescimento
+              }  
+            })
+          }
+  
+          ).catch(function (err){
+            console.log(err)
+          })  
+    setFase(5)
+  
+   }
  }
 
 function addOutrasDespesas(){
@@ -1491,12 +1500,21 @@ function addCusto(){
 
 }
 
+function negativo(e){
+  if(e < 1){
+    alert('Valor negativo!')
+  }else{
+    setValorVenda(e)
+  }
+}
+
 function teste(){
+  
   if(tipoVenda == 0){
     return (
       <div class="col-6">
         <span class="titulo-caixa">Valor total<br/>de venda</span>
-        <input onChange={e => setValorVenda(e.target.value)} 
+        <input onChange={e => negativo(e.target.value)} 
               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
               id="nome-canal" 
               placeholder="R$" 
@@ -1510,7 +1528,7 @@ function teste(){
       <>
             <div class="col-4">
         <span class="titulo-caixa">Valor Unitário<br/>de venda</span>
-        <input onChange={e => setValorVenda(e.target.value)} 
+        <input onChange={e => negativo(e.target.value)} 
               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
               id="nome-canal" 
               placeholder="" 
@@ -1521,7 +1539,7 @@ function teste(){
 
       <div class="col-4 text-center">
         <span class="titulo-caixa">Quantidade</span>
-        <input onChange={e => setValorVenda(e.target.value)} 
+        <input onChange={e => negativo(e.target.value)} 
                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                id="nome-canal" 
                placeholder="R$" 
