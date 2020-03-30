@@ -1590,7 +1590,11 @@ function editarCustosGerais2(e){
                           name="canal"
                           />
                       </div>
-                      <div>
+                      <div class="col-12 text-center">
+
+
+
+
                       {produto2.it.map((p, i)=>(
                         <div key={i} class="col-12 text-center">
                           <div class="col-6">
