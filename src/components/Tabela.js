@@ -1524,7 +1524,7 @@ function teste(){
         <input onChange={e => negativo(e.target.value)} 
               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
               id="nome-canal" 
-              placeholder="" 
+              placeholder="R$" 
               type="number" 
               name=""
         />
@@ -1535,7 +1535,7 @@ function teste(){
         <input onChange={e => negativo(e.target.value)} 
                class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                id="nome-canal" 
-               placeholder="R$" 
+               placeholder="" 
                type="number" 
                name=""
         />
@@ -1590,10 +1590,9 @@ function editarCustosGerais2(e){
                           name="canal"
                           />
                       </div>
-
                       <div>
                       {produto2.it.map((p, i)=>(
-                        <div key={i} class="row">
+                        <div key={i} class="col-12 text-center">
                           <div class="col-6">
                             <span class="texto-cinza mr-2">Categoria do Produto:</span>
                           </div>
