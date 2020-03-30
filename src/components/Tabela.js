@@ -1717,10 +1717,51 @@ function editarCustosGerais2(e){
               actionsColumnIndex: -1,
               search: false,
               paging:false,
-              rowStyle: rowData => ({
-                backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
-                color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-              }),
+              // rowStyle: rowData => ({
+              //   backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
+              //   color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
+              // }),
+
+              rowStyle: rowData => {
+                let pos = [];
+                for(let b = 0; b < state.data.length; b++){
+                  if(state.data[b].description === '(=) Receita Líquida' ||
+                     state.data[b].description === '% da Receita Bruta' ||
+                     state.data[b].description === 'Margem Bruta' ||
+                     state.data[b].description === 'ROL' ||
+                     state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                     state.data[b].description === 'Margem Ebitda')
+                     {                    
+                      pos.push(b)
+                     }              
+                }  
+                let resultado
+
+                for(let conta = 0; conta < pos.length; conta++){
+                if(rowData.tableData.id ===0){
+                  resultado = ({
+                    backgroundColor: '#6dc4e6',
+                    color: "#fff"
+                    })
+                  }else if(rowData.tableData.id ===pos[conta]){
+                    resultado =({
+                      backgroundColor: '#fff',
+                      color: '#6d7afa'
+                      })
+      
+                  }else{
+                    resultado =({
+                      backgroundColor: '#fff',
+                      color: 'black'
+                    })
+                  }
+                }
+  
+                return resultado;
+  
+
+              },
+
               headerStyle: {
                 backgroundColor: '#6a6af8',
                 color: '#FFF',
@@ -2064,7 +2105,7 @@ function editarCustosGerais2(e){
                       <span class="texto-cinza mr-2">Tipo de Custo:</span>
                         <input                         
                         value={'CPV'}  
-                        class="input-azul text-dark texto-cinza px-5 py-2 rounded" 
+                        class="input-azul text-white texto-cinza px-5 py-2 rounded" 
                         id="nome-canal-2" 
                         placeholder="Digite o nome do canal" 
                         type="text" 
@@ -2080,7 +2121,7 @@ function editarCustosGerais2(e){
                         <input 
                         
                         value={'CMV'}  
-                        class="input-azul text-dark texto-cinza px-5 py-2 rounded" 
+                        class="input-azul text-white texto-cinza px-5 py-2 rounded" 
                         id="nome-canal-2" 
                         placeholder="Digite o nome do canal" 
                         type="text" 
@@ -2137,7 +2178,7 @@ function editarCustosGerais2(e){
                             </div>
                             <div class="col-4">
                               <span class="texto-cinza mr-2">Tipo do<br/>custo</span>
-                              <select value={typeCostProduct} onChange={s => setTypeCostProduct(s.target.value)}>
+                              <select id="espacamento" value={typeCostProduct} onChange={s => setTypeCostProduct(s.target.value)}>
                                   <option value="0" class="titulo-caixa">Matéria Prima</option>
                                   <option value="1" class="titulo-caixa" >Outros Custos</option>
                                   <option value="2" class="titulo-caixa" >Mão de Obra</option>
@@ -2258,11 +2299,47 @@ function editarCustosGerais2(e){
             actionsColumnIndex: -1,
             search: false,
             paging:false,
-            rowStyle: rowData => ({
-              backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
-              color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-            }),
-            headerStyle: {
+            rowStyle: rowData => {
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
+              }  
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){
+              if(rowData.tableData.id ===0){
+                resultado = ({
+                  backgroundColor: '#6dc4e6',
+                  color: "#fff"
+                  })
+                }else if(rowData.tableData.id ===pos[conta]){
+                  resultado =({
+                    backgroundColor: '#fff',
+                    color: '#6d7afa'
+                    })
+    
+                }else{
+                  resultado =({
+                    backgroundColor: '#fff',
+                    color: 'black'
+                  })
+                }
+              }
+
+              return resultado;
+
+
+            },            
+              headerStyle: {
               backgroundColor: '#6a6af8',
               color: '#FFF',
               fontSize: 12,
@@ -2704,11 +2781,47 @@ function editarCustosGerais2(e){
             actionsColumnIndex: -1,
             search: false,
             paging:false,
-            rowStyle: rowData => ({
-              backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
-              color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-            }),
-            headerStyle: {
+            rowStyle: rowData => {
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
+              }  
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){
+              if(rowData.tableData.id ===0){
+                resultado = ({
+                  backgroundColor: '#6dc4e6',
+                  color: "#fff"
+                  })
+                }else if(rowData.tableData.id ===pos[conta]){
+                  resultado =({
+                    backgroundColor: '#fff',
+                    color: '#6d7afa'
+                    })
+                    break;
+    
+                }else{
+                  resultado =({
+                    backgroundColor: '#fff',
+                    color: 'black'
+                  })
+                  break;
+                }
+              }
+
+              return resultado;
+
+            },            
+              headerStyle: {
               backgroundColor: '#6a6af8',
               color: '#FFF',
               fontSize: 12,
@@ -3083,11 +3196,50 @@ function editarCustosGerais2(e){
             actionsColumnIndex: -1,
             search: false,
             paging:false,
-            rowStyle: rowData => ({
-              backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
-              color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-            }),
-            headerStyle: {
+            rowStyle: rowData => {
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
+              }  
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){
+              if(rowData.tableData.id ===0){
+                resultado = ({
+                  backgroundColor: '#6dc4e6',
+                  color: "#fff"
+                  })
+                  break;
+                }else if(rowData.tableData.id ===pos[conta]){
+                  resultado =({
+                    backgroundColor: '#fff',
+                    color: '#6d7afa'
+                    })
+                    break;
+    
+                }else{
+                  resultado =({
+                    backgroundColor: '#fff',
+                    color: 'black'
+                  })
+                  break;
+                }
+              }
+
+              return resultado;
+
+
+            },            
+              headerStyle: {
               backgroundColor: '#6a6af8',
               color: '#FFF',
               fontSize: 12,
@@ -3515,11 +3667,50 @@ function editarCustosGerais2(e){
             actionsColumnIndex: -1,
             search: false,
             paging:false,
-            rowStyle: rowData => ({
-              backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
-              color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-            }),
-            headerStyle: {
+            rowStyle: rowData => {
+              let pos = [];
+              for(let b = 0; b < state.data.length; b++){
+                if(state.data[b].description === '(+) Receita Bruta' ||
+                   state.data[b].description === '(=) Receita Líquida' ||
+                   state.data[b].description === '% da Receita Bruta' ||
+                   state.data[b].description === 'Margem Bruta' ||
+                   state.data[b].description === 'ROL' ||
+                   state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                   state.data[b].description === 'Margem Ebitda')
+                   {                    
+                    pos.push(b)
+                   }              
+              }  
+              let resultado
+
+              for(let conta = 0; conta < pos.length; conta++){
+              if(rowData.tableData.id ===0){
+                resultado = ({
+                  backgroundColor: '#6dc4e6',
+                  color: "#fff"
+                  })
+                  break;
+                }else if(rowData.tableData.id ===pos[conta]){
+                  resultado =({
+                    backgroundColor: '#fff',
+                    color: '#6d7afa'
+                    })
+                    break;
+    
+                }else{
+                  resultado =({
+                    backgroundColor: '#fff',
+                    color: 'black'
+                  })
+                  break;
+                }
+              }
+
+              return resultado;
+
+
+            },            
+              headerStyle: {
               backgroundColor: '#6a6af8',
               color: '#FFF',
               fontSize: 12,
@@ -3830,10 +4021,48 @@ function editarCustosGerais2(e){
           actionsColumnIndex: -1,
           search: false,
           paging:false,
-          rowStyle: rowData => ({
-            backgroundColor: (rowData.tableData.id === 0) ? '#6dc4e6' : '#fff',
-            color: (rowData.tableData.id ===  0) ? '#fff' : 'black',
-          }),
+          rowStyle: rowData => {
+            let pos = [];
+            for(let b = 0; b < state.data.length; b++){
+              if(state.data[b].description === '(+) Receita Bruta' ||
+                 state.data[b].description === '(=) Receita Líquida' ||
+                 state.data[b].description === '% da Receita Bruta' ||
+                 state.data[b].description === 'Margem Bruta' ||
+                 state.data[b].description === 'ROL' ||
+                 state.data[b].description === 'Lucro Operacional (Ebitda)' ||
+                 state.data[b].description === 'Margem Ebitda')
+                 {                    
+                  pos.push(b)
+                 }              
+            }  
+            let resultado
+
+            for(let conta = 0; conta < pos.length; conta++){
+            if(rowData.tableData.id ===0){
+              resultado = ({
+                backgroundColor: '#6dc4e6',
+                color: "#fff"
+                })
+              }else if(rowData.tableData.id ===pos[conta]){
+                resultado =({
+                  backgroundColor: '#fff',
+                  color: '#6d7afa'
+                  })
+                  break;
+  
+              }else{
+                resultado =({
+                  backgroundColor: '#fff',
+                  color: 'black'
+                })
+                break;
+              }
+            }
+
+            return resultado;
+
+
+          },          
           headerStyle: {
             backgroundColor: '#6a6af8',
             color: '#FFF',
