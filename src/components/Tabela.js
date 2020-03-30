@@ -2594,6 +2594,14 @@ function editarCustosGerais2(e){
                               type="number" 
                               name=""
                         />
+                        <a id="add"
+                            class="btn mx-auto mt-4 text-white font-weight-bold"
+                            role="button"
+                            onClick={
+                              addOutrasDespesasVariaveis
+                            }>+
+                        </a>                        
+
                       </div>
                       :
                       <div class="col-3 text-center">
@@ -2606,10 +2614,6 @@ function editarCustosGerais2(e){
                               type="number" 
                               name=""
                         />
-                      </div>
-                      }
-
-                      <div class="col-2">
                         <a id="add"
                             class="btn mx-auto mt-4 text-white font-weight-bold"
                             role="button"
@@ -2617,6 +2621,18 @@ function editarCustosGerais2(e){
                               addOutrasDespesasVariaveis
                             }>+
                         </a>                        
+
+                      </div>
+                      }
+
+                      {/* <div class="col-2">
+                        <a id="add"
+                            class="btn mx-auto mt-4 text-white font-weight-bold"
+                            role="button"
+                            onClick={
+                              addOutrasDespesasVariaveis
+                            }>+
+                        </a>                         */}
                       </div>
                       
                   </div>
@@ -2625,15 +2641,6 @@ function editarCustosGerais2(e){
               )
               }
               <div class="d-flex justify-content-center">
-              <a id="save"
-                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
-                    role="button"
-                    onClick={
-                      addOutrasDespesasVariaveis
-                      }>+
-                  </a>
-
-
                   <a id="save"
                     class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                     role="button"
