@@ -1505,7 +1505,7 @@ function teste(){
   
   if(tipoVenda == 0){
     return (
-      <div class="col-6">
+      <div class="col-4">
         <span class="titulo-caixa">Valor total<br/>de venda</span>
         <input onChange={e => negativo(e.target.value)} 
               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
@@ -1628,19 +1628,19 @@ function editarCustosGerais2(e){
               </div>
                 <div class="container" id="container-central">
                   <div class="row mb-6">
-                      <div class="col-6 text-center">
+                      <div class="col-4">
                           <span class="titulo-caixa">Nome da<br/>categoria<br/>do produto</span>
                           <input 
                           value={nameCategoria}
                           onChange={w => setNameCategoria(w.target.value)} 
                           class="text-dark texto-cinza px-5 py-2 rounded" 
-                          id="nome-canal" 
+                          id="nome-canal-menor" 
                           placeholder="Digite o nome da categoria" 
                           type="text" 
                           name="categoria"
                           />
                       </div>
-                      <div class="col-6">
+                      <div class="col-4">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
                             <select value={tipoCusto} onChange={s => setTipoCusto(s.target.value)}>
                                 <option value="0" class="titulo-caixa">CPV</option>
@@ -1650,7 +1650,7 @@ function editarCustosGerais2(e){
                       </div>
                     </div>
                     <div class="row" id="spaceInput">
-                        <div class="col-6">
+                        <div class="col-4">
                             <span class="titulo-caixa">Tipo de<br/>valor de venda</span>
                                 <select value={tipoVenda} onChange={s => setTipoVenda(s.target.value)}>
                                     <option value="0" class="titulo-caixa">Valor Total</option>

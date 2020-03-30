@@ -10267,6 +10267,12 @@
     border: none;
   }
 
+  #nome-canal-menor{
+    background: #ecf0f6;
+    border: none;
+    width: 140px;
+  }
+
   #nome-canal-2{
     background: #6dc4e6;
     color:#fff;
