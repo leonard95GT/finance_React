@@ -2585,7 +2585,7 @@ function editarCustosGerais2(e){
                       {
                       typeCostVariable == 0
                       ?
-                      <div class="col-3">
+                      <div class="col-4">
                         <span class="titulo-caixa-2">Valor<br/>do custo</span>
                         <input onChange={e => setValueCostVariable(e.target.value)} 
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
@@ -2604,7 +2604,7 @@ function editarCustosGerais2(e){
 
                       </div>
                       :
-                      <div class="col-3 text-center">
+                      <div class="col-4 text-center">
                         <span class="titulo-caixa-2">Porcentagem<br/>do custo</span>
                         <input onChange={e => editarCustosGerais(e.target.value)} 
                               value={valueCostVariable}
