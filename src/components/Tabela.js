@@ -920,7 +920,6 @@ function DashFinal(props) {
    }else{
     if(typeCostVariable==0){
       const item = itemsCostVariable.items[contador2];
-      const numero = contador2;
     
       item.nameCost = nameCostVariable;
       item.typeCost = typeCostVariable;
@@ -2143,6 +2142,12 @@ function editarCustosGerais2(e){
                                   <option value="1" class="titulo-caixa" >Outros Custos</option>
                                   <option value="2" class="titulo-caixa" >Mão de Obra</option>
                               </select>
+                              <a id="add"
+                                 class="btn mx-auto mt-2 text-white font-weight-bold"
+                                 role="button"
+                                 onClick={addCusto}>+
+                              </a>
+
                             </div>
                         </div>
 
@@ -2185,7 +2190,7 @@ function editarCustosGerais2(e){
                                   <option value="2" class="titulo-caixa" >Mão de Obra</option>
                               </select>
                             </div>
-            </div>
+                        </div>
                 }
 
                 <div class='row'>
