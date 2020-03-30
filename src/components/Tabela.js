@@ -2632,9 +2632,9 @@ function editarCustosGerais2(e){
                             onClick={
                               addOutrasDespesasVariaveis
                             }>+
-                        </a>                         */}
+                        </a>                         
                       </div>
-                      
+                      */}
                   </div>
 
                 </div>              
