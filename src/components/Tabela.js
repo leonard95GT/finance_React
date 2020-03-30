@@ -3012,7 +3012,7 @@ function editarCustosGerais2(e){
                       <span class="titulo-caixa">Valor mensal dos salários</span>
                       <input onChange={w => setSalary(w.target.value)} 
                       class="text-dark texto-cinza px-5 py-2 rounded" 
-                      id="nome-categoria" 
+                      id="nome-canal" 
                       placeholder="R$" 
                       type="number" 
                       name="categoria"
@@ -3392,7 +3392,7 @@ function editarCustosGerais2(e){
                           <input
                           onChange={s => setNameCost(s.target.value)}
                           class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
-                          id="nome-categoria" 
+                          id="nome-canal" 
                           placeholder="Digite o nome da despesa" 
                           type="text" 
                           name=""
@@ -3417,6 +3417,14 @@ function editarCustosGerais2(e){
                               type="number" 
                               name=""
                         />
+                        <a id="save"
+                          class="btn mx-auto mt-2 text-white font-weight-bold"
+                          role="button"
+                          onClick={
+                            addOutrasDespesas
+                          }>+
+                        </a>
+
                       </div>
                       :
                       <div class="col-4 text-center">
@@ -3429,6 +3437,14 @@ function editarCustosGerais2(e){
                               type="number" 
                               name=""
                         />
+                        <a id="save"
+                          class="btn mx-auto mt-2 text-white font-weight-bold"
+                          role="button"
+                          onClick={
+                            addOutrasDespesas
+                          }>+
+                        </a>
+
                       </div>
                       }
                   </div>
@@ -3437,15 +3453,6 @@ function editarCustosGerais2(e){
               )
               }
               <div class="d-flex justify-content-center">
-                  <a id="save"
-                    class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
-                    role="button"
-                    onClick={
-                      addOutrasDespesas
-                      }>+
-                  </a>
-
-
                   <a id="save"
                     class="btn mx-auto mt-5 text-white px-5 font-weight-bold"
                     role="button"
