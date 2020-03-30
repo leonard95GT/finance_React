@@ -2060,8 +2060,7 @@ function editarCustosGerais2(e){
                     ?
                     <div class="col-4">
                       <span class="texto-cinza mr-2">Tipo de Custo:</span>
-                        <input 
-                        
+                        <input                         
                         value={'CPV'}  
                         class="input-azul text-dark texto-cinza px-5 py-2 rounded" 
                         id="nome-canal-2" 
@@ -2575,7 +2574,7 @@ function editarCustosGerais2(e){
                           name=""
                           />
                       </div>
-                      <div class="col-4">
+                      <div class="col-3">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
                             <select value={typeCostVariable} onChange={s => setTypeCostVariable(s.target.value)}>
                                 <option value="0" class="titulo-caixa">Valor da despesa</option>
@@ -2586,7 +2585,7 @@ function editarCustosGerais2(e){
                       {
                       typeCostVariable == 0
                       ?
-                      <div class="col-4">
+                      <div class="col-3">
                         <span class="titulo-caixa">Valor<br/>do custo</span>
                         <input onChange={e => setValueCostVariable(e.target.value)} 
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
@@ -2597,7 +2596,7 @@ function editarCustosGerais2(e){
                         />
                       </div>
                       :
-                      <div class="col-4 text-center">
+                      <div class="col-3 text-center">
                         <span class="titulo-caixa">Porcentagem<br/>do custo</span>
                         <input onChange={e => editarCustosGerais(e.target.value)} 
                               value={valueCostVariable}
@@ -2609,6 +2608,16 @@ function editarCustosGerais2(e){
                         />
                       </div>
                       }
+
+                      <div class="col-2">
+                        <a id="add"
+                            class="btn mx-auto mt-4 text-white font-weight-bold"
+                            role="button"
+                            onClick={
+                              addOutrasDespesasVariaveis
+                            }>+
+                        </a>                        
+                      </div>
                       
                   </div>
 
