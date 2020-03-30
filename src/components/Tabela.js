@@ -1999,8 +1999,8 @@ function editarCustosGerais2(e){
                                 </div>
 
                                 <div class="col-2 text-center">
-                                    <a id="save" onClick={addTax} 
-                                      class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
+                                    <a id="add" onClick={addTax} 
+                                      class="btn mx-auto mt-4 text-white font-weight-bold" 
                                       href="#"
                                       role="button">+
                                     </a>
@@ -2009,12 +2009,7 @@ function editarCustosGerais2(e){
                       </div>
                     )}
 
-                 <div class="row">
-                    <a id="save" onClick={addTax} 
-                      class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
-                      href="#"
-                      role="button">+
-                    </a>
+                 <div class="row justify-content-center">
                     <a id="save" onClick={calcularImpostos} 
                     class="btn mx-auto mt-5 text-white px-5 font-weight-bold" 
                     href="#"
