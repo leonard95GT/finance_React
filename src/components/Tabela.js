@@ -2574,7 +2574,7 @@ function editarCustosGerais2(e){
                           name=""
                           />
                       </div>
-                      <div class="col-3">
+                      <div class="col-4">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
                             <select value={typeCostVariable} onChange={s => setTypeCostVariable(s.target.value)}>
                                 <option value="0" class="titulo-caixa">Valor da despesa</option>
