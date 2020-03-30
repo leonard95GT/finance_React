@@ -913,165 +913,118 @@ function DashFinal(props) {
  }
 
  function custoVariavel(){
-   if(nameCostVariable === ""){
-    alert( 'Informe o nome do custo')
-   }else if(valueCostVariable == "" || valueCostVariable == 0){
-    alert( 'Informe o valor do custo')
-   }else{
-    if(typeCostVariable==0){
-      const item = itemsCostVariable.items[contador2];
-    
-      item.nameCost = nameCostVariable;
-      item.typeCost = typeCostVariable;
-      item.valueCost = valueCostVariable;
-    
-      itemsCostVariable.items[contador2] = item;
-    
-      
-      let valorGeral = 0; 
-    
-      for(let i = 0; i < itemsCostVariable.items.length; i++){
-        valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
-      }
-    
-      console.log('Soma das despesas '+valorGeral)
-      
-    
-      let valorMes = (valorGeral * 12)
-       
-      setState(prevState => {
-        const data = [...prevState.data];
-        data.push({
-            description: 'Custos Variáveis  ',
-            mouth1: valorGeral,
-            mouth2: valorGeral,
-            mouth3: valorGeral,
-            mouth4: valorGeral,
-            mouth5: valorGeral,
-            mouth6: valorGeral,
-            mouth7: valorGeral,
-            mouth8: valorGeral,
-            mouth9: valorGeral,
-            mouth10: valorGeral,
-            mouth11: valorGeral,
-            mouth12: valorGeral,
-            count: valorMes
-        });
-        return { ...prevState, data };
-      });
-    
-    
-      for(let i = 0; i < itemsCostVariable.items.length; i++){
-        //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
-        let valor = (itemsCostVariable.items[i].valueCost * 12)
-        setState(prevState => {
-          const data = [...prevState.data];
-          data.push({
-              description: itemsCostVariable.items[i].nameCost,
-              mouth1: itemsCostVariable.items[i].valueCost,
-              mouth2: itemsCostVariable.items[i].valueCost,
-              mouth3: itemsCostVariable.items[i].valueCost,
-              mouth4: itemsCostVariable.items[i].valueCost,
-              mouth5: itemsCostVariable.items[i].valueCost,
-              mouth6: itemsCostVariable.items[i].valueCost,
-              mouth7: itemsCostVariable.items[i].valueCost,
-              mouth8: itemsCostVariable.items[i].valueCost,
-              mouth9: itemsCostVariable.items[i].valueCost,
-              mouth10: itemsCostVariable.items[i].valueCost,
-              mouth11: itemsCostVariable.items[i].valueCost,
-              mouth12: itemsCostVariable.items[i].valueCost,
-              count: valor
-          });
-          return { ...prevState, data };
-        });
-      
-      }
-    
-      setCustosTotal(valorMes)
-      setFase(3)
-      setContador2(0);
-    
+  var totalValores = 0;
+  var porcentValores = 0;
+  var porcentGeral = 0
+  let receitaBruta = 0;
+  var total = 0;
+
+  for(let a = 0; a < itemsCostVariable.items.length; a++){
+    if(itemsCostVariable.items[a].typeCost == 0){
+      console.log(itemsCostVariable.items[a])
+      totalValores = parseInt(totalValores) + parseInt(itemsCostVariable.items[a].valueCost)      
      }else{
-      const item = itemsCostVariable.items[contador2];
-      const numero = contador2;
-    
-      item.nameCost = nameCostVariable;
-      item.typeCost = typeCostVariable;
-      item.valueCost = valueCostVariable;
-    
-      itemsCostVariable.items[contador2] = item;
-    
+      console.log('1')
+      porcentGeral = 0; porcentGeral = 0;
+
+      porcentValores = parseInt(itemsCostVariable.items[a].valueCost)
+
+      receitaBruta = state.data[0].mouth1;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)  
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth2;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth3;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth4;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth5;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth6;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth7;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth8;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth9;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth10;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth11;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth12;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)   
       
-      let valorGeral = 0; 
-    
-      for(let i = 0; i < itemsCostVariable.items.length; i++){
-        valorGeral = parseInt(valorGeral) + parseInt(itemsCostVariable.items[i].valueCost)
-      }
-    
-      console.log('Soma das despesas '+valorGeral)
-      
-      
-  
-      let valorMes = (valorGeral * 12)
-  
-      let porcentagemGeral = (( props.base / 100) * valorMes) 
-      //console.log('%%%' + porcentagemGeral)
-  
-      setState(prevState => {
+      total+=porcentGeral
+    }
+  }
+
+
+
+  total+=(totalValores*12)
+  console.log('total: '+total)
+
+  setState(prevState => {
         const data = [...prevState.data];
         data.push({
             description: 'Custos Variáveis  ',
-            mouth1: (porcentagemGeral / 12),
-            mouth2: (porcentagemGeral / 12),
-            mouth3: (porcentagemGeral / 12),
-            mouth4: (porcentagemGeral / 12),
-            mouth5: (porcentagemGeral / 12),
-            mouth6: (porcentagemGeral / 12),
-            mouth7: (porcentagemGeral / 12),
-            mouth8: (porcentagemGeral / 12),
-            mouth9: (porcentagemGeral / 12),
-            mouth10: (porcentagemGeral / 12),
-            mouth11: (porcentagemGeral / 12),
-            mouth12: (porcentagemGeral / 12),
-            count: porcentagemGeral
+            mouth1: Math.round(total / 12),
+            mouth2: Math.round(total / 12),
+            mouth3: Math.round(total / 12),
+            mouth4: Math.round(total / 12),
+            mouth5: Math.round(total / 12),
+            mouth6: Math.round(total / 12),
+            mouth7: Math.round(total / 12),
+            mouth8: Math.round(total / 12),
+            mouth9: Math.round(total / 12),
+            mouth10: Math.round(total / 12),
+            mouth11: Math.round(total / 12),
+            mouth12: Math.round(total / 12),
+            count: Math.round(total)
         });
         return { ...prevState, data };
       });
     
-    
-      for(let i = 0; i < itemsCostVariable.items.length; i++){
-        //valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
-        let valor = (itemsCostVariable.items[i].valueCost * 12)
-        setState(prevState => {
+
+  for(let a = 0; a < itemsCostVariable.items.length; a++){
+      setState(prevState => {
           const data = [...prevState.data];
           data.push({
-              description: itemsCostVariable.items[i].nameCost,
-              mouth1: itemsCostVariable.items[i].valueCost,
-              mouth2: itemsCostVariable.items[i].valueCost,
-              mouth3: itemsCostVariable.items[i].valueCost,
-              mouth4: itemsCostVariable.items[i].valueCost,
-              mouth5: itemsCostVariable.items[i].valueCost,
-              mouth6: itemsCostVariable.items[i].valueCost,
-              mouth7: itemsCostVariable.items[i].valueCost,
-              mouth8: itemsCostVariable.items[i].valueCost,
-              mouth9: itemsCostVariable.items[i].valueCost,
-              mouth10: itemsCostVariable.items[i].valueCost,
-              mouth11: itemsCostVariable.items[i].valueCost,
-              mouth12: itemsCostVariable.items[i].valueCost,
-              count: valor
+              description: itemsCostVariable.items[a].nameCost,
+              mouth1: (itemsCostVariable.items[a].valueCost),
+              mouth2: itemsCostVariable.items[a].valueCost,
+              mouth3: itemsCostVariable.items[a].valueCost,
+              mouth4: itemsCostVariable.items[a].valueCost,
+              mouth5: itemsCostVariable.items[a].valueCost,
+              mouth6: itemsCostVariable.items[a].valueCost,
+              mouth7: itemsCostVariable.items[a].valueCost,
+              mouth8: itemsCostVariable.items[a].valueCost,
+              mouth9: itemsCostVariable.items[a].valueCost,
+              mouth10: itemsCostVariable.items[a].valueCost,
+              mouth11: itemsCostVariable.items[a].valueCost,
+              mouth12: itemsCostVariable.items[a].valueCost,
+              count: itemsCostVariable.items[a].valueCost
           });
           return { ...prevState, data };
         });
-      
-      }
-    
-      setCustosTotal(valorMes)
+  }
+   
+
       setFase(3)
       setContador2(0);
-  
-     }
-  
-   }
+    
+
  }
 
  function custoSalario(){
@@ -1396,12 +1349,6 @@ function addOutrasDespesas(){
   const item = itemsCost.items[contador2];
   const numero = contador2;
 
-  item.nameCost = nameCost;
-  item.typeCost = typeCost;
-  item.valueCost = valueCost;
-
-  itemsCost.items[contador2] = item;
-
   setContador2(numero+1);
 
   setNameCost('');
@@ -1418,20 +1365,9 @@ function addOutrasDespesas(){
 }
 
 function addOutrasDespesasVariaveis(){
-  const item = itemsCostVariable.items[contador2];
   const numero = contador2;
 
-  item.nameCost = nameCostVariable;
-  item.typeCost = typeCostVariable;
-  item.valueCost = valueCostVariable;
-
-  itemsCostVariable.items[contador2] = item;
-
   setContador2(numero+1);
-
-  setNameCostVariable('');
-  setTypeCostVariable(0);
-  setValueCostVariable('R$');
 
   setItemsCostVariable(prevItems => ({
     items: [...prevItems.items, {
@@ -1562,6 +1498,93 @@ function editarCustosGerais2(e){
     setValueCost(e)
   }
 }
+
+function altera(e, i, modal, input){
+  if(modal == 1){
+    if(input ==1){
+      let item = itemsCost.items[i].nameCost;
+      item = e
+      console.log(item)
+
+      setItemsCost(prevItems =>{
+        const data = [...prevItems.items];
+        data[i].nameCost = e;
+        return {...prevItems, data}
+      })
+
+    }else if(input == 2){
+      let item = itemsCost.items[i].typeCost;
+      item = e
+      console.log(item)
+
+      setItemsCost(prevItems =>{
+        const data = [...prevItems.items];
+        data[i].typeCost = e;
+        return {...prevItems, data}
+      })
+
+    }else if(input ==3){
+      if(e > 100){
+        alert('Limite de 100%')
+      }else{
+        let item = itemsCost.items[i].valueCost;
+        item = e
+        console.log(item)
+        console.log(i )
+        setItemsCost(prevItems =>{
+          const data = [...prevItems.items];
+          data[i].valueCost = e;
+          return {...prevItems, data}
+        })
+  
+      }
+
+    }
+  }else if(modal == 2){
+    if(input ==1){
+      let item = itemsCostVariable.items[i].nameCost;
+      item = e
+      console.log(item)
+
+      setItemsCostVariable(prevItems =>{
+        const data = [...prevItems.items];
+        data[i].nameCost = e;
+        return {...prevItems, data}
+      })
+
+    }else if(input == 2){
+      let item = itemsCostVariable.items[i].typeCost;
+      item = e
+      console.log(item)
+
+      setItemsCostVariable(prevItems =>{
+        const data = [...prevItems.items];
+        data[i].typeCost = e;
+        return {...prevItems, data}
+      })
+
+    }else if(input ==3){
+      if(e > 100){
+        alert('Limite de 100%')
+      }else{
+        let item = itemsCostVariable.items[i].valueCost;
+        item = e
+        console.log(item)
+        setItemsCostVariable(prevItems =>{
+          const data = [...prevItems.items];
+          data[i].valueCost = e;
+          return {...prevItems, data}
+        })
+  
+      }
+
+    }
+
+  }
+}
+
+
+
 
   if(fase===0){
       //adição de canais e impostos (início do base zero)
@@ -2639,7 +2662,7 @@ function editarCustosGerais2(e){
                   <div class="row mb-4">
                     <div class="col-4 text-center">
                           <span class="titulo-caixa">Nome da<br/>despesa</span>
-                          <input onChange={w => setNameCostVariable(w.target.value)} 
+                          <input onChange={w => altera(w.target.value, ind, 2, 1)} 
                           class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-canal" 
                           placeholder="Digite o nome do custo" 
@@ -2649,18 +2672,18 @@ function editarCustosGerais2(e){
                       </div>
                       <div class="col-4">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
-                            <select value={typeCostVariable} onChange={s => setTypeCostVariable(s.target.value)}>
+                            <select value={itemsCostVariable.items[ind].typeCost} onChange={s => altera(s.target.value, ind, 2, 2)}>
                                 <option value="0" class="titulo-caixa">Valor da despesa</option>
                                 <option value="1" class="titulo-caixa" >% da despesa</option>
                             </select>
                       </div>
                       
                       {
-                      typeCostVariable == 0
+                      itemsCostVariable.items[ind].typeCost == 0
                       ?
                       <div class="col-4">
                         <span class="titulo-caixa-2">Valor<br/>do custo</span>
-                        <input onChange={e => setValueCostVariable(e.target.value)} 
+                        <input onChange={e => altera(e.target.value,ind, 2, 3)} 
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
@@ -2679,8 +2702,8 @@ function editarCustosGerais2(e){
                       :
                       <div class="col-4 text-center">
                         <span class="titulo-caixa-2">Porcentagem<br/>do custo</span>
-                        <input onChange={e => editarCustosGerais(e.target.value)} 
-                              value={valueCostVariable}
+                        <input onChange={e => altera(e.target.value,ind, 2, 3)} 
+                              value={itemsCostVariable.items[ind].valueCost}
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="%" 
@@ -2697,17 +2720,6 @@ function editarCustosGerais2(e){
 
                       </div>
                       }
-
-                      {/* <div class="col-2">
-                        <a id="add"
-                            class="btn mx-auto mt-4 text-white font-weight-bold"
-                            role="button"
-                            onClick={
-                              addOutrasDespesasVariaveis
-                            }>+
-                        </a>                         
-                      </div>
-                      */}
                   </div>
 
                 </div>              
@@ -2729,9 +2741,6 @@ function editarCustosGerais2(e){
         
         </Modal.Body>
       </Modal>
-
-      
-
   
       <MaterialTable tableRef={props.tableRef}
           title="Detalhando os custos variáveis"
