@@ -1060,106 +1060,126 @@ function DashFinal(props) {
  }
 
  function outrasDespesas(){
-   if(nameCost == ''){
-     alert('Informe o nome da despesa')
-   }else if(valueCost == ''){
-    alert('Informe o valor da despesa')
-   }else{
-    const item = itemsCost.items[contador2];
-    const numero = contador2;
-  
-    item.nameCost = nameCost;
-    item.typeCost = typeCost;
-    item.valueCost = valueCost;
-  
-    itemsCost.items[contador2] = item;
-  
-    var valorMes = 0
-    let valorGeral = 0;
-  
-    for(let i = 0; i < itemsCost.items.length; i++){
-      valorGeral = parseInt(valorGeral) + parseInt(itemsCost.items[i].valueCost)
+  var totalValores = 0;
+  var porcentValores = 0;
+  var porcentGeral = 0
+  let receitaBruta = 0;
+  var total = 0;
+
+  for(let a = 0; a < itemsCostVariable.items.length; a++){
+    if(itemsCostVariable.items[a].typeCost == 0){
+      console.log(itemsCostVariable.items[a])
+      totalValores = parseInt(totalValores) + parseInt(itemsCostVariable.items[a].valueCost)      
+     }else{
+      console.log('1')
+      porcentGeral = 0; porcentGeral = 0;
+
+      porcentValores = parseInt(itemsCostVariable.items[a].valueCost)
+
+      receitaBruta = state.data[0].mouth1;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)  
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth2;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth3;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth4;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth5;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth6;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth7;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth8;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth9;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth10;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth11;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)    
+      receitaBruta = state.data[0].mouth12;
+      porcentGeral += ((receitaBruta / 100) * porcentValores)
+      console.log(porcentGeral)   
+      
+      total+=porcentGeral
     }
-  
-  
-    valorMes = (valorGeral * 12)
-  
-    let porcentagemGeral = (( props.base / 100) * valorMes) 
-  
-    if(typeCost == 0){
-      setState(prevState => {
+  }
+
+
+
+  total+=(totalValores*12)
+  console.log('total: '+total)
+
+  setState(prevState => {
         const data = [...prevState.data];
         data.push({
-            description: 'Outras despesas',
-            mouth1: valorGeral,
-            mouth2: valorGeral,
-            mouth3: valorGeral,
-            mouth4: valorGeral,
-            mouth5: valorGeral,
-            mouth6: valorGeral,
-            mouth7: valorGeral,
-            mouth8: valorGeral,
-            mouth9: valorGeral,
-            mouth10: valorGeral,
-            mouth11: valorGeral,
-            mouth12: valorGeral,
-            count: valorMes
+            description: 'Custos Variáveis  ',
+            mouth1: Math.round(total / 12),
+            mouth2: Math.round(total / 12),
+            mouth3: Math.round(total / 12),
+            mouth4: Math.round(total / 12),
+            mouth5: Math.round(total / 12),
+            mouth6: Math.round(total / 12),
+            mouth7: Math.round(total / 12),
+            mouth8: Math.round(total / 12),
+            mouth9: Math.round(total / 12),
+            mouth10: Math.round(total / 12),
+            mouth11: Math.round(total / 12),
+            mouth12: Math.round(total / 12),
+            count: Math.round(total)
         });
         return { ...prevState, data };
       });
-    
-    }else{
-      setState(prevState => {
-        const data = [...prevState.data];
-        data.push({
-            description: 'Outras despesas',
-            mouth1: (porcentagemGeral / 12),
-            mouth2: (porcentagemGeral / 12),
-            mouth3: (porcentagemGeral / 12),
-            mouth4: (porcentagemGeral / 12),
-            mouth5: (porcentagemGeral / 12),
-            mouth6: (porcentagemGeral / 12),
-            mouth7: (porcentagemGeral / 12),
-            mouth8: (porcentagemGeral / 12),
-            mouth9: (porcentagemGeral / 12),
-            mouth10: (porcentagemGeral / 12),
-            mouth11: (porcentagemGeral / 12),
-            mouth12: (porcentagemGeral / 12),
-            count: porcentagemGeral
-        });
-        return { ...prevState, data };
-      });
-      }
+
+
+
+
+
+
+
+      
   
-    for(let i = 0; i < itemsCost.items.length; i++){
-      let valor = (itemsCost.items[i].valueCost * 12)
-      setState(prevState => {
-        const data = [...prevState.data];
-        data.push({
-            description: itemsCost.items[i].nameCost,
-            mouth1: itemsCost.items[i].valueCost,
-            mouth2: itemsCost.items[i].valueCost,
-            mouth3: itemsCost.items[i].valueCost,
-            mouth4: itemsCost.items[i].valueCost,
-            mouth5: itemsCost.items[i].valueCost,
-            mouth6: itemsCost.items[i].valueCost,
-            mouth7: itemsCost.items[i].valueCost,
-            mouth8: itemsCost.items[i].valueCost,
-            mouth9: itemsCost.items[i].valueCost,
-            mouth10: itemsCost.items[i].valueCost,
-            mouth11: itemsCost.items[i].valueCost,
-            mouth12: itemsCost.items[i].valueCost,
-            count: valor
-        });
-        return { ...prevState, data };
-      });
-    
+
+      for(let a = 0; a < itemsCostVariable.items.length; a++){
+        setState(prevState => {
+            const data = [...prevState.data];
+            data.push({
+                description: itemsCostVariable.items[a].nameCost,
+                mouth1: (itemsCostVariable.items[a].valueCost),
+                mouth2: itemsCostVariable.items[a].valueCost,
+                mouth3: itemsCostVariable.items[a].valueCost,
+                mouth4: itemsCostVariable.items[a].valueCost,
+                mouth5: itemsCostVariable.items[a].valueCost,
+                mouth6: itemsCostVariable.items[a].valueCost,
+                mouth7: itemsCostVariable.items[a].valueCost,
+                mouth8: itemsCostVariable.items[a].valueCost,
+                mouth9: itemsCostVariable.items[a].valueCost,
+                mouth10: itemsCostVariable.items[a].valueCost,
+                mouth11: itemsCostVariable.items[a].valueCost,
+                mouth12: itemsCostVariable.items[a].valueCost,
+                count: itemsCostVariable.items[a].valueCost
+            });
+            return { ...prevState, data };
+          });
     }
+     
   
-    console.log('Soma das despesas '+valorGeral)
+    //console.log('Soma das despesas '+valorGeral)
   
     //ROL  
-    let soma = (valorGeral * 12)
+    let soma = (total)
     console.log('despesas: '+soma);
     console.log('custos: '+custosTotal);
     console.log('salarios: '+salario);
@@ -1217,7 +1237,7 @@ function DashFinal(props) {
   
         totalDespesa: somaGeral,
         lucroBruto: lucroBruto,
-        receitaBruta: props.base
+        receitaBruta: state.data[0].count
     
       }, 
       {
@@ -1283,7 +1303,7 @@ function DashFinal(props) {
         axios.post(proxyurl + 'http://34.70.109.4/projection/liquidIncome', {
   
           ebitda: ebitda,
-          receitaBruta: props.base,
+          receitaBruta: state.data[0].count
           
        
         }, 
@@ -1342,18 +1362,13 @@ function DashFinal(props) {
           })  
     setFase(5)
   
-   }
+   
  }
 
 function addOutrasDespesas(){
-  const item = itemsCost.items[contador2];
   const numero = contador2;
 
   setContador2(numero+1);
-
-  setNameCost('');
-  setTypeCost(0);
-  setValueCost('R$');
 
   setItemsCost(prevItems => ({
     items: [...prevItems.items, {
@@ -3547,7 +3562,7 @@ function altera(e, i, modal, input){
                     <div class="col-4">
                           <span class="titulo-caixa-2">Nome da<br/>despesa</span>
                           <input
-                          onChange={s => setNameCost(s.target.value)}
+                          onChange={s => altera(s.target.value,ind,1,1)}
                           class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                           id="nome-canal" 
                           placeholder="Digite o nome da despesa" 
@@ -3557,17 +3572,17 @@ function altera(e, i, modal, input){
                       </div>
                       <div class="col-4">
                         <span class="titulo-caixa">Tipo de<br/>custo</span>
-                            <select value={typeCost} onChange={s => setTypeCost(s.target.value)}>
+                            <select value={itemsCost.items[ind].typeCost} onChange={s => altera(s.target.value,ind,1,2)}>
                                 <option value="0" class="titulo-caixa">Valor da despesa</option>
                                 <option value="1" class="titulo-caixa" >% da despesa</option>
                             </select>
                       </div>
                       {
-                      typeCost == 0
+                      itemsCost.items[ind].typeCost == 0
                       ?
                       <div class="col-4">
                         <span class="titulo-caixa-2">Valor<br/>de despesa</span>
-                        <input onChange={e => setValueCost(e.target.value)} 
+                        <input onChange={e => altera(e.target.value,ind, 1,3)} 
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
                               placeholder="R$" 
@@ -3586,7 +3601,7 @@ function altera(e, i, modal, input){
                       :
                       <div class="col-4 text-center">
                         <span class="titulo-caixa-2">Porcentagem<br/>de despesa</span>
-                        <input onChange={e => editarCustosGerais2(e.target.value)} 
+                        <input onChange={e => altera(e.target.value,ind,1,3)} 
                               value={valueCost}
                               class="campoNumero text-dark texto-cinza px-5 py-2 rounded" 
                               id="nome-canal" 
